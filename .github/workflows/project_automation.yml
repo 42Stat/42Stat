@@ -31,34 +31,28 @@ jobs:
     steps:
       - id: figure
         run: |
+          echo $event_name
+          echo $event_action
+          echo $issue_id
           case $event_name in
             issues)
               NODE="$issue_id"
               case $event_action in
                 unassigned)
-                  TO="$backlog"
-                  LABEL=""
-                  ;;
+                  TO="$backlog";;
                 assigned)
-                  TO="$in_progress"
-                  LABEL="$wait"
-                  ;;
+                  TO="$in_progress";;
                 closed)
-                  TO="$done"
-                  LABEL=""
-                  ;;
+                  TO="$done";;
               esac
-              echo "$LABEL will be set"
             ;;
             pull_request)
               NODE="$pr_id"
               case $event_action in
                 opened | reopened | review_requested)
-                  TO="$code_review"
-                  ;;
+                  TO="$code_review";;
                 closed)
-                  TO="$done"
-                  ;;
+                  TO="$done" ;;
               esac
             ;;
           esac
@@ -66,27 +60,6 @@ jobs:
           echo "::set-output name=moveto::$TO"
           echo "::set-output name=nodedata::$NODE"
           echo "::set-output name=label::$LABEL"
-  check-labels:
-    runs-on: ubuntu-latest
-    needs: check_event
-    if: github.event_name == 'issues'
-    steps:
-      - if: needs.check_event.outputs.label == ''
-        name: remove wait/wip labels
-        uses: actions-cool/issues-helper@v3
-        with:
-          actions: "remove-labels"
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          issue-number: ${{ env.issue_num }}
-          labels: "${{ env.wait }}, ${{ env.wip }}"
-      - if: needs.check_event.outputs.label != ''
-        name: Add wait label
-        uses: actions-cool/issues-helper@v3
-        with:
-          actions: "add-labels"
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          issue-number: ${{ env.issue_num }}
-          labels: ${{ needs.check_event.outputs.label }}
 
   move_card:
     runs-on: ubuntu-latest

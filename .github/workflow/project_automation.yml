@@ -1,0 +1,102 @@
+name: Project automation
+on:
+  issues:
+    types: [unassigned, assigned, closed]
+
+  pull_request:
+    types: [opened, reopened, review_requested, closed]
+
+env:
+  backlog: 🗃 Backlog
+  in_progress: 🖥 In Progress
+  code_review: 💬 Code Review
+  done: ✅ Done
+
+  wait: WAIT
+  wip: WIP
+
+  event_name: ${{ github.event_name }}
+  event_action: ${{ github.event.action }}
+  issue_id: ${{ github.event.issue.node_id }}
+  pr_id: ${{ github.event.pull_request.node_id }}
+  issue_num: ${{ github.event.issue.number }}
+
+jobs:
+  check_event:
+    runs-on: ubuntu-latest
+    outputs:
+      to: ${{ steps.figure.outputs.moveto }}
+      node_id: ${{ steps.figure.outputs.nodedata }}
+      label: ${{ steps.figure.outputs.label }}
+    steps:
+      - id: figure
+        run: |
+          case $event_name in
+            issues)
+              NODE="$issue_id"
+              case $event_action in
+                unassigned)
+                  TO="$backlog"
+                  LABEL=""
+                  ;;
+                assigned)
+                  TO="$in_progress"
+                  LABEL="$wait"
+                  ;;
+                closed)
+                  TO="$done"
+                  LABEL=""
+                  ;;
+              esac
+              echo "$LABEL will be set"
+            ;;
+            pull_request)
+              NODE="$pr_id"
+              case $event_action in
+                opened | reopened | review_requested)
+                  TO="$code_review"
+                  ;;
+                closed)
+                  TO="$done"
+                  ;;
+              esac
+            ;;
+          esac
+          echo "will move to $TO using node: $NODE"
+          echo "::set-output name=moveto::$TO"
+          echo "::set-output name=nodedata::$NODE"
+          echo "::set-output name=label::$LABEL"
+  check-labels:
+    runs-on: ubuntu-latest
+    needs: check_event
+    if: github.event_name == 'issues'
+    steps:
+      - if: needs.check_event.outputs.label == ''
+        name: remove wait/wip labels
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "remove-labels"
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          issue-number: ${{ env.issue_num }}
+          labels: "${{ env.wait }}, ${{ env.wip }}"
+      - if: needs.check_event.outputs.label != ''
+        name: Add wait label
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "add-labels"
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          issue-number: ${{ env.issue_num }}
+          labels: ${{ needs.check_event.outputs.label }}
+
+  move_card:
+    runs-on: ubuntu-latest
+    needs: check_event
+    steps:
+      - name: Move issue to ${{ needs.check_event.outputs.to }}
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: 42Stat
+          project_id: 1
+          resource_node_id: ${{ needs.check_event.outputs.node_id }}
+          status_value: ${{ needs.check_event.outputs.to }}

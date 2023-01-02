@@ -14,10 +14,28 @@ services:
         target: /app
     env_file: ../packages/client/.env
 
+  server:
+    build:
+      context: ../
+      dockerfile: ./packages/server/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: volume
+        source: server_volume
+        target: /app
+
 volumes:
   client_volume:
     driver: local
     driver_opts:
-      device: "/goinfre/jaham/42Stat/packages/client/app"
+      device: "./packages/client/app"
       type: none
+      o: bind
+
+  server_volume:
+    name: server_volume
+    driver_opts:
+      type: none
+      device: /Users/dha/src/packages/server
       o: bind

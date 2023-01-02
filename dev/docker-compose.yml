@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: ../
+      dockerfile: ./packages/client/Dockerfile
+    container_name: client
+    ports:
+      - "4242:5173"
+    volumes:
+      - type: volume
+        source: client_volume
+        target: /app
+    env_file: ../packages/client/.env
+
+volumes:
+  client_volume:
+    driver: local
+    driver_opts:
+      device: "/goinfre/jaham/42Stat/packages/client/app"
+      type: none
+      o: bind

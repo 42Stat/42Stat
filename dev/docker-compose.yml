@@ -7,7 +7,7 @@ services:
       dockerfile: ./packages/client/Dockerfile
     container_name: client
     ports:
-      - "4242:5173"
+      - "11900:11900"
     volumes:
       - type: volume
         source: client_volume

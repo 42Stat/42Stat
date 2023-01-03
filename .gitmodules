@@ -1,0 +1,3 @@
+[submodule "env"]
+	path = env
+	url = git@github.com:42Stat/42StatEnv.git

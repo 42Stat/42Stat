@@ -1,4 +1,4 @@
-FROM node:19-alpine3.16
+FROM node:18-alpine
 RUN apk update && apk upgrade && yarn
 WORKDIR /app
 EXPOSE 11900

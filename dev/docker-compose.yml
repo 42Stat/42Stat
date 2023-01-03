@@ -12,30 +12,36 @@ services:
       - type: volume
         source: client_volume
         target: /app
-    env_file: ../packages/client/.env
+    env_file: ../env/client/.env
 
   server:
     build:
       context: ../
       dockerfile: ./packages/server/Dockerfile
+    container_name: server
     ports:
       - "3000:3000"
     volumes:
       - type: volume
         source: server_volume
         target: /app
+    env_file: ../env/server/.env
 
 volumes:
   client_volume:
+    name: client_volume
     driver: local
     driver_opts:
-      device: "./packages/client/app"
+      # todo: docker compose doesn't support relative path in device, need to wait next release
+      # not working in windows powershell
+      device: ${PWD}/packages/client/app
       type: none
       o: bind
 
   server_volume:
     name: server_volume
+    driver: local
     driver_opts:
       type: none
-      device: /Users/dha/src/packages/server
+      device: ${PWD}/packages/server
       o: bind

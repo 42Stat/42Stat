@@ -28,8 +28,8 @@ export class GetUserProfileDto {
   startedAt: string;
   @ApiProperty()
   daysSinceStarted: number;
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   blackholedAt: string;
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   daysUntilBlackholed: number;
 }

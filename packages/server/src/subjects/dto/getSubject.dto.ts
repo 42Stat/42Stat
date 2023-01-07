@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class GetSubjectDto {
   @ApiProperty()
+  id: number;
+  @ApiProperty()
   name: string;
   @ApiProperty()
   finalMark: number;

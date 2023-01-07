@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class GetCoalitionStatDto {
   @ApiProperty()
+  id: number;
+  @ApiProperty()
   name: string;
   @ApiProperty()
   image: string;

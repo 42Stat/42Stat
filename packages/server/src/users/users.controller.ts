@@ -38,33 +38,20 @@ export class UsersController {
     // return await this.usersService.getUserSubjects(id);
   }
 
-  @Get(':id/feedbacks/corrector')
+  @Get(':id/feedbacks')
   @ApiOkResponse({ type: [GetUserFeedbackDto] })
+  @ApiQuery({ name: 'type', enum: ['as-corrector', 'as-corrected'] })
   @ApiQuery({ name: 'outstanding', required: false })
   @ApiQuery({ name: 'subject', required: false })
   @ApiQuery({ name: 'page', required: false })
-  async getUserFeedbacksAsCorrector(
+  async getUserFeedbacks(
     @Param('id') id: number,
+    @Query('type') type: string,
     @Query('outstanding') outstanding: boolean,
     @Query('subject') subject: string,
     @Query('page') page: number
   ): Promise<GetUserFeedbackDto[]> {
     return;
     // return await this.usersService.getUserFeedbacksAsCorrector(id, filter, page);
-  }
-
-  @Get(':id/feedbacks/corrected')
-  @ApiOkResponse({ type: [GetUserFeedbackDto] })
-  @ApiQuery({ name: 'outstanding', required: false })
-  @ApiQuery({ name: 'subject', required: false })
-  @ApiQuery({ name: 'page', required: false })
-  async getUserFeedbacksAsCorrected(
-    @Param('id') id: number,
-    @Query('outstanding') outstanding: boolean,
-    @Query('subject') subject: string,
-    @Query('page') page: number
-  ): Promise<GetUserFeedbackDto[]> {
-    return;
-    // return await this.usersService.getUserFeedbacksAsCorrected(id, filter, page);
   }
 }

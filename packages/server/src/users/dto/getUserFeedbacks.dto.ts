@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class GetUserFeedbackDto {
   @ApiProperty()
+  id: number;
+  @ApiProperty()
   corrector: string;
   @ApiProperty()
   corrected: string;
@@ -10,7 +12,7 @@ export class GetUserFeedbackDto {
   @ApiProperty()
   subject: string;
   @ApiProperty()
-  flag: number;
+  positive: boolean;
   @ApiProperty()
   flagName: string;
   @ApiProperty()

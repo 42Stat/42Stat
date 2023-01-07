@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserProfileCoalitionDto {
   @ApiProperty()
+  id: number;
+  @ApiProperty()
   name: string;
   @ApiProperty()
   image: string;
@@ -10,6 +12,8 @@ export class UserProfileCoalitionDto {
 }
 
 export class GetUserProfileDto {
+  @ApiProperty()
+  id: number;
   @ApiProperty()
   image: string;
   @ApiProperty()

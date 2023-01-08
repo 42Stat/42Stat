@@ -1,6 +1,7 @@
-import { Controller, Get, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
+import { LoginDto } from './dto/login.dto';
 
 @Controller()
 export class AppController {
@@ -8,7 +9,9 @@ export class AppController {
 
   @Post('login')
   @ApiTags('account')
-  async login() {}
+  async login(@Body() loginDto: LoginDto): Promise<boolean> {
+    return this.appService.login(loginDto);
+  }
 
   @Post('logout')
   @ApiTags('account')

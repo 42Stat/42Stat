@@ -5,9 +5,16 @@ import { UsersModule } from './users/users.module';
 import { CoalitionsModule } from './coalitions/coalitions.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UsersModule, CoalitionsModule, SubjectsModule, LeaderboardModule],
+  imports: [
+    ConfigModule.forRoot({ envFilePath: '../../env/server/.env' }),
+    UsersModule,
+    CoalitionsModule,
+    SubjectsModule,
+    LeaderboardModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

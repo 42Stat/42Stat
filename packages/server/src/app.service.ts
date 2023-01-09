@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import { LoginDto } from './dto/login.dto';
 
-const googleOAuthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const googleOAuthClient = new OAuth2Client(
+  process.env.GOOGLE_IDENTITY_CLIENT_ID
+);
 
 @Injectable()
 export class AppService {

@@ -3,7 +3,7 @@ DOCKER_COMPOSE					:=	docker-compose -f $(DOCKER_COMPOSE_DEV_DIR)
 
 .PHONY: all
 all:
-	$(DOCKER_COMPOSE) up --build
+	$(DOCKER_COMPOSE) --env-file=./env/server/.env up --build 
 
 .PHONY: build up down
 build up down:

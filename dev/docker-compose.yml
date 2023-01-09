@@ -14,6 +14,19 @@ services:
         target: /app
     env_file: ../env/client/.env
 
+  database:
+    container_name: postgres
+    build:
+      context: ../
+      dockerfile: ./packages/server/database.Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+
   server:
     build:
       context: ../
@@ -26,6 +39,8 @@ services:
         source: server_volume
         target: /app
     env_file: ../env/server/.env
+    depends_on:
+      - database
 
 volumes:
   client_volume:

@@ -1,5 +1,5 @@
 import { css, Global } from '@emotion/react';
-import { Common } from './Common';
+import { StyleDefine } from './StyleDefine';
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
  v2.0 | 20110126
@@ -91,7 +91,6 @@ const globalStyle = css`
     padding: 0;
     border: 0;
     font-size: 100%;
-    font: inherit;
     vertical-align: baseline;
   }
   /* HTML5 display-role reset for older browsers */
@@ -148,16 +147,21 @@ const globalStyle = css`
   @font-face {
     font-family: 'NunitoSansBlack';
     font-weight: 900;
-    font-display: swap;
+    font-display: block;
     src: url('./fonts/Nunito_Sans/NunitoSans-Black.ttf') format('truetype');
   }
 
+  * {
+    font-size: ${StyleDefine.fontSize.fs10};
+    font-family: ${StyleDefine.fontFamily.light};
+  }
+
   html,
-  body {
-    background-color: ${Common.colors.background};
-    font-size: ${Common.fontSize.fs10};
-    font-family: ${Common.fontFamily.light};
-    color: ${Common.colors.primary};
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+    background-color: ${StyleDefine.colors.background};
   }
 `;
 

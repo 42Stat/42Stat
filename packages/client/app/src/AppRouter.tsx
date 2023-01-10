@@ -5,13 +5,12 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
-import { ErrorPage } from './views/ErrorPage';
-import { Login } from './views/Login';
-import { Root } from './views/Root';
+import { ErrorPage } from './ErrorPage/ErrorPage';
+import { Login } from './Login/Login';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+    <Route path="/" errorElement={<ErrorPage />}>
       <Route index element={<Navigate to="/login" replace={true} />} />
       <Route path="/login" element={<Login />} />
     </Route>

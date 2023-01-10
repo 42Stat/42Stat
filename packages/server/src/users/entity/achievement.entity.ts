@@ -13,7 +13,7 @@ export class Achievement {
   tier: string;
   @Column()
   kind: string;
-  @Column()
+  @Column({ nullable: true })
   image: string;
 }
 

@@ -12,18 +12,18 @@ export class Project {
   intraId: number;
   @Column()
   occurrence: number;
-  @Column()
+  @Column({ nullable: true })
   finalMark: number;
   @Column()
   status: string;
-  @Column()
+  @Column({ nullable: true })
   validated: boolean;
   @Column()
   marked: boolean;
   @Column()
   createdAt: string;
-  @Column()
+  @Column({ nullable: true })
   markedAt: string;
-  @Column()
+  @Column({ nullable: true })
   clearTime: string;
 }

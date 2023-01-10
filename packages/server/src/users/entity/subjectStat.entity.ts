@@ -1,4 +1,5 @@
-import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
+import { Project } from '../../subjects/entity/project.entity';
+import { Column, Entity, ManyToOne, OneToOne, PrimaryColumn } from 'typeorm';
 import { IntraUser } from './intraUser.entity';
 
 @Entity()
@@ -7,14 +8,14 @@ export class SubjectStat {
   id: number;
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
   intraId: number;
-  @Column()
+  @Column({ default: 0 })
   averageFinalMark: number;
-  @Column()
+  @Column({ default: 0 })
   averageClearTime: number;
-  @Column()
+  @Column({ default: 0 })
   passedCount: number;
-  @Column()
+  @Column({ default: 0 })
   totalRetryCount: number;
-  //   @OneToOne(() => Project, (project) => project.id)
+  @ManyToOne(() => Project, (project) => project.id)
   lastProjectId: number;
 }

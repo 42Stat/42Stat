@@ -1,4 +1,4 @@
-import { IntraUser } from 'src/users/entity/intraUser.entity';
+import { IntraUser } from '../../users/entity/intraUser.entity';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
 @Entity()
@@ -9,9 +9,9 @@ export class CoalitionScore {
   intraId: number;
   @Column()
   score: number;
-  @Column()
+  @Column({ nullable: true })
   scoreType: string;
-  @Column()
+  @Column({ nullable: true })
   reason: string;
   @Column()
   createdAt: Date;

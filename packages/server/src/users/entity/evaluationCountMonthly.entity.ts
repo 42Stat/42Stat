@@ -11,6 +11,6 @@ export class MonthlyEvaluationCount {
   month: number;
   @Column()
   year: number;
-  @Column()
+  @Column({ default: 0 })
   count: number;
 }

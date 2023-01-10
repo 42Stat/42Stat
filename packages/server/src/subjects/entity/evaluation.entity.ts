@@ -11,21 +11,21 @@ export class Evaluation {
   correctorId: number;
   @ManyToOne(() => Subject, (subject) => subject.id)
   subjectId: number;
-  @Column()
+  @Column({ nullable: true })
   comment: string;
-  @Column()
+  @Column({ nullable: true })
   feedback: string;
-  @Column()
+  @Column({ nullable: true })
   finalMark: number;
-  @Column()
+  @Column({ nullable: true })
   positive: boolean;
-  @Column()
+  @Column({ nullable: true })
   flag: number;
   @Column()
   beginAt: Date;
-  @Column()
+  @Column({ nullable: true })
   end_at: Date;
-  @Column()
+  @Column({ nullable: true })
   rating: number;
   @ManyToOne(() => Team, (team) => team.id)
   teamId: number;

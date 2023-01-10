@@ -13,14 +13,14 @@ export class Team {
   status: number;
   @Column()
   createdAt: string;
-  @Column()
+  @Column({ nullable: true })
   finalMark: number;
-  @Column()
+  @Column({ nullable: true })
   locked: boolean;
-  @Column()
+  @Column({ nullable: true })
   closed: boolean;
-  @Column()
+  @Column({ nullable: true })
   lockedAt: string;
-  @Column()
+  @Column({ nullable: true })
   closedAt: string;
 }

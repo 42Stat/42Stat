@@ -6,12 +6,12 @@ export class Subject {
   id: number;
   @Column()
   name: string;
-  @Column()
+  @Column({ nullable: true })
   averageFinalMark: string;
-  @Column()
+  @Column({ nullable: true })
   averageRetryCount: number;
-  @Column()
+  @Column({ nullable: true })
   averageClearTime: number;
-  @Column()
+  @Column({ nullable: true })
   isExam: boolean;
 }

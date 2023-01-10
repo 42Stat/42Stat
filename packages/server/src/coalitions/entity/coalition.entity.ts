@@ -10,12 +10,12 @@ export class Coalition {
   imageUrl: string;
   @Column()
   color: string;
-  @Column()
+  @Column({ default: 0 })
   activeUserCount: number;
-  @Column()
+  @Column({ default: 0 })
   subjectPassedCount: number;
-  @Column()
+  @Column({ default: 0 })
   evaluationCount: number;
-  @Column()
+  @Column({ default: 0 })
   blackholedUserCount: number;
 }

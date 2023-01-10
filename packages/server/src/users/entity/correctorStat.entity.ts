@@ -7,18 +7,18 @@ export class CorrectorStat {
   id: number;
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
   intraId: number;
-  @Column()
+  @Column({ default: 0 })
   averageMark: number;
-  @Column()
+  @Column({ default: 0 })
   totalEvaluationCount: number;
-  @Column()
+  @Column({ default: 0 })
   averageEvaluationCount: number;
-  @Column()
+  @Column({ default: 0 })
   outstandingCount: number;
-  @Column()
+  @Column({ default: 0 })
   averageBeginTime: number;
-  @Column()
+  @Column({ default: 0 })
   averageDuration: number;
-  @Column()
+  @Column({ default: 0 })
   averageCommentLength: number;
 }

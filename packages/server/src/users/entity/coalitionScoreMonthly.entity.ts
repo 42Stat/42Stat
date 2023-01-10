@@ -11,6 +11,6 @@ export class MonthlyCoalitionScore {
   month: number;
   @Column()
   year: number;
-  @Column()
+  @Column({ default: 0 })
   score: number;
 }

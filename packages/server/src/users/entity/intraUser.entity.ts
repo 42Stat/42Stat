@@ -32,7 +32,7 @@ export class IntraUser {
   @Column({ nullable: true })
   blackholedAt: string;
   @ManyToOne(() => Coalition, (coalition) => coalition.id)
-  coalitionId: number;
+  coalition: Coalition;
   @Column()
   coalitionUserId: number;
   @Column({ default: 0 })

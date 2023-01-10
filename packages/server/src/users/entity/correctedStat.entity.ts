@@ -6,7 +6,7 @@ export class CorrectedStat {
   @PrimaryColumn()
   id: number;
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
-  intraId: number;
+  intra: IntraUser;
   @Column({ default: 0 })
   averageMark: number;
   @Column({ default: 0 })

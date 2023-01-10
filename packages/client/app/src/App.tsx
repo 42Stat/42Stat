@@ -7,8 +7,9 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <AppRouter />
+      <div>asdf</div>
+      {/* <GlobalStyle />
+      <AppRouter /> */}
     </QueryClientProvider>
   );
 }

@@ -8,6 +8,7 @@ import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -16,18 +17,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
     CoalitionsModule,
     SubjectsModule,
     LeaderboardModule,
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: process.env.DB_HOST,
-    //   port: parseInt(process.env.DB_PORT),
-    //   username: process.env.DB_USER,
-    //   password: process.env.DB_PASSWORD,
-    //   database: process.env.DB_NAME,
-    //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    //   synchronize: true,
-    //   namingStrategy: new SnakeNamingStrategy(),
-    //   logging: true,
-    // }),
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

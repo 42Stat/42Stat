@@ -6,7 +6,7 @@ export class User {
   @PrimaryColumn()
   id: number;
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
-  intraId: number;
+  intra: IntraUser;
   @Column()
   refreshToken: string;
   @Column()

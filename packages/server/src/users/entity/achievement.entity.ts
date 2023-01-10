@@ -1,9 +1,9 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { IntraUser } from './intraUser.entity';
 
 @Entity()
 export class Achievement {
-  @Column()
+  @PrimaryColumn()
   id: number;
   @Column()
   name: string;
@@ -19,8 +19,10 @@ export class Achievement {
 
 @Entity()
 export class AchievementUser {
-  @OneToMany(() => Achievement, (achievement) => achievement.id)
-  achievementId: number;
-  @OneToMany(() => IntraUser, (intraUser) => intraUser.id)
-  intraId: number;
+  @PrimaryColumn()
+  id: number;
+  @ManyToOne(() => Achievement, (achievement) => achievement.id)
+  achievement: Achievement;
+  @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
+  intra: IntraUser;
 }

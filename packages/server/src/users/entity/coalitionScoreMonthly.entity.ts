@@ -6,7 +6,7 @@ export class MonthlyCoalitionScore {
   @PrimaryColumn()
   id: number;
   @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
-  intraId: number;
+  intra: IntraUser;
   @Column()
   month: number;
   @Column()

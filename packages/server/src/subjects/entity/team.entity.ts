@@ -6,7 +6,7 @@ export class Team {
   @PrimaryColumn()
   id: number;
   @ManyToOne(() => Project, (project) => project.id)
-  projectId: number;
+  project: Project;
   @Column()
   name: string;
   @Column()

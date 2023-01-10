@@ -11,10 +11,12 @@ export class Title {
 
 @Entity()
 export class TitleUser {
+  @PrimaryColumn()
+  id: number;
   @ManyToOne(() => Title, (title) => title.id)
-  titleId: number;
+  title: Title;
   @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
-  intraId: number;
+  intra: IntraUser;
   @Column()
   selected: boolean;
 }

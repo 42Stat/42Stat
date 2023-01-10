@@ -6,7 +6,7 @@ export class CoalitionScore {
   @PrimaryColumn()
   id: number;
   @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
-  intraId: number;
+  intra: IntraUser;
   @Column()
   score: number;
   @Column({ nullable: true })

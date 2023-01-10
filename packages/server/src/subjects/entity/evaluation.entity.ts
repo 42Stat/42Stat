@@ -8,9 +8,9 @@ export class Evaluation {
   @PrimaryColumn()
   id: number;
   @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
-  correctorId: number;
+  corrector: IntraUser;
   @ManyToOne(() => Subject, (subject) => subject.id)
-  subjectId: number;
+  subject: Subject;
   @Column({ nullable: true })
   comment: string;
   @Column({ nullable: true })
@@ -28,5 +28,5 @@ export class Evaluation {
   @Column({ nullable: true })
   rating: number;
   @ManyToOne(() => Team, (team) => team.id)
-  teamId: number;
+  team: Team;
 }

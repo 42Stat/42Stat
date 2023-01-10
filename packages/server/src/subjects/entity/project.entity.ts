@@ -7,9 +7,9 @@ export class Project {
   @PrimaryColumn()
   id: number;
   @ManyToOne(() => Subject, (subject) => subject.id)
-  subjectId: number;
+  subject: Subject;
   @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
-  intraId: number;
+  intra: IntraUser;
   @Column()
   occurrence: number;
   @Column({ nullable: true })

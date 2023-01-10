@@ -25,7 +25,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${DB_PORT}:5432
 
   server:
     build:
@@ -34,7 +34,8 @@ services:
     container_name: server
     ports:
       - "3000:3000"
-    volumes:
+    volumes: 
+      # - server_volume:/app
       - type: volume
         source: server_volume
         target: /app

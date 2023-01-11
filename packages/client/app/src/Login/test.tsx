@@ -20,3 +20,5 @@ describe('Login component', () => {
     ).toBeInTheDocument();
   });
 });
+
+// todo: add tests for get and set credentials

@@ -1,20 +1,18 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_EP,
-  timeout: 3000,
+  // todo
+  baseURL:
+    import.meta.env.DEV === true
+      ? 'http://localhost:11900'
+      : import.meta.env.VITE_BACKEND_EP,
+  timeout: 5000,
   withCredentials: true,
-});
-
-axiosInstance.interceptors.request.use((request) => {
-  if (
-    request.method === 'post' &&
-    request.headers?.hasContentType !== undefined
-  ) {
-    request.headers.setContentType = 'application/json; charset=utf-8';
-  }
-
-  return request;
+  headers: {
+    post: {
+      'Content-Type': 'application/json',
+    },
+  },
 });
 
 // todo: sync with backend

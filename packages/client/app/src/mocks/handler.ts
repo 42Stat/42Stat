@@ -1,7 +1,8 @@
 import { rest } from 'msw';
 
 export const handlers = [
-  rest.post('/login', (req, res, ctx) => {
-    return res(ctx.status(200));
+  rest.post('/login', async (req, res, ctx) => {
+    ctx.status(200);
+    return res(ctx.json(true));
   }),
 ];

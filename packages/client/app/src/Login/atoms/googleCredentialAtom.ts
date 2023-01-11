@@ -8,12 +8,13 @@ export const googleCredentialAtom = atom<
 >(
   (get) => {
     const fromBaseAtom = get(googleCredentialBaseAtom);
-    const fromLocalStorage = localStorage.getItem('google-credential');
-    localStorage.removeItem('google-credential');
 
     if (fromBaseAtom !== null) {
       return fromBaseAtom;
     }
+
+    const fromLocalStorage = localStorage.getItem('google-credential');
+    localStorage.removeItem('google-credential');
 
     if (fromLocalStorage !== null) {
       return JSON.parse(fromLocalStorage);

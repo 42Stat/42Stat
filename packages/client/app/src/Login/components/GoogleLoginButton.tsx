@@ -1,15 +1,15 @@
 import { useAtomValue } from 'jotai';
 import { displayHelpAtom } from '../atoms/displayHelpAtom';
-import { useGoogleButtonDivRef } from '../hooks/useGoogleButtonDivRef';
+import { useGoogleButtonDiv } from '../hooks/useGoogleButtonDiv';
 import { googleButtonWidthRange, mediaQuery } from '../mediaQuery';
 
 export const GoogleLoginButton = () => {
   const displayHelp = useAtomValue(displayHelpAtom);
-  const googleButtonDivRef = useGoogleButtonDivRef();
+  const googleButtonDiv = useGoogleButtonDiv();
   const googleLoginButtonStyle = getGoogleLoginButtonStyle(displayHelp);
 
-  return googleButtonDivRef ? (
-    <div css={googleLoginButtonStyle} ref={googleButtonDivRef} />
+  return googleButtonDiv ? (
+    <div css={googleLoginButtonStyle} ref={googleButtonDiv} />
   ) : null;
 };
 

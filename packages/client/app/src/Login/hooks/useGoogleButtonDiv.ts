@@ -1,13 +1,23 @@
+import { useSetAtom } from 'jotai';
 import * as React from 'react';
+import { googleCredentialAtom } from '../atoms/googleCredentialAtom';
 import { googleButtonWidthType } from '../mediaQuery';
-
 import { useGoogleButtonWidth } from './useGoogleButtonWidth';
 import { useGoogleScript } from './useGoogleScrpit';
 
-export const useGoogleButtonDivRef = () => {
-  const googleButtonDivRef = React.useRef<HTMLDivElement | null>(null);
+export const useGoogleButtonDiv = () => {
+  const googleButtonDiv = React.useRef<HTMLDivElement | null>(null);
   const { isLoaded, isError } = useGoogleScript();
   const googleButtonWidth = useGoogleButtonWidth();
+  const setGoogleCredentialAtom = useSetAtom(googleCredentialAtom);
+
+  const googleInitializeOption: IdConfiguration = {
+    client_id: import.meta.env.VITE_GAPI_CLIENT_ID,
+    callback: (res) => {
+      setGoogleCredentialAtom(res);
+    },
+    context: 'use',
+  };
 
   React.useEffect(() => {
     const googleRenderButtonOption =
@@ -15,13 +25,13 @@ export const useGoogleButtonDivRef = () => {
 
     if (isError === true) throw 'gapi script load fail';
 
-    if (isLoaded === false || !window.google || !googleButtonDivRef.current)
+    if (isLoaded === false || !window.google || !googleButtonDiv.current)
       return;
 
     window.google.accounts.id.initialize(googleInitializeOption);
 
     window.google.accounts.id.renderButton(
-      googleButtonDivRef.current,
+      googleButtonDiv.current,
       googleRenderButtonOption
     );
 
@@ -31,18 +41,10 @@ export const useGoogleButtonDivRef = () => {
     isError,
     window.google,
     window.innerWidth,
-    googleButtonDivRef.current,
+    googleButtonDiv.current,
   ]);
 
-  return googleButtonDivRef;
-};
-
-const googleInitializeOption: IdConfiguration = {
-  client_id: import.meta.env.VITE_GAPI_CLIENT_ID,
-  callback: (res) => {
-    console.debug(res);
-  },
-  context: 'use',
+  return googleButtonDiv;
 };
 
 const getGoogleRenderButtonOption = (

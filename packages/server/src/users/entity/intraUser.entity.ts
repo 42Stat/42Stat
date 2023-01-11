@@ -1,5 +1,7 @@
 import { Coalition } from '../../coalitions/entity/coalition.entity';
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { AchievementUser } from './achievement.entity';
+import { Project } from 'src/subjects/entity/project.entity';
 
 @Entity()
 export class IntraUser {
@@ -21,16 +23,16 @@ export class IntraUser {
   active: boolean;
   @Column()
   grade: string;
-  @Column()
+  @Column({ type: 'float4' })
   level: number;
   @Column()
   generation: number;
   @Column()
-  beginAt: string;
+  beginAt: Date;
   @Column()
-  updatedAt: string;
+  updatedAt: Date;
   @Column({ nullable: true })
-  blackholedAt: string;
+  blackholedAt: Date;
   @ManyToOne(() => Coalition, (coalition) => coalition.id)
   coalition: Coalition;
   @Column()

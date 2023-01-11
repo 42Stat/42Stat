@@ -24,7 +24,7 @@ export class Evaluation {
   @Column()
   beginAt: Date;
   @Column({ nullable: true })
-  end_at: Date;
+  endAt: Date;
   @Column({ nullable: true })
   rating: number;
   @ManyToOne(() => Team, (team) => team.id)

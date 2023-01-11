@@ -12,7 +12,7 @@ export class Team {
   @Column()
   status: number;
   @Column()
-  createdAt: string;
+  createdAt: Date;
   @Column({ nullable: true })
   finalMark: number;
   @Column({ nullable: true })
@@ -20,7 +20,7 @@ export class Team {
   @Column({ nullable: true })
   closed: boolean;
   @Column({ nullable: true })
-  lockedAt: string;
+  lockedAt: Date;
   @Column({ nullable: true })
-  closedAt: string;
+  closedAt: Date;
 }

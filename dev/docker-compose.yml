@@ -35,7 +35,6 @@ services:
     ports:
       - "3000:3000"
     volumes: 
-      # - server_volume:/app
       - type: volume
         source: server_volume
         target: /app

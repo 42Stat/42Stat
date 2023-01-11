@@ -14,7 +14,7 @@ export class Achievement {
   @Column()
   kind: string;
   @Column({ nullable: true })
-  image: string;
+  imageUrl: string;
 }
 
 @Entity()

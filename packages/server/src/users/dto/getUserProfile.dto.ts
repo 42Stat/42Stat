@@ -29,11 +29,11 @@ export class GetUserProfileDto {
   @ApiProperty()
   coalition: UserProfileCoalitionDto;
   @ApiProperty()
-  startedAt: string;
+  startedAt: Date;
   @ApiProperty()
   daysSinceStarted: number;
   @ApiProperty({ nullable: true })
-  blackholedAt: string;
+  blackholedAt: Date;
   @ApiProperty({ nullable: true })
   daysUntilBlackholed: number;
 }

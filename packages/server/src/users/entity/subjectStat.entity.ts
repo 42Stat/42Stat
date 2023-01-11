@@ -8,7 +8,7 @@ export class SubjectStat {
   id: number;
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
   intra: IntraUser;
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float4' })
   averageFinalMark: number;
   @Column({ default: 0 })
   averageClearTime: number;
@@ -16,6 +16,4 @@ export class SubjectStat {
   passedCount: number;
   @Column({ default: 0 })
   totalRetryCount: number;
-  @ManyToOne(() => Project, (project) => project.id)
-  lastProject: Project;
 }

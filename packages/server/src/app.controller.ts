@@ -5,7 +5,9 @@ import { LoginDto } from './dto/login.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) {
+    this.appService.seed();
+  }
 
   @Post('login')
   @ApiTags('account')

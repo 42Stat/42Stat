@@ -15,6 +15,4 @@ export class CoalitionScore {
   reason: string;
   @Column()
   createdAt: Date;
-  @Column()
-  coalitionId: number;
 }

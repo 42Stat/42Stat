@@ -6,9 +6,9 @@ export class Subject {
   id: number;
   @Column()
   name: string;
-  @Column({ nullable: true })
-  averageFinalMark: string;
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'float4' })
+  averageFinalMark: number;
+  @Column({ nullable: true, type: 'float4' })
   averageRetryCount: number;
   @Column({ nullable: true })
   averageClearTime: number;

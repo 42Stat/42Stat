@@ -6,9 +6,8 @@ import { CoalitionsModule } from './coalitions/coalitions.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { DatabaseModule } from './database/database.module';
+import { databaseProviders } from './database/database.providers';
 
 @Module({
   imports: [
@@ -20,6 +19,6 @@ import { DatabaseModule } from './database/database.module';
     DatabaseModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ...databaseProviders],
 })
 export class AppModule {}

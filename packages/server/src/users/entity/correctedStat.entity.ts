@@ -1,17 +1,17 @@
 import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
 import { IntraUser } from './intraUser.entity';
 
-Entity();
+@Entity()
 export class CorrectedStat {
   @PrimaryColumn()
   id: number;
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
   intra: IntraUser;
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float4' })
   averageMark: number;
   @Column({ default: 0 })
   totalEvaluationCount: number;
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float4' })
   averageEvaluationCount: number;
   @Column({ default: 0 })
   outstandingCount: number;
@@ -19,6 +19,6 @@ export class CorrectedStat {
   averageBeginTime: number;
   @Column({ default: 0 })
   averageDuration: number;
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float4' })
   averageFeedbackLength: number;
 }

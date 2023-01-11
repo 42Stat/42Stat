@@ -15,15 +15,15 @@ export class Project {
   @Column({ nullable: true })
   finalMark: number;
   @Column()
-  status: string;
+  status: number;
   @Column({ nullable: true })
   validated: boolean;
   @Column()
   marked: boolean;
   @Column()
-  createdAt: string;
+  createdAt: Date;
   @Column({ nullable: true })
-  markedAt: string;
+  markedAt: Date;
   @Column({ nullable: true })
-  clearTime: string;
+  clearTime: number;
 }

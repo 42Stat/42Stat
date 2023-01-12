@@ -4,4 +4,4 @@ WORKDIR /app
 
 RUN yarn global add @nestjs/cli
 
-ENTRYPOINT yarn && yarn start
+ENTRYPOINT yarn && yarn start:dev

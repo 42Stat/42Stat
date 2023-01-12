@@ -19,7 +19,7 @@ export class AppController {
   @ApiTags('account')
   async logout() {}
 
-  @Post('authentication')
+  @Post('end-point')
   @ApiTags('account')
   async authentication() {}
 }

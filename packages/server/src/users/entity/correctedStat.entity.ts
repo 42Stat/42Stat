@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { IntraUser } from './intraUser.entity';
 
 @Entity()
@@ -6,6 +6,7 @@ export class CorrectedStat {
   @PrimaryColumn()
   id: number;
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
+  @JoinColumn()
   intra: IntraUser;
   @Column({ default: 0, type: 'float4' })
   averageMark: number;

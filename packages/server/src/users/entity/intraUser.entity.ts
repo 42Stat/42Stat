@@ -1,7 +1,11 @@
 import { Coalition } from '../../coalitions/entity/coalition.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { TitleUser } from './title.entity';
 import { AchievementUser } from './achievement.entity';
-import { Project } from 'src/subjects/entity/project.entity';
+import { MonthlyEvaluationCount } from './monthlyEvaluationCount.entity';
+import { MonthlyCoalitionScore } from './monthlyCoalitionScore.entity';
+import { TeamUser } from '../../subjects/entity/teamUser.entity';
+import { Project } from '../../subjects/entity/project.entity';
 
 @Entity()
 export class IntraUser {
@@ -41,4 +45,22 @@ export class IntraUser {
   totalCoalitionScore: number;
   @Column({ default: 0 })
   passedSubjectCount: number;
+  @OneToMany(() => TitleUser, (titleUser) => titleUser.intra)
+  titleUsers: TitleUser[];
+  @OneToMany(() => AchievementUser, (achievementUser) => achievementUser.intra)
+  achievementUsers: AchievementUser[];
+  @OneToMany(
+    () => MonthlyEvaluationCount,
+    (monthlyEvaluationCount) => monthlyEvaluationCount.intra
+  )
+  monthlyEvaluationCounts: MonthlyEvaluationCount[];
+  @OneToMany(
+    () => MonthlyCoalitionScore,
+    (monthlyCoalitionScore) => monthlyCoalitionScore.intra
+  )
+  monthlyCoalitionScores: MonthlyCoalitionScore[];
+  @OneToMany(() => TeamUser, (teamUser) => teamUser.intra)
+  teamUsers: TeamUser[];
+  @OneToMany(() => Project, (project) => project.intra)
+  projects: Project[];
 }

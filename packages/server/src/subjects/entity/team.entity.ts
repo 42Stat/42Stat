@@ -1,5 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { Evaluation } from './evaluation.entity';
 import { Project } from './project.entity';
+import { TeamUser } from './teamUser.entity';
 
 @Entity()
 export class Team {
@@ -7,6 +9,8 @@ export class Team {
   id: number;
   @ManyToOne(() => Project, (project) => project.id)
   project: Project;
+  @OneToMany(() => TeamUser, (teamUser) => teamUser.team)
+  users: TeamUser[];
   @Column()
   name: string;
   @Column()
@@ -23,4 +27,6 @@ export class Team {
   lockedAt: Date;
   @Column({ nullable: true })
   closedAt: Date;
+  @OneToMany(() => Evaluation, (evaluation) => evaluation.team)
+  evaluations: Evaluation[];
 }

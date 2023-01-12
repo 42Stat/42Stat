@@ -9,8 +9,8 @@ export class Evaluation {
   id: number;
   @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
   corrector: IntraUser;
-  @ManyToOne(() => Subject, (subject) => subject.id)
-  subject: Subject;
+  // @ManyToOne(() => Subject, (subject) => subject.id)
+  // subject: Subject;
   @Column({ nullable: true })
   comment: string;
   @Column({ nullable: true })

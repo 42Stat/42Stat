@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { GetSubjectDto } from '../subjects/dto/getSubject.dto';
 import { GetUserFeedbackDto } from './dto/getUserFeedbacks.dto';
@@ -14,15 +14,13 @@ export class UsersController {
   @Get(':id/profile')
   @ApiOkResponse({ type: GetUserProfileDto })
   async getUserProfile(@Param('id') id: number): Promise<GetUserProfileDto> {
-    return;
-    // return await this.usersService.getUserProfile(id);
+    return await this.usersService.getUserProfile(id);
   }
 
   @Get(':id/summary')
   @ApiOkResponse({ type: GetUserSummaryDto })
   async getUserSummary(@Param('id') id: number): Promise<GetUserSummaryDto> {
-    return;
-    // return await this.usersService.getUserSummary(id);
+    return await this.usersService.getUserSummary(id);
   }
 
   @Get(':id/subjects')
@@ -32,10 +30,13 @@ export class UsersController {
   async getUserSubjects(
     @Param('id') id: number,
     @Query('sort') sort: string,
-    @Query('page') page: number
+    @Query('page') page: string
   ): Promise<GetSubjectDto[]> {
-    return;
-    // return await this.usersService.getUserSubjects(id);
+    return await this.usersService.getUserSubjects(
+      id,
+      sort,
+      page ? parseInt(page) : 1
+    );
   }
 
   @Get(':id/feedbacks')
@@ -47,11 +48,16 @@ export class UsersController {
   async getUserFeedbacks(
     @Param('id') id: number,
     @Query('type') type: string,
-    @Query('outstanding') outstanding: boolean,
+    @Query('outstanding') outstanding: string,
     @Query('subject') subject: string,
-    @Query('page') page: number
+    @Query('page') page: string
   ): Promise<GetUserFeedbackDto[]> {
-    return;
-    // return await this.usersService.getUserFeedbacksAsCorrector(id, filter, page);
+    return await this.usersService.getUserFeedbacks(
+      id,
+      type,
+      outstanding === 'true' ? true : false,
+      subject,
+      page ? parseInt(page) : 1
+    );
   }
 }

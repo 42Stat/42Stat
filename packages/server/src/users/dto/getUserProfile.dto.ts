@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IntraUser } from '../entity/intraUser.entity';
+import { Title } from '../entity/title.entity';
 
 export class UserProfileCoalitionDto {
   @ApiProperty()
@@ -6,16 +8,36 @@ export class UserProfileCoalitionDto {
   @ApiProperty()
   name: string;
   @ApiProperty()
-  image: string;
+  imageUrl: string;
   @ApiProperty()
   color: string;
 }
 
 export class GetUserProfileDto {
+  constructor(user: IntraUser, title: Title, rank: number) {
+    this.id = user.id;
+    this.imageUrl = user.imageUrl;
+    this.login = title ? title.name.replace('%login', user.login) : user.login;
+    this.name = user.displayName;
+    this.rank = rank;
+    this.level = user.level;
+    this.grade = user.grade;
+    this.coalition = user.coalition;
+    this.startedAt = user.beginAt;
+    this.daysSinceStarted = Math.floor(
+      (new Date().getTime() - user.beginAt.getTime()) / 86400000
+    );
+    this.blackholedAt = user.blackholedAt;
+    this.daysUntilBlackholed = user.blackholedAt
+      ? Math.floor(
+          (user.blackholedAt.getTime() - new Date().getTime()) / 86400000
+        )
+      : null;
+  }
   @ApiProperty()
   id: number;
   @ApiProperty()
-  image: string;
+  imageUrl: string;
   @ApiProperty()
   login: string;
   @ApiProperty()

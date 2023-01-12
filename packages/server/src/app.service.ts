@@ -9,10 +9,10 @@ import {
   Achievement,
   AchievementUser,
 } from './users/entity/achievement.entity';
-import { MonthlyCoalitionScore } from './users/entity/coalitionScoreMonthly.entity';
+import { MonthlyCoalitionScore } from './users/entity/monthlyCoalitionScore.entity';
 import { CorrectedStat } from './users/entity/correctedStat.entity';
 import { CorrectorStat } from './users/entity/correctorStat.entity';
-import { MonthlyEvaluationCount } from './users/entity/evaluationCountMonthly.entity';
+import { MonthlyEvaluationCount } from './users/entity/monthlyEvaluationCount.entity';
 import { IntraUser } from './users/entity/intraUser.entity';
 import { Title, TitleUser } from './users/entity/title.entity';
 import { Project } from './subjects/entity/project.entity';
@@ -62,6 +62,17 @@ export class AppService {
       blackholedUserCount: 2,
     };
 
+    const coalition2: Coalition = {
+      id: 86,
+      name: 'Gon',
+      imageUrl: 'https://cdn.intra.42.fr/coalition/image/86/gon-svg-svg.svg',
+      color: '#FFC221',
+      activeUserCount: 2,
+      subjectPassedCount: 2,
+      evaluationCount: 2,
+      blackholedUserCount: 2,
+    };
+
     const intraUser1: IntraUser = {
       id: 99947,
       email: 'jaham@student.42seoul.kr',
@@ -82,6 +93,12 @@ export class AppService {
       coalitionUserId: 69674,
       totalCoalitionScore: 100000,
       passedSubjectCount: 29,
+      titleUsers: [],
+      achievementUsers: [],
+      monthlyEvaluationCounts: [],
+      monthlyCoalitionScores: [],
+      teamUsers: [],
+      projects: [],
     };
 
     const intraUser2: IntraUser = {
@@ -104,6 +121,40 @@ export class AppService {
       coalitionUserId: 110730,
       totalCoalitionScore: 500000,
       passedSubjectCount: 10,
+      titleUsers: [],
+      achievementUsers: [],
+      monthlyEvaluationCounts: [],
+      monthlyCoalitionScores: [],
+      teamUsers: [],
+      projects: [],
+    };
+
+    const intraUser3: IntraUser = {
+      id: 1,
+      email: 'jisookim@student.42seoul.kr',
+      login: 'jisookim',
+      displayName: 'Jisoo Kim',
+      imageUrl:
+        'https://cdn.intra.42.fr/users/033dd0f728a397876e10c2b7264e20c6/jisookim.jpg',
+      correctionPoint: 3,
+      wallet: 1415,
+      active: true,
+      grade: 'learner',
+      level: 5.432,
+      generation: 5,
+      beginAt: new Date('2021-11-08T01:00:00.000Z'),
+      updatedAt: new Date('2023-01-13T05:53:57.021Z'),
+      blackholedAt: new Date('2023-03-28T01:00:00.000Z'),
+      coalition: coalition2,
+      coalitionUserId: 69719,
+      totalCoalitionScore: 100000,
+      passedSubjectCount: 29,
+      titleUsers: [],
+      achievementUsers: [],
+      monthlyEvaluationCounts: [],
+      monthlyCoalitionScores: [],
+      teamUsers: [],
+      projects: [],
     };
 
     const achievement1: Achievement = {
@@ -168,7 +219,7 @@ export class AppService {
       totalEvaluationCount: 100,
       averageEvaluationCount: 8.31,
       outstandingCount: 10,
-      averageBeginTime: 100000000,
+      averageBeginTime: 50000000,
       averageDuration: 30000000,
       averageFeedbackLength: 143.5,
     };
@@ -237,6 +288,17 @@ export class AppService {
     const subject1: Subject = {
       id: 1,
       name: '과제',
+      slug: '42cursus-ft_printf',
+      averageFinalMark: 80.51,
+      averageRetryCount: 2.3,
+      averageClearTime: 24.5 * 24 * 60 * 60 * 1000,
+      isExam: false,
+    };
+
+    const subject2: Subject = {
+      id: 2,
+      name: '과제2',
+      slug: 'ft_transcendence',
       averageFinalMark: 80.51,
       averageRetryCount: 2.3,
       averageClearTime: 24.5 * 24 * 60 * 60 * 1000,
@@ -255,6 +317,37 @@ export class AppService {
       createdAt: new Date(),
       markedAt: new Date(),
       clearTime: 24.5 * 24 * 60 * 60 * 1000,
+      teams: [],
+    };
+
+    const project2: Project = {
+      id: 2,
+      subject: subject2,
+      intra: intraUser1,
+      occurrence: 1,
+      finalMark: 100,
+      status: 2,
+      validated: true,
+      marked: true,
+      createdAt: new Date(),
+      markedAt: new Date(),
+      clearTime: 24.5 * 24 * 60 * 60 * 1000,
+      teams: [],
+    };
+
+    const project3: Project = {
+      id: 3,
+      subject: subject1,
+      intra: intraUser2,
+      occurrence: 1,
+      finalMark: 100,
+      status: 2,
+      validated: true,
+      marked: true,
+      createdAt: new Date(),
+      markedAt: new Date(),
+      clearTime: 24.5 * 24 * 60 * 60 * 1000,
+      teams: [],
     };
 
     const team1: Team = {
@@ -268,6 +361,38 @@ export class AppService {
       closed: true,
       lockedAt: new Date(),
       closedAt: new Date(),
+      users: [],
+      evaluations: [],
+    };
+
+    const team2: Team = {
+      id: 2,
+      project: project2,
+      name: "jaham's group-2",
+      status: 1,
+      createdAt: new Date(),
+      finalMark: 100,
+      locked: true,
+      closed: true,
+      lockedAt: new Date(),
+      closedAt: new Date(),
+      users: [],
+      evaluations: [],
+    };
+
+    const team3: Team = {
+      id: 3,
+      project: project3,
+      name: "jaham's group-3",
+      status: 1,
+      createdAt: new Date(),
+      finalMark: 100,
+      locked: true,
+      closed: true,
+      lockedAt: new Date(),
+      closedAt: new Date(),
+      users: [],
+      evaluations: [],
     };
 
     const teamUser1: TeamUser = {
@@ -276,10 +401,33 @@ export class AppService {
       intra: intraUser1,
     };
 
+    const teamUser2: TeamUser = {
+      id: 2,
+      team: team1,
+      intra: intraUser3,
+    };
+
+    const teamUser3: TeamUser = {
+      id: 3,
+      team: team2,
+      intra: intraUser1,
+    };
+
+    const teamUser4: TeamUser = {
+      id: 4,
+      team: team3,
+      intra: intraUser2,
+    };
+
+    const teamUser5: TeamUser = {
+      id: 5,
+      team: team3,
+      intra: intraUser3,
+    };
+
     const evaluation1: Evaluation = {
       id: 1,
       corrector: intraUser2,
-      subject: subject1,
       comment: 'good',
       feedback: 'good',
       finalMark: 100,
@@ -291,6 +439,48 @@ export class AppService {
       team: team1,
     };
 
+    const evaluation2: Evaluation = {
+      id: 2,
+      corrector: intraUser2,
+      comment: 'good',
+      feedback: 'good',
+      finalMark: 100,
+      positive: true,
+      flag: 1,
+      beginAt: new Date(),
+      endAt: new Date(),
+      rating: 5,
+      team: team1,
+    };
+
+    const evaluation3: Evaluation = {
+      id: 3,
+      corrector: intraUser1,
+      comment: 'good',
+      feedback: 'good',
+      finalMark: 100,
+      positive: true,
+      flag: 1,
+      beginAt: new Date(),
+      endAt: new Date(),
+      rating: 5,
+      team: team2,
+    };
+
+    const evaluation4: Evaluation = {
+      id: 4,
+      corrector: intraUser1,
+      comment: 'good',
+      feedback: 'good',
+      finalMark: 100,
+      positive: true,
+      flag: 1,
+      beginAt: new Date(),
+      endAt: new Date(),
+      rating: 5,
+      team: team3,
+    };
+
     const subjectStat1: SubjectStat = {
       id: 15,
       intra: intraUser1,
@@ -298,14 +488,17 @@ export class AppService {
       averageClearTime: 24.5 * 24 * 60 * 60 * 1000,
       passedCount: 10,
       totalRetryCount: 100,
+      lastProject: project1,
     };
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
     await queryRunner.manager.save(Coalition, coalition1);
+    await queryRunner.manager.save(Coalition, coalition2);
     await queryRunner.manager.save(IntraUser, intraUser1);
     await queryRunner.manager.save(IntraUser, intraUser2);
+    await queryRunner.manager.save(IntraUser, intraUser3);
     await queryRunner.manager.save(Achievement, achievement1);
     await queryRunner.manager.save(AchievementUser, achievementUser1);
     await queryRunner.manager.save(Title, title1);
@@ -334,10 +527,22 @@ export class AppService {
     );
     await queryRunner.manager.save(CoalitionScore, coalitionScore1);
     await queryRunner.manager.save(Subject, subject1);
+    await queryRunner.manager.save(Subject, subject2);
     await queryRunner.manager.save(Project, project1);
+    await queryRunner.manager.save(Project, project2);
+    await queryRunner.manager.save(Project, project3);
     await queryRunner.manager.save(Team, team1);
+    await queryRunner.manager.save(Team, team2);
+    await queryRunner.manager.save(Team, team3);
     await queryRunner.manager.save(TeamUser, teamUser1);
+    await queryRunner.manager.save(TeamUser, teamUser2);
+    await queryRunner.manager.save(TeamUser, teamUser3);
+    await queryRunner.manager.save(TeamUser, teamUser4);
+    await queryRunner.manager.save(TeamUser, teamUser5);
     await queryRunner.manager.save(Evaluation, evaluation1);
+    await queryRunner.manager.save(Evaluation, evaluation2);
+    await queryRunner.manager.save(Evaluation, evaluation3);
+    await queryRunner.manager.save(Evaluation, evaluation4);
     await queryRunner.manager.save(SubjectStat, subjectStat1);
 
     console.log('seeded');

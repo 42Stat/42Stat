@@ -1,6 +1,7 @@
 import { Subject } from './subject.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { IntraUser } from '../../users/entity/intraUser.entity';
+import { Team } from './team.entity';
 
 @Entity()
 export class Project {
@@ -10,6 +11,8 @@ export class Project {
   subject: Subject;
   @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
   intra: IntraUser;
+  @OneToMany(() => Team, (team) => team.project)
+  teams: Team[];
   @Column()
   occurrence: number;
   @Column({ nullable: true })

@@ -1,5 +1,8 @@
+import { Subject } from '../../subjects/entity/subject.entity';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { IntraUser } from './intraUser.entity';
+import { ManyToOne } from 'typeorm/decorator/relations/ManyToOne';
+import { Project } from '../../subjects/entity/project.entity';
 
 @Entity()
 export class SubjectStat {
@@ -16,4 +19,6 @@ export class SubjectStat {
   passedCount: number;
   @Column({ default: 0 })
   totalRetryCount: number;
+  @ManyToOne(() => Project, (project) => project.id)
+  lastProject: Project;
 }

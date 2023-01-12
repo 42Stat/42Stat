@@ -6,6 +6,8 @@ export class Subject {
   id: number;
   @Column()
   name: string;
+  @Column()
+  slug: string;
   @Column({ nullable: true, type: 'float4' })
   averageFinalMark: number;
   @Column({ nullable: true, type: 'float4' })

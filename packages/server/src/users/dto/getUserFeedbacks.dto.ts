@@ -8,7 +8,7 @@ export class GetUserFeedbackDto {
   @ApiProperty()
   corrected: string;
   @ApiProperty()
-  beginAt: string;
+  beginAt: Date;
   @ApiProperty()
   subject: string;
   @ApiProperty()

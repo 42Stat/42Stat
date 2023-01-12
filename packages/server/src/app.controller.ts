@@ -5,7 +5,9 @@ import { LoginDto } from './dto/login.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) {
+    this.appService.seed();
+  }
 
   @Post('login')
   @ApiTags('account')
@@ -17,7 +19,7 @@ export class AppController {
   @ApiTags('account')
   async logout() {}
 
-  @Post('authentication')
+  @Post('end-point')
   @ApiTags('account')
   async authentication() {}
 }

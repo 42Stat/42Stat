@@ -201,12 +201,33 @@ export class AppService {
       intra: intraUser1,
       month: 12,
       year: 2022,
+      score: 70001,
+    };
+    const monthlyCoalitionScore2: MonthlyCoalitionScore = {
+      id: 2,
+      intra: intraUser2,
+      month: 12,
+      year: 2022,
+      score: 7000,
+    };
+    const monthlyCoalitionScore3: MonthlyCoalitionScore = {
+      id: 3,
+      intra: intraUser3,
+      month: 12,
+      year: 2022,
+      score: 7000,
+    };
+    const monthlyCoalitionScore4: MonthlyCoalitionScore = {
+      id: 4,
+      intra: intraUser3,
+      month: 12,
+      year: 2022,
       score: 7000,
     };
 
-    const monthlyCoalitionScore2: MonthlyCoalitionScore = {
-      id: 2,
-      intra: intraUser1,
+    const monthlyCoalitionScore5: MonthlyCoalitionScore = {
+      id: 5,
+      intra: intraUser3,
       month: 11,
       year: 2022,
       score: 8000,
@@ -285,6 +306,40 @@ export class AppService {
       createdAt: new Date(),
     };
 
+    const coalitionScore2: CoalitionScore = {
+      id: 2,
+      intra: intraUser2,
+      score: 4200,
+      scoreType: 'subject',
+      reason: 'evaluated someone',
+      createdAt: new Date(),
+    };
+
+    const coalitionScore3: CoalitionScore = {
+      id: 3,
+      intra: intraUser2,
+      score: 420,
+      scoreType: 'subject',
+      reason: 'evaluated someone',
+      createdAt: new Date(),
+    };
+
+    const coalitionScore4: CoalitionScore = {
+      id: 4,
+      intra: intraUser3,
+      score: 4200,
+      scoreType: 'subject',
+      reason: 'evaluated someone',
+      createdAt: new Date(),
+    };
+    const coalitionScore5: CoalitionScore = {
+      id: 5,
+      intra: intraUser3,
+      score: 420,
+      scoreType: 'subject',
+      reason: 'evaluated someone',
+      createdAt: new Date(),
+    };
     const subject1: Subject = {
       id: 1,
       name: '과제',
@@ -513,6 +568,18 @@ export class AppService {
       MonthlyCoalitionScore,
       monthlyCoalitionScore2
     );
+    await queryRunner.manager.save(
+      MonthlyCoalitionScore,
+      monthlyCoalitionScore3
+    );
+    await queryRunner.manager.save(
+      MonthlyCoalitionScore,
+      monthlyCoalitionScore4
+    );
+    await queryRunner.manager.save(
+      MonthlyCoalitionScore,
+      monthlyCoalitionScore5
+    );
     await queryRunner.manager.save(CorrectedStat, correctedStat1);
     await queryRunner.manager.save(CorrectedStat, correctedStat2);
     await queryRunner.manager.save(CorrectorStat, correctorStat1);
@@ -526,6 +593,10 @@ export class AppService {
       monthlyEvaluationCount2
     );
     await queryRunner.manager.save(CoalitionScore, coalitionScore1);
+    await queryRunner.manager.save(CoalitionScore, coalitionScore2);
+    await queryRunner.manager.save(CoalitionScore, coalitionScore3);
+    await queryRunner.manager.save(CoalitionScore, coalitionScore4);
+    await queryRunner.manager.save(CoalitionScore, coalitionScore5);
     await queryRunner.manager.save(Subject, subject1);
     await queryRunner.manager.save(Subject, subject2);
     await queryRunner.manager.save(Project, project1);

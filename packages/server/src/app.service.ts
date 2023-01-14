@@ -348,6 +348,7 @@ export class AppService {
       averageRetryCount: 2.3,
       averageClearTime: 24.5 * 24 * 60 * 60 * 1000,
       isExam: false,
+      totalClearCount: 100,
     };
 
     const subject2: Subject = {
@@ -358,6 +359,7 @@ export class AppService {
       averageRetryCount: 2.3,
       averageClearTime: 24.5 * 24 * 60 * 60 * 1000,
       isExam: false,
+      totalClearCount: 130,
     };
 
     const project1: Project = {

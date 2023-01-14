@@ -13,6 +13,8 @@ export class Subject {
   @Column({ nullable: true, type: 'float4' })
   averageRetryCount: number;
   @Column({ nullable: true })
+  totalClearCount: number;
+  @Column({ nullable: true })
   averageClearTime: number;
   @Column({ nullable: true })
   isExam: boolean;

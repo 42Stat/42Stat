@@ -1,7 +1,8 @@
 import { useAtomValue } from 'jotai';
 import { displayHelpAtom } from '../atoms/displayHelpAtom';
 import { useGoogleButtonDiv } from '../hooks/useGoogleButtonDiv';
-import { googleButtonWidthRange, mediaQuery } from '../mediaQuery';
+import { googleButtonWidthRange } from '../hooks/useGoogleButtonWidth';
+import { mediaQuery } from '../mediaQuery';
 
 export const GoogleLoginButton = () => {
   const displayHelp = useAtomValue(displayHelpAtom);

@@ -25,7 +25,12 @@ export class UsersController {
 
   @Get(':id/subjects')
   @ApiOkResponse({ type: [GetSubjectDto] })
-  @ApiQuery({ name: 'sort', required: false })
+  @ApiQuery({
+    name: 'sort',
+    required: false,
+    description:
+      '정렬 가능 요소 미정(현재 컬럼명으로 소팅 가능 / 예시: id, -name...)',
+  })
   @ApiQuery({ name: 'page', required: false })
   async getUserSubjects(
     @Param('id') id: number,
@@ -42,7 +47,7 @@ export class UsersController {
   @Get(':id/feedbacks')
   @ApiOkResponse({ type: [GetUserFeedbackDto] })
   @ApiQuery({ name: 'type', enum: ['as-corrector', 'as-corrected'] })
-  @ApiQuery({ name: 'outstanding', required: false })
+  @ApiQuery({ name: 'outstanding', required: false, enum: ['true', 'false'] })
   @ApiQuery({ name: 'subject', required: false })
   @ApiQuery({ name: 'page', required: false })
   async getUserFeedbacks(

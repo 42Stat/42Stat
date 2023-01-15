@@ -6,6 +6,16 @@ import { GetUserProfileDto } from './dto/getUserProfile.dto';
 import { GetUserSummaryDto } from './dto/getUserSummary.dto';
 import { UsersService } from './users.service';
 
+const userSubjectsSortOptions = [
+  'markedAt',
+  '-markedAt',
+  'finalMark',
+  '-finalMark',
+  'occurrence',
+  '-occurrence',
+  'clearTime',
+  '-clearTime',
+];
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
@@ -28,8 +38,8 @@ export class UsersController {
   @ApiQuery({
     name: 'sort',
     required: false,
-    description:
-      '정렬 가능 요소 미정(현재 컬럼명으로 소팅 가능 / 예시: id, -name...)',
+    description: '정렬 가능 요소 미정(현재 컬럼명으로 소팅 가능)',
+    enum: userSubjectsSortOptions,
   })
   @ApiQuery({ name: 'page', required: false })
   async getUserSubjects(

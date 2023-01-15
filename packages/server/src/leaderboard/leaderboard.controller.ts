@@ -1,33 +1,45 @@
-import {
-  Controller,
-  Get,
-  Injectable,
-  PipeTransform,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { SwaggerEnumType } from '@nestjs/swagger/dist/types/swagger-enum.type';
 import { GetLeaderboardDto } from './dto/getLeaderboard.dto';
+import { LeaderboardService } from './leaderboard.service';
+
+const leaderboardSortOptions: SwaggerEnumType = [
+  'level',
+  '-level',
+  'totalCoalitionScore',
+  '-totalCoalitionScore',
+  'passedSubjectCount',
+  '-passedSubjectCount',
+  'totalEvaluationCount',
+  '-totalEvaluationCount',
+];
 
 @Controller('leaderboard')
 @ApiTags('leaderboard')
 export class LeaderboardController {
+  constructor(private leaderboardService: LeaderboardService) {}
+
   @Get()
   @ApiOkResponse({ type: [GetLeaderboardDto] })
+  @ApiQuery({ name: 'sort', required: false, enum: leaderboardSortOptions })
+  @ApiQuery({ name: 'generation', required: false })
   @ApiQuery({
     name: 'coalition',
     required: false,
     enum: ['gun', 'gon', 'gam', 'lee'],
   })
-  @ApiQuery({ name: 'generation', required: false })
-  @ApiQuery({ name: 'sort', required: false })
   async getLeaderboard(
-    @Query('coalition') coalition: string,
+    @Query('sort') sort: string,
     @Query('generation') generation: number,
-    @Query('sort') sort: string
+    @Query('coalition') coalition: string,
+    @Query('page') page: string
   ): Promise<GetLeaderboardDto[]> {
-    console.log(coalition);
-    console.log(generation);
-    console.log(sort);
-    return;
+    return this.leaderboardService.getLeaderboard(
+      sort,
+      generation,
+      coalition,
+      page ? parseInt(page) : undefined
+    );
   }
 }

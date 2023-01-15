@@ -1,6 +1,5 @@
 import { IntraUser } from '../../users/entity/intraUser.entity';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Subject } from './subject.entity';
 import { Team } from './team.entity';
 
 @Entity()
@@ -9,8 +8,6 @@ export class Evaluation {
   id: number;
   @ManyToOne(() => IntraUser, (intraUser) => intraUser.id)
   corrector: IntraUser;
-  // @ManyToOne(() => Subject, (subject) => subject.id)
-  // subject: Subject;
   @Column({ nullable: true })
   comment: string;
   @Column({ nullable: true })

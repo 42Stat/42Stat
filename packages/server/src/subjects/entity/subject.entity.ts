@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, OneToMany } from 'typeorm';
+import { Project } from './project.entity';
 
 @Entity()
 export class Subject {
@@ -13,7 +14,13 @@ export class Subject {
   @Column({ nullable: true, type: 'float4' })
   averageRetryCount: number;
   @Column({ nullable: true })
+  totalClearCount: number;
+  @Column({ nullable: true })
   averageClearTime: number;
   @Column({ nullable: true })
   isExam: boolean;
+  @Column({ nullable: true })
+  isCommonCourse: boolean;
+  @OneToMany(() => Project, (project) => project.subject)
+  projects: Project[];
 }

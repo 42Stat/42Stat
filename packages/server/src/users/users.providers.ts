@@ -61,7 +61,7 @@ export const usersProviders = [
     inject: ['DATA_SOURCE'],
   },
   {
-    provide: 'MONTHLY_COALITION_POINT_REPOSITORY',
+    provide: 'MONTHLY_COALITION_SCORE_REPOSITORY',
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(MonthlyCoalitionScore),
     inject: ['DATA_SOURCE'],

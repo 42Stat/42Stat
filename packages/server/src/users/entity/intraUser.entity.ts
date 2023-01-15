@@ -45,6 +45,8 @@ export class IntraUser {
   totalCoalitionScore: number;
   @Column({ default: 0 })
   passedSubjectCount: number;
+  @Column({ default: 0 })
+  totalEvaluationCount: number;
   @OneToMany(() => TitleUser, (titleUser) => titleUser.intra)
   titleUsers: TitleUser[];
   @OneToMany(() => AchievementUser, (achievementUser) => achievementUser.intra)

@@ -19,7 +19,7 @@ import {
 } from './dto/getUserSummary.dto';
 import { Evaluation } from '../subjects/entity/evaluation.entity';
 import { Project } from '../subjects/entity/project.entity';
-import { GetSubjectDto } from '../subjects/dto/getSubject.dto';
+import { GetUserSubjectDto } from '../subjects/dto/getSubject.dto';
 import { GetUserFeedbackDto } from './dto/getUserFeedbacks.dto';
 import { TeamUser } from '../subjects/entity/teamUser.entity';
 import { Team } from '../subjects/entity/team.entity';
@@ -171,7 +171,7 @@ export class UsersService {
     id: number,
     sort: string,
     page: number
-  ): Promise<GetSubjectDto[]> {
+  ): Promise<GetUserSubjectDto[]> {
     if (page < 1) throw new BadRequestException('Invalid page number');
 
     const pageSize = 10;
@@ -184,6 +184,7 @@ export class UsersService {
     };
 
     // 정렬 방식
+    // TODO: 추후에 정렬 가능 방식만 사용할 수 있도록 수정
     if (sort) {
       if (sort.charAt(0) === '-')
         projectsFindOptions.order = { [sort.substring(1)]: 'DESC' };
@@ -195,7 +196,7 @@ export class UsersService {
     );
     const subjects = [];
     for (const project of projects) {
-      subjects.push(new GetSubjectDto(project));
+      subjects.push(new GetUserSubjectDto(project));
     }
     return subjects;
   }

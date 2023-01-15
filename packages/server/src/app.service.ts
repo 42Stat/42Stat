@@ -93,6 +93,7 @@ export class AppService {
       coalitionUserId: 69674,
       totalCoalitionScore: 100000,
       passedSubjectCount: 29,
+      totalEvaluationCount: 100,
       titleUsers: [],
       achievementUsers: [],
       monthlyEvaluationCounts: [],
@@ -120,6 +121,7 @@ export class AppService {
       coalition: coalition1,
       coalitionUserId: 110730,
       totalCoalitionScore: 500000,
+      totalEvaluationCount: 10,
       passedSubjectCount: 10,
       titleUsers: [],
       achievementUsers: [],
@@ -147,6 +149,7 @@ export class AppService {
       blackholedAt: new Date('2023-03-28T01:00:00.000Z'),
       coalition: coalition2,
       coalitionUserId: 69719,
+      totalEvaluationCount: 10,
       totalCoalitionScore: 100000,
       passedSubjectCount: 29,
       titleUsers: [],
@@ -349,6 +352,8 @@ export class AppService {
       averageClearTime: 24.5 * 24 * 60 * 60 * 1000,
       isExam: false,
       totalClearCount: 100,
+      isCommonCourse: true,
+      projects: [],
     };
 
     const subject2: Subject = {
@@ -360,6 +365,8 @@ export class AppService {
       averageClearTime: 24.5 * 24 * 60 * 60 * 1000,
       isExam: false,
       totalClearCount: 130,
+      isCommonCourse: true,
+      projects: [],
     };
 
     const project1: Project = {

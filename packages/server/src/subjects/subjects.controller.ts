@@ -15,9 +15,14 @@ export class SubjectsController {
   getSubjects(
     @Query('scope') scope: string, // 'inner' | 'outer'
     @Query('sort') sort: string,
-    @Query('page') page: number
+    @Query('page') page: string
   ): Promise<GetSubjectDto[]> {
     const userId = 1;
-    return this.subjectService.getSubjects(userId, scope, sort, page);
+    return this.subjectService.getSubjects(
+      userId,
+      scope && scope !== 'inner' ? false : undefined,
+      sort,
+      page ? parseInt(page) : undefined
+    );
   }
 }

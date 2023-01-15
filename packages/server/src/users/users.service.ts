@@ -24,6 +24,7 @@ import { GetUserFeedbackDto } from './dto/getUserFeedbacks.dto';
 import { TeamUser } from '../subjects/entity/teamUser.entity';
 import { Team } from '../subjects/entity/team.entity';
 
+const pageSize = 10;
 @Injectable()
 export class UsersService {
   constructor(
@@ -172,9 +173,8 @@ export class UsersService {
     sort: string,
     page: number
   ): Promise<GetUserSubjectDto[]> {
-    if (page < 1) throw new BadRequestException('Invalid page number');
+    if (page < 1) throw new BadRequestException('page는 1 이상이어야 합니다.');
 
-    const pageSize = 10;
     const projectsFindOptions: FindManyOptions<Project> = {
       where: { intra: { id: id } },
       relations: ['subject', 'intra'],
@@ -185,6 +185,7 @@ export class UsersService {
 
     // 정렬 방식
     // TODO: 추후에 정렬 가능 방식만 사용할 수 있도록 수정
+    // TODO: 방식 별 정렬 순서를 따로 지정할 수 있도록 수정
     if (sort) {
       if (sort.charAt(0) === '-')
         projectsFindOptions.order = { [sort.substring(1)]: 'DESC' };
@@ -209,7 +210,7 @@ export class UsersService {
     subject: string,
     page: number
   ): Promise<GetUserFeedbackDto[]> {
-    if (page < 1) throw new BadRequestException('Invalid page number');
+    if (page < 1) throw new BadRequestException('page는 1 이상이어야 합니다.');
 
     let teamUserFindOptions: FindManyOptions<TeamUser>;
     // 평가자 / 피평가자 구분
@@ -230,7 +231,6 @@ export class UsersService {
     const teamIds = [];
     for (const teamUser of teamUsers) teamIds.push(teamUser.team.id);
 
-    const pageSize = 10;
     const evaluationFindOptions: FindManyOptions<Evaluation> = {
       where: { team: { id: In(teamIds) } },
       relations: [

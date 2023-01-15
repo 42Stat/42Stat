@@ -3,6 +3,7 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { GetSubjectDto } from './dto/getSubject.dto';
 import { Subject } from './entity/subject.entity';
 
+const pageSize = 10;
 @Injectable()
 export class SubjectsService {
   constructor(
@@ -16,7 +17,6 @@ export class SubjectsService {
     sort = 'totalClearCount',
     page = 1
   ): Promise<GetSubjectDto[]> {
-    const pageSize = 10;
     const subjectFindOptions: FindManyOptions<Subject> = {
       where: {
         isCommonCourse: scope,

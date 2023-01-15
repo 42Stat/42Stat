@@ -1,8 +1,23 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { SwaggerEnumType } from '@nestjs/swagger/dist/types/swagger-enum.type';
 import { GetSubjectDto } from './dto/getSubject.dto';
 import { SubjectsService } from './subjects.service';
 
+const subjectsSortOptions: SwaggerEnumType = [
+  'id',
+  '-id',
+  'name',
+  '-name',
+  'totalClearCount',
+  '-totalClearCount',
+  'averageFinalMark',
+  '-averageFinalMark',
+  'averageRetryCount',
+  '-averageRetryCount',
+  'averageClearTime',
+  '-averageClearTime',
+];
 @Controller('subjects')
 @ApiTags('subjects')
 export class SubjectsController {

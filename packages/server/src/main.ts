@@ -9,6 +9,7 @@ async function bootstrap() {
   const swaggerConfig = new DocumentBuilder()
     .setTitle('42Stat API Docs')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const apiDocument = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, apiDocument);

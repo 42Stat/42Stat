@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { OAuth2Client } from 'google-auth-library';
+
 import { Subject } from './subjects/entity/subject.entity';
 import { DataSource } from 'typeorm';
 import { Coalition } from './coalitions/entity/coalition.entity';
 import { CoalitionScore } from './coalitions/entity/coalitionScore.entity';
-import { LoginDto } from './dto/login.dto';
+
 import {
   Achievement,
   AchievementUser,
@@ -21,34 +21,9 @@ import { TeamUser } from './subjects/entity/teamUser.entity';
 import { Evaluation } from './subjects/entity/evaluation.entity';
 import { SubjectStat } from './users/entity/subjectStat.entity';
 
-const googleOAuthClient = new OAuth2Client(
-  process.env.GOOGLE_IDENTITY_CLIENT_ID
-);
-
 @Injectable()
 export class AppService {
   constructor(@Inject('DATA_SOURCE') private dataSource: DataSource) {}
-  async login(loginDto: LoginDto): Promise<boolean> {
-    try {
-      const ticket = await googleOAuthClient.verifyIdToken({
-        idToken: loginDto.credential,
-        audience: loginDto.clientId,
-      });
-      const payload = ticket.getPayload();
-      const userid = payload['sub'];
-      console.log('id: ' + userid);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-
-    // DB에 저장할 것것
-    // google id
-    // access token
-    // refresh token
-    // user_id
-  }
 
   public async seed() {
     const coalition1: Coalition = {

@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+/**
+ * @description set initial button width, detect window resizing and set proper width with cooldown.
+ */
 export const useGoogleButtonWidth = (): googleButtonWidthType => {
   const [windowWidth, setWindowWidth] = React.useState<googleButtonWidthType>(
     selectGoogleButtonWidth(window.innerWidth)

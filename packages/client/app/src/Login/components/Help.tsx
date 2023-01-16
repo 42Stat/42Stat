@@ -7,14 +7,7 @@ import { mediaQuery } from '../mediaQuery';
 export const Help = () => {
   const displayHelp = useAtomValue(displayHelpAtom);
 
-  const helpStyle = mediaQuery({
-    display: `${displayHelp === true ? 'block' : 'none'}`,
-    color: StyleDefine.colors.textHighEmphasis,
-    fontSize: StyleDefine.fontSize.fs12,
-    padding: ['3rem 3rem 0 3rem', '1rem 1rem 0 1rem'],
-    margin: 'auto',
-    boxSizing: 'border-box',
-  });
+  const helpStyle = getHelpStyle(displayHelp);
 
   return (
     <div css={helpStyle}>
@@ -30,6 +23,17 @@ export const Help = () => {
       </ul>
     </div>
   );
+};
+
+const getHelpStyle = (displayHelp: boolean) => {
+  return mediaQuery({
+    display: `${displayHelp ? 'block' : 'none'}`,
+    color: StyleDefine.colors.textHighEmphasis,
+    fontSize: StyleDefine.fontSize.fs12,
+    padding: ['3rem 3rem 0 3rem', '1rem 1rem 0 1rem'],
+    margin: 'auto',
+    boxSizing: 'border-box',
+  });
 };
 
 const listStyle = css({

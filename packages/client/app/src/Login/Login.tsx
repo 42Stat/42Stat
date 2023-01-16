@@ -1,35 +1,31 @@
-import { StyleDefine } from '../styles/StyleDefine';
-import { Children } from '../types/Children';
-import { AbsCenter } from '../styles/AbsCenter';
-import { LoginContent } from './components/LoginContent';
-import { mediaQuery } from './mediaQuery';
+import { useAtomValue } from 'jotai';
+import { Navigate } from 'react-router-dom';
+import { RouteList } from '../AppRouter';
+import { LoadingSpinner } from '../LoadingSpinner';
+import { LoginMenuContainer } from './components/LoginMenuConatiner';
+import { originalDestinationAtom } from '../AuthManager/atoms/originalDestinationAtom';
+import { useLoginQuery } from './hooks/useLoginQuery';
 
-export const Login = () => {
-  return (
-    <LoginBackground>
-      <LoginContent />
-    </LoginBackground>
-  );
+export const Loign = () => {
+  const loginQuery = useLoginQuery();
+  const originalDestination = useAtomValue(originalDestinationAtom);
+
+  if (loginQuery.isLoading) {
+    if (loginQuery.isFetching) {
+      return <LoadingSpinner />;
+    }
+
+    return <LoginMenuContainer />;
+  }
+
+  if (loginQuery.isError) {
+    throw loginQuery.error;
+  }
+
+  // login success
+  return <Navigate to={selectNavigatePath(originalDestination)} />;
 };
 
-const loginContainerStyle = mediaQuery({
-  boxSizing: 'border-box',
-  width: ['100%', '450px', '280px'],
-  maxWidth: ['100%', '450px', '280px'],
-  overFlowX: 'hidden',
-  height: ['100%', '600px'],
-  minHeight: '600px',
-  borderRadius: '25px',
-  backgroundColor: StyleDefine.colors.surface,
-  display: 'flex',
-  flexDirection: 'column',
-  margin: 'auto',
-});
-
-const LoginBackground = ({ children }: Children) => {
-  return (
-    <AbsCenter css={loginContainerStyle} className="LoginBackground">
-      {children}
-    </AbsCenter>
-  );
+const selectNavigatePath = (originalDestination: string | null) => {
+  return originalDestination !== null ? originalDestination : RouteList.ROOT;
 };

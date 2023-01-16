@@ -1,16 +1,16 @@
 import { css } from '@emotion/react';
 import { mediaQuery } from '../mediaQuery';
-import { GoogleLoginButton } from './GoogleLoginButton';
+import { GoogleLoginClient } from './GoogleLoginClient';
 import { Help } from './Help';
 import { HelpButton } from './HelpButton';
 import { LoginAppLogo } from './LoginAppLogo';
 
-export const LoginContent = () => {
+export const LoginMenuContent = () => {
   return (
-    <div css={loginContentStyle}>
+    <div css={loginMenuContentStyle}>
       <div css={upperGridAreaStyle}>
         <LoginAppLogo />
-        <GoogleLoginButton />
+        <GoogleLoginClient />
         <Help />
       </div>
       <HelpButton />
@@ -18,7 +18,7 @@ export const LoginContent = () => {
   );
 };
 
-const loginContentStyle = mediaQuery({
+const loginMenuContentStyle = mediaQuery({
   display: 'grid',
   gridTemplateRows: ['563px 80px', '463px 80px'],
   margin: '0 auto 0 auto',

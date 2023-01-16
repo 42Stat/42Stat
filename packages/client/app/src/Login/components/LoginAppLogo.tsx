@@ -18,7 +18,7 @@ const AppLogoContainer = ({ children }: Children) => {
   const displayHelp = useAtomValue(displayHelpAtom);
 
   const AppLogoContainerStyle = css({
-    display: `${displayHelp === true ? 'none' : 'flex'}`,
+    display: `${displayHelp ? 'none' : 'flex'}`,
     justifyContent: 'center',
     padding: '9rem 0 9rem 0',
   });

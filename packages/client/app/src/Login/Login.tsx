@@ -7,6 +7,7 @@ import { originalDestinationAtom } from '../AuthManager/atoms/originalDestinatio
 import { useLoginQuery } from './hooks/useLoginQuery';
 
 export const Loign = () => {
+  // enabled when Google Credential is set.
   const loginQuery = useLoginQuery();
   const originalDestination = useAtomValue(originalDestinationAtom);
 
@@ -22,7 +23,7 @@ export const Loign = () => {
     throw loginQuery.error;
   }
 
-  // login success
+  // login success after here
   return <Navigate to={selectNavigatePath(originalDestination)} />;
 };
 

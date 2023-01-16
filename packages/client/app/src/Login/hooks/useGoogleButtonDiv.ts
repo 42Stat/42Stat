@@ -7,6 +7,9 @@ import {
 } from './useGoogleButtonWidth';
 import { useGoogleScript } from './useGoogleScrpit';
 
+/**
+ * @description load google client script -> create div for button -> render google login menu.
+ */
 export const useGoogleButtonDiv = () => {
   const googleButtonDiv = React.useRef<HTMLDivElement | null>(null);
   const { isLoaded, isError } = useGoogleScript();

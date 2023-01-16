@@ -13,7 +13,7 @@ export const HelpButton = () => {
   return (
     <div css={helpButtonContainerStyle}>
       <button onClick={handleHelpButtonClick} css={helpButtonStyle}>
-        {displayHelp === true ? 'back to login' : 'need help?'}
+        {displayHelp ? 'back to login' : 'need help?'}
       </button>
     </div>
   );

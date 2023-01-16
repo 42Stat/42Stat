@@ -1,20 +1,20 @@
 import { render } from '@testing-library/react';
 import { describe, it } from 'vitest';
-import { Login } from './Login';
+import { LoginMenuContainer } from './components/LoginMenuConatiner';
 
-describe('Login component', () => {
+describe('LoginMenuContainer component', () => {
   it('has 42 logo', () => {
-    const rendered = render(<Login />);
+    const rendered = render(<LoginMenuContainer />);
     expect(rendered.getByTitle('ftLogoSvg')).toBeInTheDocument();
   });
 
   it.concurrent('has Service title', () => {
-    const rendered = render(<Login />);
+    const rendered = render(<LoginMenuContainer />);
     expect(rendered.getByText('stat')).toBeInTheDocument();
   });
 
   it.concurrent('has display help button', () => {
-    const rendered = render(<Login />);
+    const rendered = render(<LoginMenuContainer />);
     expect(
       rendered.getByText('need help?', { selector: 'button' })
     ).toBeInTheDocument();

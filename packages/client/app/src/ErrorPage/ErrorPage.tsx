@@ -1,22 +1,22 @@
-import * as React from 'react';
 import { css } from '@emotion/react';
-import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
+import { Navigate, useRouteError } from 'react-router-dom';
 import { StyleDefine } from '../styles/StyleDefine';
+import { AxiosError } from 'axios';
+import { RouteList } from '../AppRouter';
 
-export const ErrorPage: React.FC = (): React.ReactElement => {
+export const ErrorPage = () => {
   const error = useRouteError();
-  console.warn(error);
 
-  if (isRouteErrorResponse(error)) {
-    return (
-      <div>
-        <h1>Oops!</h1>
-        <p>Sorry, an unexpected error has occurred.</p>
-        <p>
-          <i>{error.statusText || error.data}</i>
-        </p>
-      </div>
-    );
+  console.warn('logging error', error);
+
+  if (error instanceof AxiosError) {
+    if (error.response?.status === 401) {
+      return <Navigate to={RouteList.LOGIN} replace={true} />;
+    }
+
+    if (error.response?.status === 403) {
+      return <Navigate to={RouteList.FTOAUTH} replace={true} />;
+    }
   }
 
   return (

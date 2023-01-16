@@ -4,7 +4,7 @@ import { useGoogleButtonDiv } from '../hooks/useGoogleButtonDiv';
 import { googleButtonWidthRange } from '../hooks/useGoogleButtonWidth';
 import { mediaQuery } from '../mediaQuery';
 
-export const GoogleLoginButton = () => {
+export const GoogleLoginClient = () => {
   const displayHelp = useAtomValue(displayHelpAtom);
   const googleButtonDiv = useGoogleButtonDiv();
   const googleLoginButtonStyle = getGoogleLoginButtonStyle(displayHelp);
@@ -16,7 +16,7 @@ export const GoogleLoginButton = () => {
 
 const getGoogleLoginButtonStyle = (displayHelp: boolean) => {
   return mediaQuery({
-    display: `${displayHelp === true ? 'none' : 'block'}`,
+    display: `${displayHelp ? 'none' : 'block'}`,
     margin: 'auto',
     width: googleButtonWidthRange,
   });

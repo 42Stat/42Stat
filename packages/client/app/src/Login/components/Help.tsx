@@ -27,7 +27,7 @@ export const Help = () => {
 
 const getHelpStyle = (displayHelp: boolean) => {
   return mediaQuery({
-    display: `${displayHelp === true ? 'block' : 'none'}`,
+    display: `${displayHelp ? 'block' : 'none'}`,
     color: StyleDefine.colors.textHighEmphasis,
     fontSize: StyleDefine.fontSize.fs12,
     padding: ['3rem 3rem 0 3rem', '1rem 1rem 0 1rem'],

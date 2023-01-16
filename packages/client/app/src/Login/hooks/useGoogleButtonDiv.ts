@@ -1,8 +1,10 @@
 import { useSetAtom } from 'jotai';
 import * as React from 'react';
 import { googleCredentialAtom } from '../atoms/googleCredentialAtom';
-import { googleButtonWidthType } from '../mediaQuery';
-import { useGoogleButtonWidth } from './useGoogleButtonWidth';
+import {
+  googleButtonWidthType,
+  useGoogleButtonWidth,
+} from './useGoogleButtonWidth';
 import { useGoogleScript } from './useGoogleScrpit';
 
 export const useGoogleButtonDiv = () => {
@@ -23,10 +25,11 @@ export const useGoogleButtonDiv = () => {
     const googleRenderButtonOption =
       getGoogleRenderButtonOption(googleButtonWidth);
 
-    if (isError === true) throw 'gapi script load fail';
+    if (isError) throw 'gapi script load fail';
 
-    if (isLoaded === false || !window.google || !googleButtonDiv.current)
+    if (!(isLoaded && window.google && googleButtonDiv.current)) {
       return;
+    }
 
     window.google.accounts.id.initialize(googleInitializeOption);
 

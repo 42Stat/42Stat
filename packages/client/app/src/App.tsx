@@ -1,8 +1,10 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryClientProvider,
+  QueryErrorResetBoundary,
+} from '@tanstack/react-query';
 import { AppRouter } from './AppRouter';
+import { queryClient } from './queryClient';
 import { GlobalStyle } from './styles/GlobalStyle';
-
-const queryClient = new QueryClient();
 
 function App() {
   return (

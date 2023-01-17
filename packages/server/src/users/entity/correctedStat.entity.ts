@@ -11,7 +11,7 @@ export class CorrectedStat {
   @Column({ default: 0, type: 'float4' })
   averageMark: number;
   @Column({ default: 0 })
-  totalEvaluationCount: number;
+  evaluationCount: number;
   @Column({ default: 0, type: 'float4' })
   averageEvaluationCount: number;
   @Column({ default: 0 })

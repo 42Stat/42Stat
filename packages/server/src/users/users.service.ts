@@ -143,8 +143,7 @@ export class UsersService {
       });
     const totalEvaluationCount =
       correctedStat && correctorStat
-        ? correctorStat.totalEvaluationCount +
-          correctedStat.totalEvaluationCount
+        ? correctorStat.evaluationCount + correctedStat.evaluationCount
         : 0;
 
     const summary: GetUserSummaryDto = new GetUserSummaryDto();

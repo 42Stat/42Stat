@@ -7,7 +7,6 @@ import { SubjectsModule } from './subjects/subjects.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
-import { databaseProviders } from './database/database.providers';
 
 @Module({
   imports: [
@@ -19,6 +18,6 @@ import { databaseProviders } from './database/database.providers';
     DatabaseModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ...databaseProviders],
+  providers: [AppService],
 })
 export class AppModule {}

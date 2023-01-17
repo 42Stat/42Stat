@@ -39,7 +39,7 @@ export class GetCorrectionStatDto {
   constructor(stat: CorrectedStat | CorrectorStat) {
     this.averageMark = stat.averageMark;
     this.averageEvaluationCount = stat.averageEvaluationCount;
-    this.totalEvaluationCount = stat.totalEvaluationCount;
+    this.totalEvaluationCount = stat.evaluationCount;
     const averageBeginTime = stat.averageBeginTime / 1000 / 60 / 60;
     if (averageBeginTime > 6 && averageBeginTime < 12)
       this.preferedTime = 'Morning';

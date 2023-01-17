@@ -18,7 +18,6 @@ export const databaseProviders = [
         logging: true,
       });
 
-      console.log(__dirname);
       return dataSource.initialize();
     },
   },

@@ -1,8 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from './auth.service';
+
+type AccessTokenPayload = {
+  googleId: number;
+  intraId: number;
+  needOfFtOAuth: boolean;
+};
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -11,6 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     private authService: AuthService
   ) {
     super({
+      // jwtFromRequest: cookieExtractor,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_ACCESS_TOKEN_SECRET,
@@ -20,8 +31,11 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   // TODO: Passport에서 우선적으로 verify를 하는 지 확인 필요(실패시 401?)
-  async validate(payload: any): Promise<any> {
-    this.authService.validateUser(parseInt(payload.googleId));
-    return { googleId: payload.googleId, intraId: payload.intraId };
+  async validate(payload: AccessTokenPayload): Promise<AccessTokenPayload> {
+    // const user = this.authService.validateUser(payload.googleId);
+    // TODO: For test
+    if (payload.googleId == null) throw new ForbiddenException();
+    this.authService.validateUserTest(payload.intraId);
+    return payload;
   }
 }

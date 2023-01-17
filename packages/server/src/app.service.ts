@@ -107,7 +107,7 @@ export class AppService {
     };
 
     const intraUser3: IntraUser = {
-      id: 1,
+      id: 99953,
       email: 'jisookim@student.42seoul.kr',
       login: 'jisookim',
       displayName: 'Jisoo Kim',
@@ -124,6 +124,34 @@ export class AppService {
       blackholedAt: new Date('2023-03-28T01:00:00.000Z'),
       coalition: coalition2,
       coalitionUserId: 69719,
+      totalEvaluationCount: 10,
+      totalCoalitionScore: 100000,
+      passedSubjectCount: 29,
+      titleUsers: [],
+      achievementUsers: [],
+      monthlyEvaluationCounts: [],
+      monthlyCoalitionScores: [],
+      teamUsers: [],
+      projects: [],
+    };
+
+    const intraUser4: IntraUser = {
+      id: 99733,
+      login: 'dha',
+      email: 'dha@student.42seoul.kr',
+      displayName: 'Donghun Ha',
+      imageUrl: null,
+      correctionPoint: 0,
+      wallet: 0,
+      active: true,
+      grade: 'member',
+      level: 11.04,
+      generation: 5,
+      beginAt: new Date('2021-11-08T01:00:00.000Z'),
+      updatedAt: new Date('2023-01-13T05:53:57.021Z'),
+      blackholedAt: new Date('2023-03-28T01:00:00.000Z'),
+      coalition: coalition2,
+      coalitionUserId: 69515,
       totalEvaluationCount: 10,
       totalCoalitionScore: 100000,
       passedSubjectCount: 29,
@@ -538,6 +566,7 @@ export class AppService {
     await queryRunner.manager.save(IntraUser, intraUser1);
     await queryRunner.manager.save(IntraUser, intraUser2);
     await queryRunner.manager.save(IntraUser, intraUser3);
+    await queryRunner.manager.save(IntraUser, intraUser4);
     await queryRunner.manager.save(Achievement, achievement1);
     await queryRunner.manager.save(AchievementUser, achievementUser1);
     await queryRunner.manager.save(Title, title1);

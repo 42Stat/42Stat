@@ -54,6 +54,7 @@ export class UsersService {
   async getUserByGoogleId(id: number): Promise<User> {
     const user: User = await this.userRepository.findOne({
       where: { id: id },
+      // TODO: 없는 유저일 경우, 에러가 발생할 수도 있으니 체크
       relations: ['intra'],
     });
     return user;

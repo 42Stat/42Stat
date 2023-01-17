@@ -1,8 +1,14 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+
+class Ref {
+  @ApiProperty()
+  refreshToken: string;
+}
 
 @Controller('auth')
 export class AuthController {
@@ -16,11 +22,29 @@ export class AuthController {
     return this.authService.login(res, loginDto);
   }
 
+  @Post('login-test')
+  @ApiTags('account')
+  async loginTest(
+    @Res() res: Response,
+    @Body() loginDto: LoginDto
+  ): Promise<boolean> {
+    return await this.authService.loginTest(res);
+  }
+
   @Post('logout')
   @ApiTags('account')
   async logout() {}
 
-  @Post('end-point')
+  @UseGuards(AuthGuard('jwt-refresh'))
+  @Post('token')
+  @ApiTags('account')
+  @ApiBody({ type: Ref })
+  async token(@Req() req: Request, @Res() res: Response) {
+    await this.authService.tokenRefresh(req, res);
+    return;
+  }
+
+  @Post('ft-oauth')
   @ApiTags('account')
   async authentication() {}
 }

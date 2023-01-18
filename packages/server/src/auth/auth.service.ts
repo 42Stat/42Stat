@@ -118,6 +118,7 @@ export class AuthService {
           refreshTokenOptions
         );
         // TODO: 디비에 저장
+        // 트랜잭션 처리 필요 / 실패하면?
         // if (user) await this.usersService.updateUser(user);
       }
       // TODO: for test
@@ -132,7 +133,7 @@ export class AuthService {
       return { refreshToken: refreshToken, needFtOAuth: user ? false : true };
     } catch (error) {
       console.log(error);
-      throw new BadRequestException();
+      throw new UnauthorizedException();
     }
   }
 
@@ -177,12 +178,13 @@ export class AuthService {
   // ANCHOR: refresh token
   async tokenRefresh(req: Request, res: Response) {
     const googldId = req.user['googleId'];
-    const user = await this.usersService.getUserByGoogleId(googldId);
+    // const user = await this.usersService.getUserByGoogleId(googldId);
     // if (!user) throw new UnauthorizedException();
 
     const accessTokenPayload: AccessTokenPayload = {
       googleId: googldId,
-      intraId: user?.intra.id,
+      intraId: googldId,
+      // intraId: user?.intra.id,
       needOfFtOAuth: null,
     };
     const accessTokenOptions: JwtSignOptions = {
@@ -200,6 +202,7 @@ export class AuthService {
       path: '/',
       domain: `${process.env.DOMAIN_URL}`,
     });
+    console.log(`Bearer ${accessToken}`);
     return;
   }
 }

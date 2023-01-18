@@ -34,7 +34,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   async validate(payload: AccessTokenPayload): Promise<AccessTokenPayload> {
     // const user = this.authService.validateUser(payload.googleId);
     // TODO: For test
-    if (payload.googleId == null) throw new ForbiddenException();
     this.authService.validateUserTest(payload.intraId);
     return payload;
   }

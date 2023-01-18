@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -16,7 +24,7 @@ export class AuthController {
   @Post('login')
   @ApiTags('account')
   async login(
-    @Res() res: Response,
+    @Res({ passthrough: true }) res: Response,
     @Body() loginDto: LoginDto
   ): Promise<boolean> {
     return this.authService.login(res, loginDto);
@@ -25,7 +33,7 @@ export class AuthController {
   @Post('login-test')
   @ApiTags('account')
   async loginTest(
-    @Res() res: Response,
+    @Res({ passthrough: true }) res: Response,
     @Body() loginDto: LoginDto
   ): Promise<boolean> {
     return await this.authService.loginTest(res);
@@ -39,12 +47,14 @@ export class AuthController {
   @Post('token')
   @ApiTags('account')
   @ApiBody({ type: Ref })
-  async token(@Req() req: Request, @Res() res: Response) {
-    await this.authService.tokenRefresh(req, res);
-    return;
+  async tokenRefresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    return await this.authService.tokenRefresh(req, res);
   }
 
-  @Post('ft-oauth')
+  @Get('ft-oauth')
   @ApiTags('account')
-  async authentication() {}
+  async ftOAuthRedirect() {}
 }

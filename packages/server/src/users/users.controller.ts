@@ -25,12 +25,12 @@ const userSubjectsSortOptions = [
 ];
 @Controller('users')
 @ApiTags('users')
+@ApiBearerAuth()
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id/profile')
-  @ApiBearerAuth()
   @ApiOkResponse({ type: GetUserProfileDto })
   async getUserProfile(@Param('id') id: number): Promise<GetUserProfileDto> {
     return await this.usersService.getUserProfile(id);

@@ -1,7 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
-import { LoginDto } from './auth/dto/login.dto';
 
 @Controller()
 export class AppController {

@@ -22,7 +22,6 @@ const accessTokenOptions: JwtSignOptions = {
 type AccessTokenPayload = {
   googleId: string;
   intraId: number;
-  needOfFtOAuth: boolean;
 };
 type RefreshTokenPayload = {
   googleId: string;
@@ -100,7 +99,6 @@ export class AuthService {
     } else {
       user = {
         id: googleId,
-        accessToken: null,
         refreshToken: null,
         intra: null,
       };
@@ -109,7 +107,6 @@ export class AuthService {
     const accessTokenPayload: AccessTokenPayload = {
       googleId: googleId,
       intraId: user.intra ? user.intra.id : null,
-      needOfFtOAuth: null,
     };
     const accessToken = this.jwtService.sign(
       accessTokenPayload,
@@ -201,7 +198,6 @@ export class AuthService {
     const accessTokenPayload: AccessTokenPayload = {
       googleId: googldId,
       intraId: user.intra?.id,
-      needOfFtOAuth: null,
     };
     const accessToken = this.jwtService.sign(
       accessTokenPayload,
@@ -211,8 +207,7 @@ export class AuthService {
     return accessToken;
   }
 
-  async ftOAuthRedirect(req: any) {
-    const accessToken = req.cookies['Authorization'];
+  async ftOAuthRedirect(accessToken: string, intraId: number) {
     const jwtVerifyOptions: JwtVerifyOptions = {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
     };
@@ -227,7 +222,6 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     const googleId: string = accessTokenPayload.googleId;
-    const intraId: number = req.user.id;
     const user = await this.usersService.getUserByGoogleId(googleId);
 
     user.intra.id = intraId;

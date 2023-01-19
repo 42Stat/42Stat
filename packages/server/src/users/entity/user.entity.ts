@@ -10,6 +10,4 @@ export class User {
   intra: IntraUser;
   @Column({ nullable: true })
   refreshToken: string;
-  @Column({ nullable: true })
-  accessToken: string;
 }

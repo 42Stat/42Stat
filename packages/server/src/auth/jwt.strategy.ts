@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -11,7 +7,6 @@ import { AuthService } from './auth.service';
 type AccessTokenPayload = {
   googleId: number;
   intraId: number;
-  needOfFtOAuth: boolean;
 };
 
 @Injectable()

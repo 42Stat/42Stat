@@ -20,7 +20,6 @@ import { Team } from './subjects/entity/team.entity';
 import { TeamUser } from './subjects/entity/teamUser.entity';
 import { Evaluation } from './subjects/entity/evaluation.entity';
 import { SubjectStat } from './users/entity/subjectStat.entity';
-import { User } from './users/entity/user.entity';
 
 @Injectable()
 export class AppService {
@@ -168,7 +167,6 @@ export class AppService {
     //   id: BigInt(1),
     //   intra: null,
     //   refreshToken: null,
-    //   accessToken: null,
     // };
 
     const achievement1: Achievement = {

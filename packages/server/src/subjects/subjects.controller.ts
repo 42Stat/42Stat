@@ -25,7 +25,7 @@ export class SubjectsController {
   @Get()
   @ApiOkResponse({ type: [GetSubjectDto] })
   @ApiQuery({ name: 'scope', required: false, enum: ['inner', 'outer'] })
-  @ApiQuery({ name: 'sort', required: false })
+  @ApiQuery({ name: 'sort', required: false, enum: subjectsSortOptions })
   @ApiQuery({ name: 'page', required: false })
   getSubjects(
     @Query('scope') scope: string, // 'inner' | 'outer'

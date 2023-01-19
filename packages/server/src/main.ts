@@ -7,9 +7,10 @@ async function bootstrap() {
 
   app.enableCors({
     // TODO: CORS 설정
-    // origin: 'http://localhost:11900',
-    // credentials: true, // ?
-    // allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: process.env.FRONTEND_URL,
+    methods: ['GET', 'POST'],
+    credentials: true, // ?
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   // Swagger Configuration

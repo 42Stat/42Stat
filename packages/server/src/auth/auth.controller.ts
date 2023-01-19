@@ -24,7 +24,9 @@ const cookieOptions: CookieOptions = {
   httpOnly: true,
   secure: true,
   path: '/',
-  domain: `${process.env.DOMAIN_URL}`,
+  // TODO: domain
+  // domain: `${process.env.DOMAIN_URL}`,
+  sameSite: 'none',
 };
 
 @Controller('auth')
@@ -43,10 +45,7 @@ export class AuthController {
 
   @Post('login-test')
   @ApiTags('account')
-  async loginTest(
-    @Res({ passthrough: true }) res: Response,
-    @Body() loginDto: LoginDto
-  ): Promise<any> {
+  async loginTest(@Res({ passthrough: true }) res: Response): Promise<any> {
     const { accessToken, body } = await this.authService.loginTest();
     res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
     return body;
@@ -54,7 +53,9 @@ export class AuthController {
 
   @Post('logout')
   @ApiTags('account')
-  async logout() {}
+  async logout() {
+    return;
+  }
 
   @UseGuards(AuthGuard('jwt-refresh'))
   @Post('token')
@@ -83,9 +84,14 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response
   ) {
-    const accessToken = await this.authService.ftOAuthRedirect(req);
-    res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
-    res.redirect('http://localhost:11900/users/');
+    const { user } = req;
+    const { accessToken } = req.cookies[accessTokenHeaderKey];
+    const newAccessToken = await this.authService.ftOAuthRedirect(
+      accessToken,
+      user['id']
+    );
+    res.cookie(accessTokenHeaderKey, newAccessToken, cookieOptions);
+    res.redirect(process.env.FRONTEND_URL);
     return;
   }
 }

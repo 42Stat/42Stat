@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Subject } from '../../subjects/entity/subject.entity';
 import { Evaluation } from '../../subjects/entity/evaluation.entity';
 
 export class GetUserFeedbackDto {

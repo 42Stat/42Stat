@@ -70,8 +70,6 @@ export class AuthService {
     let storedRefreshTokenPayload: RefreshTokenPayload = null;
     try {
       googleId = await this.verifyGoogleCredential(loginDto);
-      console.log('******' + googleId);
-      // TODO: 첫 로그인인 경우, Intra가 없어서 터질 수도 있음
       user = await this.usersService.getUserByGoogleId(googleId);
     } catch (error) {
       console.log(error);
@@ -83,9 +81,10 @@ export class AuthService {
       try {
         if (user.intra?.active === false) throw new Error('User is not active');
         // Check if user has refresh token
-        if (user.refreshToken) {
+        if (user?.refreshToken) {
           const jwtVerifyOptions: JwtVerifyOptions = {
             secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+            ignoreExpiration: true,
           };
           storedRefreshTokenPayload = this.jwtService.verify(
             user.refreshToken,
@@ -133,10 +132,7 @@ export class AuthService {
       );
       // TODO: 디비에 저장 / 유저가 아니면 생성, 유저면 업데이트
       user.refreshToken = refreshToken;
-      console.log(user);
-      console.log('here ' + (await this.usersService.saveUser(user)));
-      // 트랜잭션 처리 필요 / 실패하면?
-      // if (user) await this.usersService.updateUser(user);
+      await this.usersService.saveUser(user);
     }
     // TODO: for test
     console.log(`Bearer ${accessToken}`);
@@ -223,8 +219,10 @@ export class AuthService {
     }
     const googleId: string = accessTokenPayload.googleId;
     const user = await this.usersService.getUserByGoogleId(googleId);
+    if (user === null) throw new BadRequestException();
+    const intraUser = await this.usersService.getUserByIntraId(intraId);
 
-    user.intra.id = intraId;
+    user.intra = intraUser;
     await this.usersService.saveUser(user);
 
     return accessToken;

@@ -32,6 +32,7 @@ const cookieOptions: CookieOptions = {
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
   @Post('login')
   @ApiTags('account')
   async login(
@@ -57,10 +58,10 @@ export class AuthController {
     return;
   }
 
-  @UseGuards(AuthGuard('jwt-refresh'))
   @Post('token')
   @ApiTags('account')
   @ApiBody({ type: Ref })
+  @UseGuards(AuthGuard('jwt-refresh'))
   async tokenRefresh(
     @Payload() payload: any,
     @Res({ passthrough: true }) res: Response

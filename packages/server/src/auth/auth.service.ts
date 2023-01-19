@@ -7,14 +7,12 @@ import {
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { OAuth2Client } from 'google-auth-library';
-import { Response } from 'express';
 import { JwtService, JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
 import { User } from '../users/entity/user.entity';
 
 const googleOAuthClient = new OAuth2Client(
   process.env.GOOGLE_IDENTITY_CLIENT_ID
 );
-const headerName = 'Authorization';
 
 const accessTokenOptions: JwtSignOptions = {
   expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}m`,

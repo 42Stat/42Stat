@@ -20,12 +20,12 @@ const accessTokenOptions: JwtSignOptions = {
 };
 
 type AccessTokenPayload = {
-  googleId: number;
+  googleId: string;
   intraId: number;
   needOfFtOAuth: boolean;
 };
 type RefreshTokenPayload = {
-  googleId: number;
+  googleId: string;
   expirationTime: number;
 };
 
@@ -37,7 +37,7 @@ export class AuthService {
   ) {}
 
   // ANCHOR: validate
-  async validateUser(googleId: number) {
+  async validateUser(googleId: string) {
     const user = await this.usersService.getUserByGoogleId(googleId);
     // If user is not found, throw Forbidden(403)
     if (!user) throw new ForbiddenException();
@@ -50,14 +50,14 @@ export class AuthService {
   }
 
   // ANCHOR: login
-  async verifyGoogleCredential(loginDto: LoginDto): Promise<number> {
+  async verifyGoogleCredential(loginDto: LoginDto): Promise<string> {
     const ticket = await googleOAuthClient.verifyIdToken({
       idToken: loginDto.credential,
       audience: loginDto.clientId,
     });
     const payload = ticket.getPayload();
     if (!payload || !payload['sub']) throw new BadRequestException();
-    const googleId = parseInt(payload['sub']);
+    const googleId = String(payload['sub']);
     return googleId;
   }
 
@@ -67,10 +67,11 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<any> {
     let user: User;
-    let googleId: number;
+    let googleId: string;
     let storedRefreshTokenPayload: RefreshTokenPayload = null;
     try {
       googleId = await this.verifyGoogleCredential(loginDto);
+      console.log('******' + googleId);
       // TODO: 첫 로그인인 경우, Intra가 없어서 터질 수도 있음
       user = await this.usersService.getUserByGoogleId(googleId);
     } catch (error) {
@@ -107,7 +108,7 @@ export class AuthService {
 
     const accessTokenPayload: AccessTokenPayload = {
       googleId: googleId,
-      intraId: user.intra?.id,
+      intraId: user.intra ? user.intra.id : null,
       needOfFtOAuth: null,
     };
     const accessToken = this.jwtService.sign(
@@ -135,7 +136,8 @@ export class AuthService {
       );
       // TODO: 디비에 저장 / 유저가 아니면 생성, 유저면 업데이트
       user.refreshToken = refreshToken;
-      await this.usersService.saveUser(user);
+      console.log(user);
+      console.log('here ' + (await this.usersService.saveUser(user)));
       // 트랜잭션 처리 필요 / 실패하면?
       // if (user) await this.usersService.updateUser(user);
     }
@@ -224,7 +226,7 @@ export class AuthService {
       console.log(error);
       throw new UnauthorizedException();
     }
-    const googleId: number = accessTokenPayload.googleId;
+    const googleId: string = accessTokenPayload.googleId;
     const intraId: number = req.user.id;
     const user = await this.usersService.getUserByGoogleId(googleId);
 

@@ -164,12 +164,12 @@ export class AppService {
       projects: [],
     };
 
-    const user1: User = {
-      id: 1,
-      intra: null,
-      refreshToken: null,
-      accessToken: null,
-    };
+    // const user1: User = {
+    //   id: BigInt(1),
+    //   intra: null,
+    //   refreshToken: null,
+    //   accessToken: null,
+    // };
 
     const achievement1: Achievement = {
       id: 1,
@@ -575,7 +575,7 @@ export class AppService {
     await queryRunner.manager.save(IntraUser, intraUser2);
     await queryRunner.manager.save(IntraUser, intraUser3);
     await queryRunner.manager.save(IntraUser, intraUser4);
-    await queryRunner.manager.save(User, user1);
+    // await queryRunner.manager.save(User, user1);
     await queryRunner.manager.save(Achievement, achievement1);
     await queryRunner.manager.save(AchievementUser, achievementUser1);
     await queryRunner.manager.save(Title, title1);

@@ -4,8 +4,8 @@ import { IntraUser } from './intraUser.entity';
 @Entity()
 export class User {
   @PrimaryColumn()
-  id: number;
-  @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
+  id: string;
+  @OneToOne(() => IntraUser, (intraUser) => intraUser.id, { nullable: true })
   @JoinColumn()
   intra: IntraUser;
   @Column({ nullable: true })

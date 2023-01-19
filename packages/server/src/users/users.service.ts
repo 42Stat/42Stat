@@ -6,7 +6,13 @@ import {
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
-import { FindManyOptions, In, QueryRunner, Repository } from 'typeorm';
+import {
+  DataSource,
+  FindManyOptions,
+  In,
+  QueryRunner,
+  Repository,
+} from 'typeorm';
 import { GetUserProfileDto } from './dto/getUserProfile.dto';
 import { CorrectedStat } from './entity/correctedStat.entity';
 import { CorrectorStat } from './entity/correctorStat.entity';
@@ -50,12 +56,13 @@ export class UsersService {
     @Inject('PROJECT_REPOSITORY')
     private projectRepository: Repository<Project>,
     @Inject('TEAM_REPOSITORY')
-    private teamRepository: Repository<Team>
+    private teamRepository: Repository<Team>,
+    @Inject('DATA_SOURCE') private dataSource: DataSource
   ) {}
 
-  async getUserByGoogleId(id: number): Promise<User> {
+  async getUserByGoogleId(id: string): Promise<User> {
     const user: User = await this.userRepository.findOne({
-      where: { id: id },
+      where: { id: String(id) },
       // TODO: 없는 유저일 경우, 에러가 발생할 수도 있으니 체크
       relations: ['intra'],
     });
@@ -71,24 +78,24 @@ export class UsersService {
   }
 
   async saveUser(user: User): Promise<User> {
-    const queryRunner: QueryRunner =
-      this.userRepository.manager.connection.createQueryRunner();
+    const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
 
-    let tryCount = 0;
+    let newUser = null;
 
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      const newUser = await queryRunner.manager.save(user);
+      newUser = await queryRunner.manager.save(User, user);
       await queryRunner.commitTransaction();
-    } catch {
-      if (tryCount++ <= 2) await queryRunner.rollbackTransaction();
+    } catch (error) {
+      console.log(error);
     } finally {
       await queryRunner.release();
     }
+    if (newUser === null) throw new ServiceUnavailableException();
+
     // 503
-    if (tryCount > 3) throw new ServiceUnavailableException();
-    return;
+    return newUser;
   }
 
   // ANCHOR: /profile

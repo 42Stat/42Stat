@@ -5,10 +5,23 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    // TODO: CORS 설정
+    origin: process.env.FRONTEND_URL,
+    methods: ['GET', 'POST'],
+    credentials: true, // ?
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
   // Swagger Configuration
   const swaggerConfig = new DocumentBuilder()
     .setTitle('42Stat API Docs')
     .setVersion('1.0')
+    .addBearerAuth({
+      type: 'http',
+      name: 'Authorization',
+      in: 'header',
+    })
     .build();
   const apiDocument = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, apiDocument);

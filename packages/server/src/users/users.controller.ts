@@ -1,4 +1,6 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common/decorators';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { GetSubjectDto } from '../subjects/dto/getSubject.dto';
 import { GetUserFeedbackDto } from './dto/getUserFeedbacks.dto';
@@ -18,9 +20,11 @@ const userSubjectsSortOptions = [
 ];
 @Controller('users')
 @ApiTags('users')
+// @ApiBearerAuth()
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id/profile')
   @ApiOkResponse({ type: GetUserProfileDto })
   async getUserProfile(@Param('id') id: number): Promise<GetUserProfileDto> {

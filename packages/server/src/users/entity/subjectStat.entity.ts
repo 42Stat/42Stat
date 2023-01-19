@@ -1,4 +1,3 @@
-import { Subject } from '../../subjects/entity/subject.entity';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { IntraUser } from './intraUser.entity';
 import { ManyToOne } from 'typeorm/decorator/relations/ManyToOne';

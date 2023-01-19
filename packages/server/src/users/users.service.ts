@@ -3,8 +3,15 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  ServiceUnavailableException,
 } from '@nestjs/common';
-import { FindManyOptions, In, Repository } from 'typeorm';
+import {
+  DataSource,
+  FindManyOptions,
+  In,
+  QueryRunner,
+  Repository,
+} from 'typeorm';
 import { GetUserProfileDto } from './dto/getUserProfile.dto';
 import { CorrectedStat } from './entity/correctedStat.entity';
 import { CorrectorStat } from './entity/correctorStat.entity';
@@ -23,6 +30,7 @@ import { GetUserSubjectDto } from '../subjects/dto/getSubject.dto';
 import { GetUserFeedbackDto } from './dto/getUserFeedbacks.dto';
 import { TeamUser } from '../subjects/entity/teamUser.entity';
 import { Team } from '../subjects/entity/team.entity';
+import { User } from './entity/user.entity';
 
 const pageSize = 10;
 @Injectable()
@@ -30,6 +38,8 @@ export class UsersService {
   constructor(
     @Inject('INTRA_USER_REPOSITORY')
     private intraUserRepository: Repository<IntraUser>,
+    @Inject('USER_REPOSITORY')
+    private userRepository: Repository<User>,
     @Inject('CORRECTED_STAT_REPOSITORY')
     private correctedStatRepository: Repository<CorrectedStat>,
     @Inject('TITLE_USER_REPOSITORY')
@@ -45,8 +55,47 @@ export class UsersService {
     @Inject('PROJECT_REPOSITORY')
     private projectRepository: Repository<Project>,
     @Inject('TEAM_REPOSITORY')
-    private teamRepository: Repository<Team>
+    private teamRepository: Repository<Team>,
+    @Inject('DATA_SOURCE') private dataSource: DataSource
   ) {}
+
+  async getUserByGoogleId(id: string): Promise<User> {
+    const user: User = await this.userRepository.findOne({
+      where: { id: String(id) },
+      // TODO: 없는 유저일 경우, 에러가 발생할 수도 있으니 체크
+      relations: ['intra'],
+    });
+    return user;
+  }
+
+  async getUserByIntraId(id: number): Promise<IntraUser> {
+    const user: IntraUser = await this.intraUserRepository.findOne({
+      where: { id: id },
+      // TODO: relations: ['user'],
+    });
+    return user;
+  }
+
+  async saveUser(user: User): Promise<User> {
+    const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
+
+    let newUser = null;
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      newUser = await queryRunner.manager.save(User, user);
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      await queryRunner.release();
+    }
+    if (newUser === null) throw new ServiceUnavailableException();
+
+    // 503
+    return newUser;
+  }
 
   // ANCHOR: /profile
   async getUserProfile(id: number): Promise<GetUserProfileDto> {

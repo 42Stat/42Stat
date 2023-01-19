@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { OAuth2Client } from 'google-auth-library';
+
 import { Subject } from './subjects/entity/subject.entity';
 import { DataSource } from 'typeorm';
 import { Coalition } from './coalitions/entity/coalition.entity';
 import { CoalitionScore } from './coalitions/entity/coalitionScore.entity';
-import { LoginDto } from './dto/login.dto';
+
 import {
   Achievement,
   AchievementUser,
@@ -21,34 +21,9 @@ import { TeamUser } from './subjects/entity/teamUser.entity';
 import { Evaluation } from './subjects/entity/evaluation.entity';
 import { SubjectStat } from './users/entity/subjectStat.entity';
 
-const googleOAuthClient = new OAuth2Client(
-  process.env.GOOGLE_IDENTITY_CLIENT_ID
-);
-
 @Injectable()
 export class AppService {
   constructor(@Inject('DATA_SOURCE') private dataSource: DataSource) {}
-  async login(loginDto: LoginDto): Promise<boolean> {
-    try {
-      const ticket = await googleOAuthClient.verifyIdToken({
-        idToken: loginDto.credential,
-        audience: loginDto.clientId,
-      });
-      const payload = ticket.getPayload();
-      const userid = payload['sub'];
-      console.log('id: ' + userid);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-
-    // DB에 저장할 것것
-    // google id
-    // access token
-    // refresh token
-    // user_id
-  }
 
   public async seed() {
     const coalition1: Coalition = {
@@ -132,7 +107,7 @@ export class AppService {
     };
 
     const intraUser3: IntraUser = {
-      id: 1,
+      id: 99953,
       email: 'jisookim@student.42seoul.kr',
       login: 'jisookim',
       displayName: 'Jisoo Kim',
@@ -159,6 +134,40 @@ export class AppService {
       teamUsers: [],
       projects: [],
     };
+
+    const intraUser4: IntraUser = {
+      id: 99733,
+      login: 'dha',
+      email: 'dha@student.42seoul.kr',
+      displayName: 'Donghun Ha',
+      imageUrl: null,
+      correctionPoint: 0,
+      wallet: 0,
+      active: true,
+      grade: 'member',
+      level: 11.04,
+      generation: 5,
+      beginAt: new Date('2021-11-08T01:00:00.000Z'),
+      updatedAt: new Date('2023-01-13T05:53:57.021Z'),
+      blackholedAt: new Date('2023-03-28T01:00:00.000Z'),
+      coalition: coalition2,
+      coalitionUserId: 69515,
+      totalEvaluationCount: 10,
+      totalCoalitionScore: 100000,
+      passedSubjectCount: 29,
+      titleUsers: [],
+      achievementUsers: [],
+      monthlyEvaluationCounts: [],
+      monthlyCoalitionScores: [],
+      teamUsers: [],
+      projects: [],
+    };
+
+    // const user1: User = {
+    //   id:
+    //   intra: null,
+    //   refreshToken: null,
+    // };
 
     const achievement1: Achievement = {
       id: 1,
@@ -563,6 +572,8 @@ export class AppService {
     await queryRunner.manager.save(IntraUser, intraUser1);
     await queryRunner.manager.save(IntraUser, intraUser2);
     await queryRunner.manager.save(IntraUser, intraUser3);
+    await queryRunner.manager.save(IntraUser, intraUser4);
+    // await queryRunner.manager.save(User, user1);
     await queryRunner.manager.save(Achievement, achievement1);
     await queryRunner.manager.save(AchievementUser, achievementUser1);
     await queryRunner.manager.save(Title, title1);

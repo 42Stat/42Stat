@@ -25,7 +25,7 @@ const userSubjectsSortOptions = [
 ];
 @Controller('users')
 @ApiTags('users')
-@ApiBearerAuth()
+// @ApiBearerAuth()
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

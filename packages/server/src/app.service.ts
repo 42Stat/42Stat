@@ -20,6 +20,7 @@ import { Team } from './subjects/entity/team.entity';
 import { TeamUser } from './subjects/entity/teamUser.entity';
 import { Evaluation } from './subjects/entity/evaluation.entity';
 import { SubjectStat } from './users/entity/subjectStat.entity';
+import { User } from './users/entity/user.entity';
 
 @Injectable()
 export class AppService {
@@ -161,6 +162,13 @@ export class AppService {
       monthlyCoalitionScores: [],
       teamUsers: [],
       projects: [],
+    };
+
+    const user1: User = {
+      id: 1,
+      intra: null,
+      refreshToken: null,
+      accessToken: null,
     };
 
     const achievement1: Achievement = {
@@ -567,6 +575,7 @@ export class AppService {
     await queryRunner.manager.save(IntraUser, intraUser2);
     await queryRunner.manager.save(IntraUser, intraUser3);
     await queryRunner.manager.save(IntraUser, intraUser4);
+    await queryRunner.manager.save(User, user1);
     await queryRunner.manager.save(Achievement, achievement1);
     await queryRunner.manager.save(AchievementUser, achievementUser1);
     await queryRunner.manager.save(Title, title1);

@@ -1,17 +1,19 @@
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from 'passport-local';
+import { Strategy } from 'passport-42';
+import { AuthService } from './auth.service';
 
-export class FTOAuthStrategy extends PassportStrategy(Strategy, 'ft-oauth') {
-  constructor() {
+@Injectable()
+export class FtOAuthStrategy extends PassportStrategy(Strategy, 'ft-oauth') {
+  constructor(private readonly authService: AuthService) {
     super({
-      // clientID: process.env.FT_OAUTH_CLIENT_ID,
-      // clientSecret: process.env.FT_OAUTH_CLIENT_SECRET,
-      // callbackURL: process.env.FT_OAUTH_CALLBACK_URL,
+      clientID: process.env.FT_OAUTH_CLIENT_ID,
+      clientSecret: process.env.FT_OAUTH_CLIENT_SECRET,
+      callbackURL: process.env.FT_OAUTH_CALLBACK_URL,
     });
   }
 
-  async validate(accessToken: string) {
-    // TODO: accessToken으로 유저 정보 가져오기
-    // return user;
+  async validate(accessToken: string, refreshToken: string, profile: any) {
+    return profile;
   }
 }

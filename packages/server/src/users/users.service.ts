@@ -1,10 +1,12 @@
 import {
   BadRequestException,
+  HttpStatus,
   Inject,
   Injectable,
   NotFoundException,
+  ServiceUnavailableException,
 } from '@nestjs/common';
-import { FindManyOptions, In, Repository } from 'typeorm';
+import { FindManyOptions, In, QueryRunner, Repository } from 'typeorm';
 import { GetUserProfileDto } from './dto/getUserProfile.dto';
 import { CorrectedStat } from './entity/correctedStat.entity';
 import { CorrectorStat } from './entity/correctorStat.entity';
@@ -66,6 +68,27 @@ export class UsersService {
       // TODO: relations: ['user'],
     });
     return user;
+  }
+
+  async saveUser(user: User): Promise<User> {
+    const queryRunner: QueryRunner =
+      this.userRepository.manager.connection.createQueryRunner();
+
+    let tryCount = 0;
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const newUser = await queryRunner.manager.save(user);
+      await queryRunner.commitTransaction();
+    } catch {
+      if (tryCount++ <= 2) await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
+    // 503
+    if (tryCount > 3) throw new ServiceUnavailableException();
+    return;
   }
 
   // ANCHOR: /profile

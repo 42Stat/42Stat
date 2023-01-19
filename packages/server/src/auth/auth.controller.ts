@@ -9,14 +9,23 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
-import { Request, Response } from 'express';
+import { CookieOptions, Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+import { Payload } from './payload.decorator';
 
 class Ref {
   @ApiProperty()
   refreshToken: string;
 }
+
+const accessTokenHeaderKey = 'Authorization';
+const cookieOptions: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  path: '/',
+  domain: `${process.env.DOMAIN_URL}`,
+};
 
 @Controller('auth')
 export class AuthController {
@@ -27,7 +36,9 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
     @Body() loginDto: LoginDto
   ): Promise<boolean> {
-    return this.authService.login(res, loginDto);
+    const { accessToken, body } = await this.authService.login(loginDto);
+    res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
+    return body;
   }
 
   @Post('login-test')
@@ -35,8 +46,10 @@ export class AuthController {
   async loginTest(
     @Res({ passthrough: true }) res: Response,
     @Body() loginDto: LoginDto
-  ): Promise<boolean> {
-    return await this.authService.loginTest(res);
+  ): Promise<any> {
+    const { accessToken, body } = await this.authService.loginTest();
+    res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
+    return body;
   }
 
   @Post('logout')
@@ -48,13 +61,31 @@ export class AuthController {
   @ApiTags('account')
   @ApiBody({ type: Ref })
   async tokenRefresh(
-    @Req() req: Request,
+    @Payload() payload: any,
     @Res({ passthrough: true }) res: Response
   ) {
-    return await this.authService.tokenRefresh(req, res);
+    const accessToken = await this.authService.tokenRefresh(payload);
+    res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
+    return;
   }
 
   @Get('ft-oauth')
   @ApiTags('account')
-  async ftOAuthRedirect() {}
+  @UseGuards(AuthGuard('ft-oauth'))
+  async ftOAuth(@Req() req: Request) {
+    return req.user;
+  }
+
+  @Get('ft-oauth/callback')
+  @ApiTags('account')
+  @UseGuards(AuthGuard('ft-oauth'))
+  async ftOAuthRedirect(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    const accessToken = await this.authService.ftOAuthRedirect(req);
+    res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
+    res.redirect('http://localhost:11900/users/');
+    return;
+  }
 }

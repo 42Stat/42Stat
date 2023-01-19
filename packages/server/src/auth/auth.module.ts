@@ -5,10 +5,11 @@ import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtRefreshStrategy } from './jwtRefresh.strategy';
+import { FtOAuthStrategy } from './ftOAuth.strategy';
 
 @Module({
   imports: [UsersModule, JwtModule],
-  providers: [AuthService, JwtStrategy, JwtRefreshStrategy],
+  providers: [AuthService, JwtStrategy, JwtRefreshStrategy, FtOAuthStrategy],
   controllers: [AuthController],
   exports: [JwtModule],
 })

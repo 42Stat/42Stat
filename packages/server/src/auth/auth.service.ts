@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ConsoleLogger,
   ForbiddenException,
   Injectable,
   UnauthorizedException,
@@ -8,13 +7,19 @@ import {
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { OAuth2Client } from 'google-auth-library';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { JwtService, JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
+import { User } from '../users/entity/user.entity';
 
 const googleOAuthClient = new OAuth2Client(
   process.env.GOOGLE_IDENTITY_CLIENT_ID
 );
 const headerName = 'Authorization';
+
+const accessTokenOptions: JwtSignOptions = {
+  expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}m`,
+  secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+};
 
 type AccessTokenPayload = {
   googleId: number;
@@ -62,16 +67,23 @@ export class AuthService {
     return payload && payload['expirationTime'] > Date.now();
   }
 
-  async login(res: Response, loginDto: LoginDto): Promise<any> {
+  async login(loginDto: LoginDto): Promise<any> {
+    let user: User;
+    let googleId: number;
+    let storedRefreshTokenPayload: RefreshTokenPayload = null;
     try {
-      const googleId = await this.verifyGoogleCredential(loginDto);
+      googleId = await this.verifyGoogleCredential(loginDto);
       // TODO: 첫 로그인인 경우, Intra가 없어서 터질 수도 있음
-      const user = await this.usersService.getUserByGoogleId(googleId);
-      let storedRefreshTokenPayload: RefreshTokenPayload = null;
+      user = await this.usersService.getUserByGoogleId(googleId);
+    } catch (error) {
+      console.log(error);
+      throw new UnauthorizedException();
+    }
 
-      if (user !== null) {
-        // Check if user is active
-        if (user.intra.active === false) throw new UnauthorizedException();
+    if (user !== null) {
+      // Check if user is active
+      try {
+        if (user.intra?.active === false) throw new Error('User is not active');
         // Check if user has refresh token
         if (user.refreshToken) {
           const jwtVerifyOptions: JwtVerifyOptions = {
@@ -82,62 +94,66 @@ export class AuthService {
             jwtVerifyOptions
           );
         }
+      } catch (error) {
+        console.log(error);
+        throw new UnauthorizedException();
       }
-
-      const accessTokenPayload: AccessTokenPayload = {
-        googleId: googleId,
-        intraId: user?.intra.id,
-        needOfFtOAuth: null,
+    } else {
+      user = {
+        id: googleId,
+        accessToken: null,
+        refreshToken: null,
+        intra: null,
       };
-      const accessTokenOptions: JwtSignOptions = {
-        expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}m`,
-        secret: process.env.JWT_ACCESS_TOKEN_SECRET,
-      };
-      const accessToken = this.jwtService.sign(
-        accessTokenPayload,
-        accessTokenOptions
-      );
-
-      let refreshToken = '';
-      // TODO: Refresh token 만료 시간이 지났을 때만 새로 발급(작동 확인 필요)
-      if (this.isValidRefreshToken(storedRefreshTokenPayload)) {
-        refreshToken = user.refreshToken;
-      } else {
-        const refreshTokenPayload: RefreshTokenPayload = {
-          googleId: googleId,
-          expirationTime:
-            Date.now() +
-            parseInt(process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME),
-        };
-        const refreshTokenOptions: JwtSignOptions = {
-          expiresIn: `${process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME}d`,
-          secret: process.env.JWT_REFRESH_TOKEN_SECRET,
-        };
-        refreshToken = this.jwtService.sign(
-          refreshTokenPayload,
-          refreshTokenOptions
-        );
-        // TODO: 디비에 저장
-        // 트랜잭션 처리 필요 / 실패하면?
-        // if (user) await this.usersService.updateUser(user);
-      }
-      // TODO: for test
-      console.log(`Bearer ${accessToken}`);
-
-      res.cookie('Authentication', accessToken, {
-        httpOnly: true,
-        secure: true,
-        path: '/',
-        domain: `${process.env.DOMAIN_URL}`,
-      });
-      return { refreshToken: refreshToken, needFtOAuth: user ? false : true };
-    } catch (error) {
-      console.log(error);
-      throw new UnauthorizedException();
     }
+
+    const accessTokenPayload: AccessTokenPayload = {
+      googleId: googleId,
+      intraId: user.intra?.id,
+      needOfFtOAuth: null,
+    };
+    const accessToken = this.jwtService.sign(
+      accessTokenPayload,
+      accessTokenOptions
+    );
+
+    let refreshToken = '';
+    // TODO: Refresh token 만료 시간이 지났을 때만 새로 발급(작동 확인 필요)
+    if (this.isValidRefreshToken(storedRefreshTokenPayload)) {
+      refreshToken = user.refreshToken;
+    } else {
+      const refreshTokenPayload: RefreshTokenPayload = {
+        googleId: googleId,
+        expirationTime:
+          Date.now() + parseInt(process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME),
+      };
+      const refreshTokenOptions: JwtSignOptions = {
+        expiresIn: `${process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME}d`,
+        secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+      };
+      refreshToken = this.jwtService.sign(
+        refreshTokenPayload,
+        refreshTokenOptions
+      );
+      // TODO: 디비에 저장 / 유저가 아니면 생성, 유저면 업데이트
+      user.refreshToken = refreshToken;
+      await this.usersService.saveUser(user);
+      // 트랜잭션 처리 필요 / 실패하면?
+      // if (user) await this.usersService.updateUser(user);
+    }
+    // TODO: for test
+    console.log(`Bearer ${accessToken}`);
+
+    return {
+      accessToken: accessToken,
+      body: {
+        refreshToken: refreshToken,
+        needFtOAuth: user?.intra ? false : true,
+      },
+    };
   }
 
-  async loginTest(res: Response): Promise<any> {
+  async loginTest(): Promise<any> {
     try {
       const user = await this.usersService.getUserByIntraId(99733);
       const accessToken = this.jwtService.sign(
@@ -162,13 +178,13 @@ export class AuthService {
           secret: process.env.JWT_REFRESH_TOKEN_SECRET,
         }
       );
-      res.cookie(headerName, `Bearer ${accessToken}`, {
-        httpOnly: true,
-        secure: true,
-      });
+
       console.log(`Bearer ${accessToken}`);
       console.log(`${refreshToken}`);
-      return { refreshToken: refreshToken, needFtOAuth: false };
+      return {
+        accessToken: accessToken,
+        body: { refreshToken: refreshToken, needFtOAuth: false },
+      };
     } catch (error) {
       console.log(error);
       throw new BadRequestException();
@@ -176,33 +192,47 @@ export class AuthService {
   }
 
   // ANCHOR: refresh token
-  async tokenRefresh(req: Request, res: Response) {
-    const googldId = req.user['googleId'];
-    // const user = await this.usersService.getUserByGoogleId(googldId);
-    // if (!user) throw new UnauthorizedException();
+  async tokenRefresh(payload: any) {
+    const googldId = payload?.googleId;
+    const user = await this.usersService.getUserByGoogleId(googldId);
+    if (user === null) throw new BadRequestException();
+    if (user.intra?.active === false) throw new UnauthorizedException();
 
     const accessTokenPayload: AccessTokenPayload = {
       googleId: googldId,
-      intraId: googldId,
-      // intraId: user?.intra.id,
+      intraId: user.intra?.id,
       needOfFtOAuth: null,
-    };
-    const accessTokenOptions: JwtSignOptions = {
-      expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}m`,
-      secret: process.env.JWT_ACCESS_TOKEN_SECRET,
     };
     const accessToken = this.jwtService.sign(
       accessTokenPayload,
       accessTokenOptions
     );
 
-    res.cookie(headerName, `Bearer ${accessToken}`, {
-      httpOnly: true,
-      secure: true,
-      path: '/',
-      domain: `${process.env.DOMAIN_URL}`,
-    });
-    console.log(`Bearer ${accessToken}`);
-    return;
+    return accessToken;
+  }
+
+  async ftOAuthRedirect(req: any) {
+    const accessToken = req.cookies['Authorization'];
+    const jwtVerifyOptions: JwtVerifyOptions = {
+      secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+    };
+    let accessTokenPayload: AccessTokenPayload;
+    try {
+      accessTokenPayload = this.jwtService.verify(
+        accessToken,
+        jwtVerifyOptions
+      );
+    } catch (error) {
+      console.log(error);
+      throw new UnauthorizedException();
+    }
+    const googleId: number = accessTokenPayload.googleId;
+    const intraId: number = req.user.id;
+    const user = await this.usersService.getUserByGoogleId(googleId);
+
+    user.intra.id = intraId;
+    await this.usersService.saveUser(user);
+
+    return accessToken;
   }
 }

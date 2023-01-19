@@ -7,8 +7,8 @@ import {
   RequestLoginQueryKey,
   RequestLoginResponse,
 } from '../api/requestLogin';
-import { refreshTokenAtom } from '../../AuthManager/atoms/refreshTokenAtom';
-import { needFtOAuthAtom } from '../../AuthManager/atoms/needFtOAuthAtom';
+import { refreshTokenAtom } from '../atoms/refreshTokenAtom';
+import { needFtOAuthAtom } from '../atoms/needFtOAuthAtom';
 
 export const useLoginQuery = () => {
   const googleCredential = useAtomValue(googleCredentialAtom);

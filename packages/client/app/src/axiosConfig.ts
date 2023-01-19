@@ -2,10 +2,7 @@ import axios from 'axios';
 
 export const axiosInstance = axios.create({
   // todo
-  baseURL:
-    import.meta.env.DEV === true
-      ? 'https://acbd-121-135-181-41.jp.ngrok.io'
-      : import.meta.env.VITE_BACKEND_EP,
+  baseURL: import.meta.env.VITE_BACKEND_EP,
   timeout: 5000,
   withCredentials: true,
   headers: {
@@ -22,15 +19,22 @@ axiosInstance.interceptors.response.use(
     if (error?.response.status === 401) {
       const refreshToken = localStorage.getItem('refresh-token');
       console.debug('401 occured, axios is now handling');
-      if (refreshToken === null) return Promise.reject(error);
+      if (refreshToken === null) {
+        return Promise.reject(error);
+      }
 
+      // todo: test here
       console.debug('try refresh');
+      // try {
       await axiosInstance.post(
         '/refresh',
         JSON.stringify({
           refreshToken,
         })
       );
+      // } catch (second_error) {
+      //   return Promise.reject(error);
+      // }
 
       console.debug('try original request');
       return axiosInstance(error.config);

@@ -1,8 +1,21 @@
-export const FTOAuth = () => {
+import { useAtomValue } from 'jotai';
+import { Navigate } from 'react-router-dom';
+import { RouteList } from '../AppRouter';
+import { CheckLogin } from '../RouteGuard/components/CheckLogin';
+import { needFtOAuthAtom } from '../Login/atoms/needFtOAuthAtom';
+
+export const FtOAuth = () => {
+  const needFtOAuth = useAtomValue(needFtOAuthAtom);
+
+  if (!needFtOAuth) {
+    return <Navigate to={RouteList.ROOT} />;
+  }
   // todo: return user with no refresh token
   return (
-    <a href="http://localhost:11900">
-      <button>asdfa</button>
-    </a>
+    <CheckLogin>
+      <a href="http://localhost:3000/auth/ft-oauth">
+        <button>asdfa</button>
+      </a>
+    </CheckLogin>
   );
 };

@@ -1,5 +1,5 @@
 import { StyleDefine } from '../../styles/StyleDefine';
-import { Children } from '../../types/Children';
+import { JSXChildren } from '../../types/JSXChildren';
 import { AbsCenter } from '../../styles/AbsCenter';
 import { LoginMenuContent } from './LoginMenuContent';
 import { mediaQuery } from '../mediaQuery';
@@ -26,7 +26,7 @@ const loginContainerStyle = mediaQuery({
   margin: 'auto',
 });
 
-const LoginMenuBackground = ({ children }: Children) => {
+const LoginMenuBackground = ({ children }: JSXChildren) => {
   return (
     <AbsCenter css={loginContainerStyle} className="LoginMenuBackground">
       {children}

@@ -28,7 +28,9 @@ export const useGoogleButtonDiv = () => {
     const googleRenderButtonOption =
       getGoogleRenderButtonOption(googleButtonWidth);
 
-    if (isError) throw 'gapi script load fail';
+    if (isError) {
+      throw 'gapi script load fail';
+    }
 
     if (!(isLoaded && window.google && googleButtonDiv.current)) {
       return;

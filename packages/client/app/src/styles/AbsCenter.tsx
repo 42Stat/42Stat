@@ -1,4 +1,4 @@
-import { Children } from '../types/Children';
+import { JSXChildren } from '../types/JSXChildren';
 import { css } from '@emotion/react';
 import { CssPropsClassName } from '../types/CssPropsClassName';
 
@@ -12,7 +12,7 @@ const absoluteCenterStyle = css({
 export const AbsCenter = ({
   className,
   children,
-}: CssPropsClassName & Children) => {
+}: CssPropsClassName & JSXChildren) => {
   return (
     <div css={absoluteCenterStyle} className={className}>
       {children}

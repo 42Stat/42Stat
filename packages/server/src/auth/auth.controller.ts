@@ -8,17 +8,16 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { CookieOptions, Request, Response } from 'express';
-import { frontendURL } from 'src/main';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
+import { frontendURL } from '../main';
+import { AuthService, RefreshTokenPayload } from './auth.service';
+import {
+  LoginRequestDto,
+  LoginResponseDto,
+  TokenRefreshDto,
+} from './dto/login.dto';
 import { Payload } from './payload.decorator';
-
-class Ref {
-  @ApiProperty()
-  refreshToken: string;
-}
 
 const accessTokenHeaderKey = 'Authorization';
 const cookieOptions: CookieOptions = {
@@ -38,8 +37,8 @@ export class AuthController {
   @ApiTags('account')
   async login(
     @Res({ passthrough: true }) res: Response,
-    @Body() loginDto: LoginDto
-  ): Promise<boolean> {
+    @Body() loginDto: LoginRequestDto
+  ): Promise<LoginResponseDto> {
     const { accessToken, body } = await this.authService.login(loginDto);
     res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
     return body;
@@ -61,10 +60,10 @@ export class AuthController {
 
   @Post('token')
   @ApiTags('account')
-  @ApiBody({ type: Ref })
   @UseGuards(AuthGuard('jwt-refresh'))
   async tokenRefresh(
-    @Payload() payload: any,
+    @Payload() payload: RefreshTokenPayload,
+    @Body() body: TokenRefreshDto,
     @Res({ passthrough: true }) res: Response
   ) {
     const accessToken = await this.authService.tokenRefresh(payload);
@@ -88,13 +87,14 @@ export class AuthController {
   ) {
     const { user } = req;
     const accessToken: string | undefined = req.cookies[accessTokenHeaderKey];
-    // todo: check undefined here, redirect to frontend page manually
+    // TODO: check undefined here, redirect to frontend page manually
     const newAccessToken = await this.authService.ftOAuthRedirect(
       accessToken,
       user['id']
     );
+    const redirectURL = newAccessToken ? frontendURL : `${frontendURL}/logout`;
     res.cookie(accessTokenHeaderKey, newAccessToken, cookieOptions);
-    res.redirect(frontendURL);
+    res.redirect(redirectURL);
     return;
   }
 }

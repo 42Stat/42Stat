@@ -1,7 +1,4 @@
-import {
-  QueryClientProvider,
-  QueryErrorResetBoundary,
-} from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { AppRouter } from './AppRouter';
 import { queryClient } from './queryClient';
 import { GlobalStyle } from './styles/GlobalStyle';

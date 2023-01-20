@@ -1,14 +1,14 @@
+import * as React from 'react';
 import { css } from '@emotion/react';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { axiosInstance } from '../axiosConfig';
 
 export const Profile = () => {
-  const query = useQuery({ queryKey: ['profile'], queryFn: requestProfile });
+  // const query = useQuery({ queryKey: ['profile'], queryFn: requestProfile });
 
-  if (query.isError) {
-    throw query.error;
-  }
+  // if (query.isError) {
+  //   throw query.error;
+  // }
 
   return (
     <div

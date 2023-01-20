@@ -10,11 +10,11 @@ export const FtOAuth = () => {
   if (!needFtOAuth) {
     return <Navigate to={RouteList.ROOT} />;
   }
-  // todo: return user with no refresh token
+
   return (
     <CheckLogin>
       <a href="http://localhost:3000/auth/ft-oauth">
-        <button>asdfa</button>
+        <button>ft auth</button>
       </a>
     </CheckLogin>
   );

@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { LoginDto } from './dto/login.dto';
+import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
 import { OAuth2Client } from 'google-auth-library';
 import { JwtService, JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
 import { User } from '../users/entity/user.entity';
@@ -23,9 +23,14 @@ type AccessTokenPayload = {
   googleId: string;
   intraId: number;
 };
-type RefreshTokenPayload = {
+export type RefreshTokenPayload = {
   googleId: string;
   expirationTime: number;
+};
+
+export type LoginResponse = {
+  accessToken: string;
+  body: LoginResponseDto;
 };
 
 @Injectable()
@@ -49,7 +54,7 @@ export class AuthService {
   }
 
   // ANCHOR: login
-  async verifyGoogleCredential(loginDto: LoginDto): Promise<string> {
+  async verifyGoogleCredential(loginDto: LoginRequestDto): Promise<string> {
     const ticket = await googleOAuthClient.verifyIdToken({
       idToken: loginDto.credential,
       audience: loginDto.clientId,
@@ -64,7 +69,7 @@ export class AuthService {
     return payload && payload['expirationTime'] > Date.now();
   }
 
-  async login(loginDto: LoginDto): Promise<any> {
+  async login(loginDto: LoginRequestDto): Promise<LoginResponse> {
     let user: User;
     let googleId: string;
     let storedRefreshTokenPayload: RefreshTokenPayload = null;
@@ -185,7 +190,7 @@ export class AuthService {
   }
 
   // ANCHOR: refresh token
-  async tokenRefresh(payload: any) {
+  async tokenRefresh(payload: RefreshTokenPayload): Promise<string> {
     const googldId = payload?.googleId;
     const user = await this.usersService.getUserByGoogleId(googldId);
     if (user === null) throw new BadRequestException();
@@ -203,7 +208,7 @@ export class AuthService {
     return accessToken;
   }
 
-  async ftOAuthRedirect(accessToken: string, intraId: number) {
+  async ftOAuthRedirect(accessToken: string, intraId: number): Promise<string> {
     const jwtVerifyOptions: JwtVerifyOptions = {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
     };
@@ -213,17 +218,19 @@ export class AuthService {
         accessToken,
         jwtVerifyOptions
       );
+
+      const googleId: string = accessTokenPayload.googleId;
+      const user = await this.usersService.getUserByGoogleId(googleId);
+      const intraUser = await this.usersService.getUserByIntraId(intraId);
+      if (user === null || intraUser === null)
+        throw new Error('User not found');
+
+      user.intra = intraUser;
+      await this.usersService.saveUser(user);
     } catch (error) {
       console.log(error);
-      throw new UnauthorizedException();
+      return null;
     }
-    const googleId: string = accessTokenPayload.googleId;
-    const user = await this.usersService.getUserByGoogleId(googleId);
-    if (user === null) throw new BadRequestException();
-    const intraUser = await this.usersService.getUserByIntraId(intraId);
-
-    user.intra = intraUser;
-    await this.usersService.saveUser(user);
 
     return accessToken;
   }

@@ -13,7 +13,7 @@ export const requestLogin = async ({ queryKey }: RequestLoginQueryKey) => {
   const [_key, { googleCredential }] = queryKey;
 
   const response = await axiosInstance.post<RequestLoginResponse>(
-    'login',
+    'auth/login',
     googleCredential
   );
 

@@ -9,9 +9,8 @@ import { GlobalStyle } from './styles/GlobalStyle';
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div>asdf</div>
-      {/* <GlobalStyle />
-      <AppRouter /> */}
+      <GlobalStyle />
+      <AppRouter />
     </QueryClientProvider>
   );
 }

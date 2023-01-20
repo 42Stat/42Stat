@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { StyleDefine } from '../../styles/StyleDefine';
-import { Children } from '../../types/Children';
+import { JSXChildren } from '../../types/JSXChildren';
 import { useAtomValue } from 'jotai';
 import { displayHelpAtom } from '../atoms/displayHelpAtom';
 import { AppLogo } from '../../assets/AppLogo';
@@ -14,7 +14,7 @@ export const LoginAppLogo = () => {
   );
 };
 
-const AppLogoContainer = ({ children }: Children) => {
+const AppLogoContainer = ({ children }: JSXChildren) => {
   const displayHelp = useAtomValue(displayHelpAtom);
 
   const AppLogoContainerStyle = css({

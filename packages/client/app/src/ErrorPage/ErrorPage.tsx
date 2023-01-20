@@ -3,9 +3,13 @@ import { Navigate, useRouteError } from 'react-router-dom';
 import { StyleDefine } from '../styles/StyleDefine';
 import { AxiosError } from 'axios';
 import { RouteList } from '../AppRouter';
+import { useSetAtom } from 'jotai';
+import { needFtOAuthAtom } from '../Login/atoms/needFtOAuthAtom';
 
+// todo: fix to redirect
 export const ErrorPage = () => {
   const error = useRouteError();
+  const setNeedFtOAuth = useSetAtom(needFtOAuthAtom);
 
   console.warn('logging error', error);
 
@@ -15,6 +19,7 @@ export const ErrorPage = () => {
     }
 
     if (error.response?.status === 403) {
+      setNeedFtOAuth(true);
       return <Navigate to={RouteList.FTOAUTH} replace={true} />;
     }
   }

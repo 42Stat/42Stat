@@ -5,11 +5,11 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
-import { AuthManager } from './AuthManager/AuthManager';
-import { Loign } from './Login/Login';
+import { Login } from './Login/Login';
 import { ErrorPage } from './ErrorPage/ErrorPage';
-import { FTOAuth } from './FTOAuth/FTOAuth';
 import { Profile } from './Profile/Profile';
+import { FtOAuth } from './FtOAuth/FtOAuth';
+import { RouteGuard } from './RouteGuard/RouteGuard';
 
 export const RouteList = {
   ROOT: '/',
@@ -21,9 +21,13 @@ export const RouteList = {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path={RouteList.ROOT} errorElement={<ErrorPage />}>
-      <Route path={RouteList.LOGIN} element={<Loign />} />
-      <Route path={RouteList.FTOAUTH} element={<FTOAuth />} />
-      <Route element={<AuthManager />}>
+      <Route element={RouteGuard.NeedNoLogin}>
+        <Route path={RouteList.LOGIN} element={<Login />} />
+      </Route>
+      <Route element={RouteGuard.NeedNoFtOAuth}>
+        <Route path={RouteList.FTOAUTH} element={<FtOAuth />} />
+      </Route>
+      <Route element={RouteGuard.NeedAuth}>
         <Route index element={<Navigate to={RouteList.PROFILE} />} />
         <Route path={RouteList.PROFILE} element={<Profile />} />
       </Route>
@@ -31,6 +35,6 @@ const router = createBrowserRouter(
   )
 );
 
-export const AppRouter: React.FC = (): React.ReactElement => {
+export const AppRouter = () => {
   return <RouterProvider router={router} />;
 };

@@ -16,6 +16,7 @@ export const GoogleLoginClient = () => {
 
 const getGoogleLoginButtonStyle = (displayHelp: boolean) => {
   return mediaQuery({
+    // todo: switch to modal..? link..?
     display: `${displayHelp ? 'none' : 'block'}`,
     margin: 'auto',
     width: googleButtonWidthRange,

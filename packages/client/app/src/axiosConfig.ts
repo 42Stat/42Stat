@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { localRefreshToken } from './Login/atoms/refreshTokenAtom';
 
 export const axiosInstance = axios.create({
   // todo
@@ -12,13 +13,12 @@ export const axiosInstance = axios.create({
   },
 });
 
-// todo: sync with backend
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error?.response?.status === 401) {
-      // todo
-      const refreshToken = localStorage.getItem('refresh-token');
+      const refreshToken = localRefreshToken.get();
+
       console.debug('401 occured, axios is now handling');
       if (refreshToken === null) {
         return Promise.reject(error);

@@ -2,7 +2,6 @@ import { atom } from 'jotai';
 
 const refreshTokenBaseAtom = atom<string | null>(null);
 
-// todo: refactor here
 const localStorageKey = 'refresh-token';
 
 export const refreshTokenAtom = atom<string | null, string>(
@@ -21,11 +20,25 @@ export const refreshTokenAtom = atom<string | null, string>(
   }
 );
 
+/**
+ * @description derived from refreshTokenAtom.
+ */
 export const needLoginAtom = atom<boolean>((get) => {
   const refreshToken = get(refreshTokenAtom);
   return !hasState(refreshToken);
 });
 
+// utils
+
 const hasState = (atom: string | null) => {
   return atom !== null;
 };
+
+/**
+ * @description use only in axios interceptors.
+ */
+export const localRefreshToken = {
+  get: () => localStorage.getItem(localStorageKey),
+  set: (newRefreshToken: string) =>
+    localStorage.setItem(localStorageKey, newRefreshToken),
+} as const;

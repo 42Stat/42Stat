@@ -10,6 +10,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { CookieOptions, Request, Response } from 'express';
+import { frontendURL } from 'src/main';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { Payload } from './payload.decorator';
@@ -86,13 +87,14 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response
   ) {
     const { user } = req;
-    const { accessToken } = req.cookies[accessTokenHeaderKey];
+    const accessToken: string | undefined = req.cookies[accessTokenHeaderKey];
+    // todo: check undefined here, redirect to frontend page manually
     const newAccessToken = await this.authService.ftOAuthRedirect(
       accessToken,
       user['id']
     );
     res.cookie(accessTokenHeaderKey, newAccessToken, cookieOptions);
-    res.redirect(process.env.FRONTEND_URL);
+    res.redirect(frontendURL);
     return;
   }
 }

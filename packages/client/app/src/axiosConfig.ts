@@ -16,7 +16,8 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error?.response.status === 401) {
+    if (error?.response?.status === 401) {
+      // todo
       const refreshToken = localStorage.getItem('refresh-token');
       console.debug('401 occured, axios is now handling');
       if (refreshToken === null) {

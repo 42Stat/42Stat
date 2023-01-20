@@ -27,7 +27,7 @@ export const useGoogleButtonWidth = (): googleButtonWidthType => {
     window.addEventListener('resize', windowEventHandler);
 
     return () => window.removeEventListener('resize', windowEventHandler);
-  }, [window.innerWidth]);
+  }, []);
 
   return windowWidth;
 };

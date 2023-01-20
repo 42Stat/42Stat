@@ -14,7 +14,7 @@ export const FtOAuth = () => {
   return (
     <CheckLogin>
       <a href="http://localhost:3000/auth/ft-oauth">
-        <button>asdfa</button>
+        <button>ft auth</button>
       </a>
     </CheckLogin>
   );

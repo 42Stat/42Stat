@@ -32,7 +32,15 @@ export const useGoogleButtonDiv = () => {
       throw 'gapi script load fail';
     }
 
-    if (!(isLoaded && window.google && googleButtonDiv.current)) {
+    if (!isLoaded) {
+      return;
+    }
+
+    if (!isGoogleScriptLoadSuccess(window.google)) {
+      throw 'gapi script load fail';
+    }
+
+    if (!isDivElementRendered(googleButtonDiv.current)) {
       return;
     }
 
@@ -44,15 +52,21 @@ export const useGoogleButtonDiv = () => {
     );
 
     window.google.accounts.id.prompt();
-  }, [
-    isLoaded,
-    isError,
-    window.google,
-    window.innerWidth,
-    googleButtonDiv.current,
-  ]);
+  }, [isLoaded, isError, googleButtonWidth, googleButtonDiv.current]);
 
   return googleButtonDiv;
+};
+
+const isGoogleScriptLoadSuccess = (
+  googleObject: Google | undefined
+): googleObject is Google => {
+  return googleObject !== undefined;
+};
+
+const isDivElementRendered = (
+  divRef: HTMLDivElement | null
+): divRef is HTMLDivElement => {
+  return divRef !== null;
 };
 
 const getGoogleRenderButtonOption = (

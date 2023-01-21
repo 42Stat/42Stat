@@ -10,10 +10,12 @@ import { ErrorPage } from './ErrorPage/ErrorPage';
 import { Profile } from './Profile/Profile';
 import { FtOAuth } from './FtOAuth/FtOAuth';
 import { RouteGuard } from './RouteGuard/RouteGuard';
+import { Logout } from './Logout/Logout';
 
 export const RouteList = {
   ROOT: '/',
   LOGIN: '/login',
+  LOGOUT: '/logout',
   FTOAUTH: '/ftoauth',
   PROFILE: '/profile',
 } as const;
@@ -31,6 +33,7 @@ const router = createBrowserRouter(
         <Route index element={<Navigate to={RouteList.PROFILE} />} />
         <Route path={RouteList.PROFILE} element={<Profile />} />
       </Route>
+      <Route path={RouteList.LOGOUT} element={<Logout />} />
     </Route>
   )
 );

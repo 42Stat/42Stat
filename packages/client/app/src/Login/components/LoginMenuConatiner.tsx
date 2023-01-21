@@ -1,10 +1,19 @@
+import * as React from 'react';
 import { StyleDefine } from '../../styles/StyleDefine';
 import { JSXChildren } from '../../types/JSXChildren';
 import { AbsCenter } from '../../styles/AbsCenter';
 import { LoginMenuContent } from './LoginMenuContent';
 import { mediaQuery } from '../mediaQuery';
+import { useSetAtom } from 'jotai';
+import { displayHelpAtom } from '../atoms/displayHelpAtom';
 
 export const LoginMenuContainer = () => {
+  const setDisplayHelp = useSetAtom(displayHelpAtom);
+
+  React.useEffect(() => {
+    return () => setDisplayHelp(false);
+  }, [setDisplayHelp]);
+
   return (
     <LoginMenuBackground>
       <LoginMenuContent />

@@ -4,7 +4,17 @@ const refreshTokenBaseAtom = atom<string | null>(null);
 
 const localStorageKey = 'refresh-token';
 
-export const refreshTokenAtom = atom<string | null, string>(
+/**
+ * @description use when manually set refresh token's localstorage. don't use directly except in axios interceptors.
+ */
+export const localRefreshToken = {
+  get: () => localStorage.getItem(localStorageKey),
+  set: (newRefreshToken: string) =>
+    localStorage.setItem(localStorageKey, newRefreshToken),
+  reset: () => localStorage.removeItem(localStorageKey),
+} as const;
+
+export const refreshTokenAtom = atom<string | null, string | null>(
   (get) => {
     const fromBaseAtom = get(refreshTokenBaseAtom);
     if (hasState(fromBaseAtom)) {
@@ -14,9 +24,14 @@ export const refreshTokenAtom = atom<string | null, string>(
     const fromLocalStorage = localStorage.getItem(localStorageKey);
     return fromLocalStorage;
   },
-  (_get, set, newRefreshTokn) => {
-    localStorage.setItem(localStorageKey, newRefreshTokn);
-    set(refreshTokenBaseAtom, newRefreshTokn);
+  (_get, set, newRefreshToken) => {
+    if (isReset(newRefreshToken)) {
+      localRefreshToken.reset();
+      return;
+    }
+
+    localRefreshToken.set(newRefreshToken);
+    set(refreshTokenBaseAtom, newRefreshToken);
   }
 );
 
@@ -34,11 +49,6 @@ const hasState = (atom: string | null) => {
   return atom !== null;
 };
 
-/**
- * @description use only in axios interceptors.
- */
-export const localRefreshToken = {
-  get: () => localStorage.getItem(localStorageKey),
-  set: (newRefreshToken: string) =>
-    localStorage.setItem(localStorageKey, newRefreshToken),
-} as const;
+const isReset = (newValue: string | null): newValue is null => {
+  return newValue === null;
+};

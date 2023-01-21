@@ -5,21 +5,17 @@ import { AxiosError } from 'axios';
 import { RouteList } from '../AppRouter';
 import { useSetAtom } from 'jotai';
 import { needFtOAuthAtom } from '../Login/atoms/needFtOAuthAtom';
-import { googleCredentialAtom } from '../Login/atoms/googleCredentialAtom';
+import { Logout } from '../Logout/Logout';
 
 export const ErrorPage = () => {
   const error = useRouteError();
-  const setGoogleCredential = useSetAtom(googleCredentialAtom);
   const setNeedFtOAuth = useSetAtom(needFtOAuthAtom);
 
   console.warn('logging error', error);
 
   if (error instanceof AxiosError) {
     if (error.response?.status === 401) {
-      // force user to login again
-      // todo: replace with useLogout();
-      setGoogleCredential(null);
-      return <Navigate to={RouteList.LOGIN} replace={true} />;
+      return <Logout />;
     }
 
     if (error.response?.status === 403) {

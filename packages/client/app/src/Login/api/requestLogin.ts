@@ -10,6 +10,7 @@ export interface RequestLoginResponse {
 }
 
 export const requestLogin = async ({ queryKey }: RequestLoginQueryKey) => {
+  // eslint-disable-next-line
   const [_key, { googleCredential }] = queryKey;
 
   const response = await axiosInstance.post<RequestLoginResponse>(

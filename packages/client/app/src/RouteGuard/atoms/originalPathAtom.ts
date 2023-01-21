@@ -5,6 +5,7 @@ const localStorageKey = 'original-path';
 
 // atomWithStorage doesn't erase localStorage while this is temporary state
 export const originalPathAtom = atom<string | null, string>(
+  // eslint-disable-next-line
   (_get) => {
     const fromLocalStorage = localStorage.getItem(localStorageKey);
     localStorage.removeItem(localStorageKey);

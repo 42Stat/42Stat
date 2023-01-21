@@ -1,23 +1,20 @@
 import * as React from 'react';
-import { NavigateOptions } from 'react-router-dom';
 import { useLogout } from './hooks/useLogout';
+import { JSXChildren } from '../types/JSXChildren';
 
 interface LogoutProps {
   to?: string;
-  options?: NavigateOptions;
 }
 
-// todo: delete?
 /**
- * @description wrapper for logout
- * @returns null
+ * @description wrapper of useLogout.
  */
-export const Logout = ({ to, options }: LogoutProps) => {
+export const Logout = ({ to }: LogoutProps) => {
   const logout = useLogout();
 
   React.useEffect(() => {
-    logout(to, options);
-  }, [to, options]);
+    logout(to);
+  }, [logout]);
 
   // spinner?
   return <></>;

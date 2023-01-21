@@ -27,7 +27,7 @@ export class IntraUser {
   active: boolean;
   @Column()
   grade: string;
-  @Column({ type: 'float4' })
+  @Column({ type: 'real' })
   level: number;
   @Column()
   generation: number;

@@ -123,7 +123,7 @@ export class UsersService {
       .where('intra_user.id = :id', { id: id })
       .getRawOne();
 
-    const profile = new GetUserProfileDto(user, title, parseInt(rank.rank));
+    const profile = new GetUserProfileDto(user, title, parseInt(rank?.rank));
 
     return profile;
   }
@@ -147,9 +147,9 @@ export class UsersService {
       .getRawOne();
     return new GetOverallDto(
       user,
-      parseInt(rank.rank),
+      parseInt(rank?.rank),
       evaluationCount,
-      parseInt(coalitionScoreRank.rank)
+      parseInt(coalitionScoreRank?.rank)
     );
   }
 

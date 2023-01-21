@@ -9,9 +9,9 @@ export class Subject {
   name: string;
   @Column()
   slug: string;
-  @Column({ nullable: true, type: 'float4' })
+  @Column({ nullable: true, type: 'real' })
   averageFinalMark: number;
-  @Column({ nullable: true, type: 'float4' })
+  @Column({ nullable: true, type: 'real' })
   averageRetryCount: number;
   @Column({ nullable: true })
   totalClearCount: number;

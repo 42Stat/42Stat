@@ -221,6 +221,8 @@ export class UsersService {
     sort: string,
     page: number
   ): Promise<GetUserSubjectDto[]> {
+    if (!Number.isInteger(page))
+      throw new BadRequestException('page는 정수여야 합니다.');
     if (page < 1) throw new BadRequestException('page는 1 이상이어야 합니다.');
 
     const projectsFindOptions: FindManyOptions<Project> = {
@@ -254,10 +256,17 @@ export class UsersService {
   async getUserFeedbacks(
     id: number,
     type: string,
-    outstanding: boolean,
+    outstanding: string,
     subject: string,
     page: number
   ): Promise<GetUserFeedbackDto[]> {
+    if (outstanding !== 'true' && outstanding !== 'false' && outstanding)
+      throw new BadRequestException(
+        'outstanding은 true 또는 false여야 합니다.'
+      );
+    const outstandingBool = outstanding === 'true' ? true : false;
+    if (!Number.isInteger(page))
+      throw new BadRequestException('page는 정수여야 합니다.');
     if (page < 1) throw new BadRequestException('page는 1 이상이어야 합니다.');
 
     let teamUserFindOptions: FindManyOptions<TeamUser>;
@@ -294,7 +303,7 @@ export class UsersService {
       take: pageSize,
     };
     // 아웃스탠딩 필터링
-    if (outstanding === true)
+    if (outstandingBool === true)
       Object.assign(evaluationFindOptions.where, { flag: 9 });
     // TODO: Read 속도 최적화를 위해, subject id로 찾도록 수정
     // 서브젝트 필터링

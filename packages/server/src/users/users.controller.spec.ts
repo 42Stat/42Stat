@@ -6,7 +6,7 @@ import { usersProviders } from './users.providers';
 import { UsersService } from './users.service';
 import { SubjectsModule } from '../subjects/subjects.module';
 import { ConfigModule } from '@nestjs/config';
-import { DataSource, FindOneOptions, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { IntraUser } from './entity/intraUser.entity';
 import { Coalition } from '../coalitions/entity/coalition.entity';
 import { Team } from '../subjects/entity/team.entity';
@@ -18,9 +18,10 @@ import { CorrectorStat } from './entity/correctorStat.entity';
 import { TitleUser } from './entity/title.entity';
 import { CorrectedStat } from './entity/correctedStat.entity';
 import { User } from './entity/user.entity';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Subject } from '../subjects/entity/subject.entity';
 import { GetUserSummaryDto } from './dto/getUserSummary.dto';
+import { GetUserSubjectDto } from '../subjects/dto/getSubject.dto';
 
 const coalition1: Coalition = {
   id: 85,
@@ -133,6 +134,21 @@ const project1: Project = {
   teams: [],
 };
 
+const project2: Project = {
+  id: 2,
+  subject: subject1,
+  intra: intraUser1,
+  occurrence: 1,
+  finalMark: 100,
+  status: 2,
+  validated: true,
+  marked: true,
+  createdAt: new Date(),
+  markedAt: new Date(),
+  clearTime: 24.5 * 24 * 60 * 60 * 1000,
+  teams: [],
+};
+
 const subjectStat1: SubjectStat = {
   id: 15,
   intra: intraUser1,
@@ -151,6 +167,77 @@ const overall1 = {
   totalEvaluationCount: intraUser1.totalEvaluationCount,
   coalitionPointRank: 1,
   totalCoalitionPoint: 100000,
+};
+
+const team1: Team = {
+  id: 1,
+  project: project1,
+  name: "jaham's group-1",
+  status: 1,
+  createdAt: new Date(),
+  finalMark: 100,
+  locked: true,
+  closed: true,
+  lockedAt: new Date(),
+  closedAt: new Date(),
+  users: [],
+  evaluations: [],
+};
+
+const evaluation1: Evaluation = {
+  id: 1,
+  corrector: intraUser1,
+  comment: 'good',
+  feedback: 'good',
+  finalMark: 100,
+  positive: true,
+  flag: 1,
+  beginAt: new Date(),
+  endAt: new Date(),
+  rating: 5,
+  team: team1,
+};
+
+const evaluation2: Evaluation = {
+  id: 2,
+  corrector: intraUser1,
+  comment: 'good',
+  feedback: 'good',
+  finalMark: 100,
+  positive: true,
+  flag: 1,
+  beginAt: new Date(),
+  endAt: new Date(),
+  rating: 5,
+  team: team1,
+};
+
+const evaluation3: Evaluation = {
+  id: 3,
+  corrector: intraUser1,
+  comment: 'good',
+  feedback: 'good',
+  finalMark: 100,
+  positive: true,
+  flag: 1,
+  beginAt: new Date(),
+  endAt: new Date(),
+  rating: 5,
+  team: team1,
+};
+
+const evaluation4: Evaluation = {
+  id: 4,
+  corrector: intraUser1,
+  comment: 'good',
+  feedback: 'good',
+  finalMark: 100,
+  positive: true,
+  flag: 1,
+  beginAt: new Date(),
+  endAt: new Date(),
+  rating: 5,
+  team: team1,
 };
 
 describe('UsersController', () => {
@@ -291,31 +378,237 @@ describe('UsersController', () => {
   // ANCHOR: getUserSubjects
   describe('getUserSubjects', () => {
     // 정상 동작(only id)
-    it('정상 동작', async () => {});
+    it('정상 동작(only id)', async () => {
+      jest
+        .spyOn(projectRepository, 'find')
+        .mockResolvedValueOnce([project1, project2]);
+      const result = await usersController.getUserSubjects(
+        99947,
+        undefined,
+        undefined
+      );
+      expect(result[0]).toBeInstanceOf(GetUserSubjectDto);
+      expect(result[1]).toBeInstanceOf(GetUserSubjectDto);
+    });
     // 정상 동작(id, page)
+    it('정상 동작(id, page)', async () => {
+      jest.spyOn(projectRepository, 'find').mockResolvedValueOnce([]);
+      const result = await usersController.getUserSubjects(
+        99947,
+        undefined,
+        '2'
+      );
+      expect(result).toBeInstanceOf(Array);
+    });
     // 정상 동작(id, page, sort)
+    it('정상 동작(id, page)', async () => {
+      jest.spyOn(projectRepository, 'find').mockResolvedValueOnce([]);
+      const result = await usersController.getUserSubjects(99947, 'id', '2');
+      expect(result).toBeInstanceOf(Array);
+    });
     // 존재하지 않는 유저
+    it('존재하지 않는 유저', async () => {
+      jest.spyOn(projectRepository, 'find').mockResolvedValueOnce([]);
+
+      expect(
+        await usersController.getUserSubjects(99948, undefined, undefined)
+      ).toBeInstanceOf(Array);
+    });
     // 존재하지 않는 유저(undefined)
+    it('존재하지 않는 유저(undefined)', async () => {
+      jest.spyOn(projectRepository, 'find').mockResolvedValueOnce([]);
+
+      expect(
+        await usersController.getUserSubjects(undefined, undefined, undefined)
+      ).toBeInstanceOf(Array);
+    });
     // 페이지 에러(0)
+    it('페이지 에러(0)', async () => {
+      try {
+        await usersController.getUserSubjects(99947, undefined, '0');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
     // 페이지 에러(-1)
+    it('페이지 에러(-1)', async () => {
+      try {
+        await usersController.getUserSubjects(99947, undefined, '-1');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
     // 페이지 에러(1.5)
-    // 페이지 에러(undefined)
-    // 정렬 에러(undefined)
+    it('페이지 에러(1.5)', async () => {
+      try {
+        await usersController.getUserSubjects(99947, undefined, '1.5');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
   });
 
   // ANCHOR: getUserFeedbacks
   describe('getFeedbacks', () => {
     // 정상 동작(id, type)
+    it('정상 동작(id, type)', async () => {
+      jest.spyOn(teamUserRepository, 'find').mockResolvedValueOnce([]);
+      jest
+        .spyOn(evaluationRepository, 'find')
+        .mockResolvedValueOnce([
+          evaluation1,
+          evaluation2,
+          evaluation3,
+          evaluation4,
+        ]);
+      expect(
+        await usersController.getUserFeedbacks(
+          99947,
+          'as-corrected',
+          undefined,
+          undefined,
+          undefined
+        )
+      ).toBeInstanceOf(Array);
+    });
     // 정상 동작(id, type, outstanding)
-    // 정상 동작(id, type, outstanding, page)
-    // 정상 동작(id, type, outstanding, page, subject)
+    it('정상 동작(id, type, oustranding)', async () => {
+      jest.spyOn(teamUserRepository, 'find').mockResolvedValueOnce([]);
+      jest.spyOn(evaluationRepository, 'find').mockResolvedValueOnce([]);
+      expect(
+        await usersController.getUserFeedbacks(
+          99947,
+          'as-corrected',
+          'true',
+          undefined,
+          undefined
+        )
+      ).toBeInstanceOf(Array);
+    });
+    // 정상 동작(id, type, outstanding, subject)
+    it('정상 동작(id, type, oustranding, subject)', async () => {
+      jest.spyOn(teamUserRepository, 'find').mockResolvedValueOnce([]);
+      jest.spyOn(evaluationRepository, 'find').mockResolvedValueOnce([]);
+      expect(
+        await usersController.getUserFeedbacks(
+          99947,
+          'as-corrected',
+          'true',
+          'libft',
+          undefined
+        )
+      ).toBeInstanceOf(Array);
+    });
+    // 정상 동작(id, type, outstanding, subject, page)
+    it('정상 동작(id, type, outstanding, subject, page)', async () => {
+      jest.spyOn(teamUserRepository, 'find').mockResolvedValueOnce([]);
+      jest.spyOn(evaluationRepository, 'find').mockResolvedValueOnce([]);
+      expect(
+        await usersController.getUserFeedbacks(
+          99947,
+          'as-corrected',
+          'true',
+          'libft',
+          '2'
+        )
+      ).toBeInstanceOf(Array);
+    });
     // 존재하지 않는 유저
-    // 존재하지 않는 유저(undefined)
+    it('존재하지 않는 유저', async () => {
+      jest.spyOn(teamUserRepository, 'find').mockResolvedValueOnce([]);
+      jest.spyOn(evaluationRepository, 'find').mockResolvedValueOnce([]);
+
+      expect(
+        await usersController.getUserFeedbacks(
+          99948,
+          'as-corrector',
+          undefined,
+          undefined,
+          undefined
+        )
+      ).toBeInstanceOf(Array);
+    });
+    // 옵션 에러(type: undefined)
+    it('옵션 에러(type: undefined)', async () => {
+      try {
+        await usersController.getUserFeedbacks(
+          99947,
+          undefined,
+          undefined,
+          undefined,
+          undefined
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
     // 페이지 에러(0)
+    it('페이지 에러(0)', async () => {
+      try {
+        await usersController.getUserFeedbacks(
+          99947,
+          undefined,
+          undefined,
+          undefined,
+          '0'
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
     // 페이지 에러(-1)
+    it('페이지 에러(-1)', async () => {
+      try {
+        await usersController.getUserFeedbacks(
+          99947,
+          undefined,
+          undefined,
+          undefined,
+          '-1'
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
     // 페이지 에러(1.5)
-    // 페이지 에러(undefined)
-    // 옵션 에러(outstanding: undefined)
-    // 옵션 에러(subject: '')
+    it('페이지 에러(1.5)', async () => {
+      try {
+        await usersController.getUserFeedbacks(
+          99947,
+          undefined,
+          undefined,
+          undefined,
+          '1.5'
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
+    // 빈 서브젝트
+    it('빈 서브젝트', async () => {
+      expect(
+        await usersController.getUserFeedbacks(
+          99947,
+          'as-corrected',
+          undefined,
+          '',
+          undefined
+        )
+      ).toBeInstanceOf(Array);
+    });
+    // 유효하지 않은 Outstanding
+    it('유효하지 않은 Outstanding', async () => {
+      try {
+        await usersController.getUserFeedbacks(
+          99947,
+          'as-corrected',
+          'abc',
+          undefined,
+          undefined
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
   });
 });

@@ -258,7 +258,7 @@ describe('UsersController', () => {
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({ envFilePath: '../../../../env/server/.env' }),
+        // ConfigModule.forRoot({ envFilePath: '../../../../env/server/.env' }),
         DatabaseModule,
         SubjectsModule,
       ],

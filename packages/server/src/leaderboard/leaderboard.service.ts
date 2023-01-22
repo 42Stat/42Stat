@@ -17,6 +17,8 @@ export class LeaderboardService {
     coalition: string = null,
     page = 1
   ): Promise<GetLeaderboardDto[]> {
+    if (!Number.isInteger(page))
+      throw new BadRequestException('page는 정수여야 합니다.');
     if (page < 1) throw new BadRequestException('page는 1 이상이어야 합니다.');
     const intraUserFindOptions: FindManyOptions<IntraUser> = {
       where: {},

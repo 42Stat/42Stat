@@ -21,7 +21,15 @@ export const LoginMenuContainer = () => {
   );
 };
 
-const loginContainerStyle = mediaQuery({
+const LoginMenuBackground = ({ children }: JSXChildren) => {
+  return (
+    <AbsCenter css={loginBackgroundStyle} className="LoginMenuBackground">
+      {children}
+    </AbsCenter>
+  );
+};
+
+const loginBackgroundStyle = mediaQuery({
   boxSizing: 'border-box',
   width: ['100%', '450px', '280px'],
   maxWidth: ['100%', '450px', '280px'],
@@ -34,11 +42,3 @@ const loginContainerStyle = mediaQuery({
   flexDirection: 'column',
   margin: 'auto',
 });
-
-const LoginMenuBackground = ({ children }: JSXChildren) => {
-  return (
-    <AbsCenter css={loginContainerStyle} className="LoginMenuBackground">
-      {children}
-    </AbsCenter>
-  );
-};

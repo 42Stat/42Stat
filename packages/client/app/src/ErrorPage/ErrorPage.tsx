@@ -13,7 +13,7 @@ export const ErrorPage = () => {
 
   console.warn('logging error', error);
 
-  if (error instanceof AxiosError) {
+  if (isAxiosResponseError(error)) {
     if (error.response?.status === 401) {
       return <Logout />;
     }
@@ -35,4 +35,8 @@ export const ErrorPage = () => {
       <p>{`Error: ${error}`}</p>
     </div>
   );
+};
+
+const isAxiosResponseError = (error: unknown): error is AxiosError => {
+  return typeof error === 'object' && error !== null && 'response' in error;
 };

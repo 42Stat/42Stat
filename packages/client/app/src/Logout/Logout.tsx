@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useLogout } from './hooks/useLogout';
-import { JSXChildren } from '../types/JSXChildren';
 
 interface LogoutProps {
   to?: string;

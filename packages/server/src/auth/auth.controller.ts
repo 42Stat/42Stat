@@ -10,7 +10,6 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { CookieOptions, Request, Response } from 'express';
-import { frontendURL } from '../main';
 import { AuthService, RefreshTokenPayload } from './auth.service';
 import {
   LoginRequestDto,
@@ -19,6 +18,7 @@ import {
 } from './dto/login.dto';
 import { Payload } from './payload.decorator';
 
+const frontendURL = process.env.FRONTEND_URL;
 const accessTokenHeaderKey = 'Authorization';
 const cookieOptions: CookieOptions = {
   httpOnly: true,

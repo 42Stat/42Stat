@@ -254,7 +254,7 @@ export class AppService {
       outstandingCount: 10,
       averageBeginTime: 50000000,
       averageDuration: 30000000,
-      averageFeedbackLength: 143.5,
+      averageFeedbackLength: 105.5,
     };
 
     const correctedStat2: CorrectedStat = {
@@ -278,7 +278,7 @@ export class AppService {
       outstandingCount: 10,
       averageBeginTime: 100000000,
       averageDuration: 30000000,
-      averageCommentLength: 143.5,
+      averageFeedbackLength: 143.5,
     };
 
     const correctorStat2: CorrectorStat = {
@@ -290,7 +290,7 @@ export class AppService {
       outstandingCount: 10,
       averageBeginTime: 100000000,
       averageDuration: 30000000,
-      averageCommentLength: 143.5,
+      averageFeedbackLength: 143.5,
     };
 
     const monthlyEvaluationCount1: MonthlyEvaluationCount = {

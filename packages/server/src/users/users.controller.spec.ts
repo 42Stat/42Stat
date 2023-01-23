@@ -91,7 +91,7 @@ const correctorStat1: CorrectorStat = {
   outstandingCount: 10,
   averageBeginTime: 100000000,
   averageDuration: 30000000,
-  averageCommentLength: 143.5,
+  averageFeedbackLength: 100.5,
 };
 
 const correctedStat1: CorrectedStat = {
@@ -331,9 +331,10 @@ describe('UsersController', () => {
         .mockResolvedValueOnce(subjectStat1);
       jest.spyOn(usersService, 'getOverall').mockResolvedValueOnce(overall1);
 
-      expect(await usersController.getUserSummary(1)).toBeInstanceOf(
-        GetUserSummaryDto
-      );
+      const result = await usersController.getUserSummary(1);
+      expect(result).toBeInstanceOf(GetUserSummaryDto);
+      expect(result.correctedStat.averageFeedbackLength).toEqual(143.5);
+      expect(result.correctorStat.averageFeedbackLength).toEqual(100.5);
     });
     it('존재하지 않는 유저', async () => {
       jest.spyOn(intraUserRepository, 'findOne').mockResolvedValueOnce(null);

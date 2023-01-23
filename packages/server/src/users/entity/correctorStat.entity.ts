@@ -21,5 +21,5 @@ export class CorrectorStat {
   @Column({ default: 0 })
   averageDuration: number;
   @Column({ default: 0, type: 'real' })
-  averageCommentLength: number;
+  averageFeedbackLength: number;
 }

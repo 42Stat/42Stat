@@ -31,15 +31,15 @@ export class LeaderboardController {
   })
   async getLeaderboard(
     @Query('sort') sort: string,
-    @Query('generation') generation: number,
+    @Query('generation') generation: string,
     @Query('coalition') coalition: string,
     @Query('page') page: string
   ): Promise<GetLeaderboardDto[]> {
     return this.leaderboardService.getLeaderboard(
       sort,
-      generation,
+      generation ? Number(generation) : undefined,
       coalition,
-      page ? parseInt(page) : undefined
+      page ? Number(page) : undefined
     );
   }
 }

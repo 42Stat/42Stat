@@ -4,6 +4,11 @@ import { GetCoalitionDto, GetCoalitionsDto } from './dto/getCoalition.dto';
 import { Coalition } from './entity/coalition.entity';
 import { CoalitionScore } from './entity/coalitionScore.entity';
 
+interface CoalitionScoreRaw {
+  score: number;
+  name: string;
+}
+
 @Injectable()
 export class CoalitionsService {
   constructor(
@@ -15,7 +20,7 @@ export class CoalitionsService {
 
   async getCoalitions(): Promise<GetCoalitionsDto> {
     const data = await this.coalitionRepository.find();
-    const scores = await this.coalitionScoreRepository
+    const scores: CoalitionScoreRaw[] = await this.coalitionScoreRepository
       .createQueryBuilder('coalitionScore')
       .leftJoinAndSelect('coalitionScore.intra', 'intra')
       .leftJoinAndSelect('intra.coalition', 'coalition')

@@ -87,7 +87,7 @@ export class UsersService {
       newUser = await queryRunner.manager.save(User, user);
       await queryRunner.commitTransaction();
     } catch (error) {
-      console.log(error);
+      await queryRunner.rollbackTransaction();
     } finally {
       await queryRunner.release();
     }

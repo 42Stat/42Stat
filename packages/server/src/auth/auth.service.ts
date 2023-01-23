@@ -73,6 +73,7 @@ export class AuthService {
     let user: User;
     let googleId: string;
     let storedRefreshTokenPayload: RefreshTokenPayload = null;
+
     try {
       googleId = await this.verifyGoogleCredential(loginDto);
       user = await this.usersService.getUserByGoogleId(googleId);

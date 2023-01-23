@@ -18,6 +18,7 @@ const subjectsSortOptions: SwaggerEnumType = [
   'averageClearTime',
   '-averageClearTime',
 ];
+
 @Controller('subjects')
 @ApiTags('subjects')
 export class SubjectsController {

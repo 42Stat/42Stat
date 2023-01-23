@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { Repository } from 'typeorm';
 import { DatabaseModule } from '../database/database.module';
 import { Subject } from './entity/subject.entity';
 import { SubjectsController } from './subjects.controller';
@@ -34,7 +35,7 @@ const subject2: Subject = {
 describe('SubjectsController', () => {
   let controller: SubjectsController;
   let service: SubjectsService;
-  let subjectRepository;
+  let subjectRepository: Repository<Subject>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

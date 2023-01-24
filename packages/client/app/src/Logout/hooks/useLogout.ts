@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSetAtom } from 'jotai';
 import { refreshTokenAtom } from '../../Login/atoms/refreshTokenAtom';
-import { RouteList } from '../../AppRouter';
+import { RouteList } from '../../App';
 
 export const useLogout = () => {
   const setRefreshToken = useSetAtom(refreshTokenAtom);

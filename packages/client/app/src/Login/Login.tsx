@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { RouteList } from '../AppRouter';
+import { RouteList } from '../App';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { LoginMenuContainer } from './components/LoginMenuConatiner';
 import { useLoginQuery } from './hooks/useLoginQuery';

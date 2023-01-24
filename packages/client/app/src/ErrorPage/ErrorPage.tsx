@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { Navigate, useRouteError } from 'react-router-dom';
 import { StyleDefine } from '../styles/StyleDefine';
 import { AxiosError } from 'axios';
-import { RouteList } from '../AppRouter';
+import { RouteList } from '../App';
 import { useSetAtom } from 'jotai';
 import { needFtOAuthAtom } from '../Login/atoms/needFtOAuthAtom';
 import { Logout } from '../Logout/Logout';

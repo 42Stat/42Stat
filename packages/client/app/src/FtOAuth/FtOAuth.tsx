@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { Navigate } from 'react-router-dom';
-import { RouteList } from '../AppRouter';
+import { RouteList } from '../App';
 import { CheckLogin } from '../RouteGuard/components/CheckLogin';
 import { needFtOAuthAtom } from '../Login/atoms/needFtOAuthAtom';
 import { FtOAuthContent } from './components/FtOAuthContent';

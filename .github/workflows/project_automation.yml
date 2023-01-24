@@ -57,9 +57,9 @@ jobs:
             ;;
           esac
           echo "will move to $TO using node: $NODE"
-          echo "::set-output name=moveto::$TO"
-          echo "::set-output name=nodedata::$NODE"
-          echo "::set-output name=label::$LABEL"
+          echo "name=moveto::$TO" >> $GITHUB_OUTPUT
+          echo "name=nodedata::$NODE" >> $GITHUB_OUTPUT
+          echo "name=label::$LABEL" >> $GITHUB_OUTPUT
 
   move_card:
     runs-on: ubuntu-latest

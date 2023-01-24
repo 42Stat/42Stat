@@ -3,13 +3,13 @@ import { StyleDefine } from '../../styles/StyleDefine';
 import { JSXChildren } from '../../types/JSXChildren';
 import { useAtomValue } from 'jotai';
 import { displayHelpAtom } from '../atoms/displayHelpAtom';
-import { AppLogo } from '../../assets/AppLogo';
+import { AppLogoSvg } from '../../assets/AppLogoSvg';
 import { mediaQuery } from '../mediaQuery';
 
 export const LoginAppLogo = () => {
   return (
     <AppLogoContainer>
-      <AppLogo css={appLogoStyle} className="LoginAppLogo" />
+      <AppLogoSvg css={appLogoStyle} className="LoginAppLogo" />
     </AppLogoContainer>
   );
 };

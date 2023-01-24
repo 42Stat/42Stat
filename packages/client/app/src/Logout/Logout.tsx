@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useLogout } from './hooks/useLogout';
 
-interface LogoutProps {
+interface Props {
   to?: string;
 }
 
 /**
  * @description wrapper of useLogout.
  */
-export const Logout = ({ to }: LogoutProps) => {
+export const Logout = ({ to }: Props) => {
   const logout = useLogout();
 
   React.useEffect(() => {

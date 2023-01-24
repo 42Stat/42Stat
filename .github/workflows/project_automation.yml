@@ -12,64 +12,60 @@ env:
   code_review: 💬 Code Review
   done: ✅ Done
 
-  wait: WAIT
-  wip: WIP
-
-  event_name: ${{ github.event_name }}
-  event_action: ${{ github.event.action }}
-  issue_id: ${{ github.event.issue.node_id }}
-  pr_id: ${{ github.event.pull_request.node_id }}
-  issue_num: ${{ github.event.issue.number }}
-
 jobs:
-  check_event:
+  issue_opened_or_reopened:
+    name: issue_opened_or_reopened
     runs-on: ubuntu-latest
-    outputs:
-      to: ${{ steps.figure.outputs.moveto }}
-      node_id: ${{ steps.figure.outputs.nodedata }}
-      label: ${{ steps.figure.outputs.label }}
+    if: github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'reopened')
     steps:
-      - id: figure
-        run: |
-          echo $event_name
-          echo $event_action
-          echo $issue_id
-          case $event_name in
-            issues)
-              NODE="$issue_id"
-              case $event_action in
-                unassigned)
-                  TO="$backlog";;
-                assigned)
-                  TO="$in_progress";;
-                closed)
-                  TO="$done";;
-              esac
-            ;;
-            pull_request)
-              NODE="$pr_id"
-              case $event_action in
-                opened | reopened | review_requested)
-                  TO="$code_review";;
-                closed)
-                  TO="$done" ;;
-              esac
-            ;;
-          esac
-          echo "will move to $TO using node: $NODE"
-          echo "name=moveto::$TO" >> $GITHUB_OUTPUT
-          echo "name=nodedata::$NODE" >> $GITHUB_OUTPUT
-          echo "name=label::$LABEL" >> $GITHUB_OUTPUT
-
-  move_card:
-    runs-on: ubuntu-latest
-    needs: check_event
-    steps:
-      - name: Move issue to ${{ needs.check_event.outputs.to }}
-        uses: leonsteinhaeuser/project-beta-automations@v1.2.1
+      - name: Move issue to ${{ env.in_progress }}
+        uses: leonsteinhaeuser/project-beta-automations@v2.0.1
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          organization: 42Stat
+          # user: sample-user
+          organization: 42stat
           project_id: 1
-          resource_node_id: ${{ needs.check_event.outputs.node_id }}
-          status_value: ${{ needs.check_event.outputs.to }}
+          resource_node_id: ${{ github.event.issue.node_id }}
+          status_value: ${{ env.in_progress }} # Target status
+  issue_closed:
+    name: issue_closed
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'closed'
+    steps:
+      - name: Moved issue to ${{ env.done }}
+        uses: leonsteinhaeuser/project-beta-automations@v2.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # user: sample-user
+          organization: 42stat
+          project_id: 1
+          resource_node_id: ${{ github.event.issue.node_id }}
+          status_value: ${{ env.done }} # Target status
+  pr_opened_or_reopened_or_reviewrequested:
+    name: pr_opened_or_reopened_or_reviewrequested
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'review_requested')
+    steps:
+      - name: Move PR to ${{ env.code_review }}
+        uses: leonsteinhaeuser/project-beta-automations@v2.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # user: sample-user
+          organization: 42stat
+          project_id: 1
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: ${{ env.code_review }} # Target status
+  pr_closed:
+    name: pr_closed
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Move PR to ${{ env.done }}
+        uses: leonsteinhaeuser/project-beta-automations@v2.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # user: sample-user
+          organization: 42stat
+          project_id: 1
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: ${{ env.done }} # Target status

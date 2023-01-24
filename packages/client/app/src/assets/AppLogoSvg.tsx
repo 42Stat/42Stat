@@ -1,7 +1,8 @@
 import { StyleDefine } from '../styles/StyleDefine';
 import { CssPropsClassName } from '../types/CssPropsClassName';
 
-interface Props extends CssPropsClassName {}
+// linter issue... original: interface Props extends CssPropsClassName
+type Props = CssPropsClassName;
 
 export const AppLogoSvg = ({ className }: Props) => {
   return (

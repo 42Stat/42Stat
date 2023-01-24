@@ -7,6 +7,8 @@ import { FtOAuthNotification } from './FtOAuthNotification';
 
 export const FtOAuthClient = () => {
   const displayHelp = useAtomValue(displayHelpAtom);
+  const ftOAuthClientContainerStyle =
+    getFtOAuthClientContainerStyle(displayHelp);
   const ftOAuthButtonStyle = getFtOAuthButtonStyle(displayHelp);
 
   return (
@@ -22,17 +24,19 @@ export const FtOAuthClient = () => {
   );
 };
 
-const ftOAuthClientContainerStyle = css({
-  display: 'flex',
-  justifyContent: 'center',
-  height: '100%',
-  flexDirection: 'column',
-});
+const getFtOAuthClientContainerStyle = (displayHelp: boolean) => {
+  return css({
+    display: displayHelp ? 'none' : 'flex',
+    justifyContent: 'center',
+    height: '100%',
+    flexDirection: 'column',
+  });
+};
 
 const getFtOAuthButtonStyle = (displayHelp: boolean) => {
   return mediaQuery({
     // todo: switch to modal..? link..?
-    display: `${displayHelp ? 'none' : 'flex'}`,
+    display: 'flex',
     margin: '0.5rem auto 0 auto',
     width: ['400px', '280px', '200px'],
     height: '40px',

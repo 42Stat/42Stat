@@ -6,8 +6,7 @@ import { needFtOAuthAtom } from '../Login/atoms/needFtOAuthAtom';
 import { FtOAuthContent } from './components/FtOAuthContent';
 import { mediaQuery } from './mediaQuery';
 import { StyleDefine } from '../styles/StyleDefine';
-import { JSXChildren } from '../types/JSXChildren';
-import { AbsCenter } from '../styles/AbsCenter';
+import { css } from '@emotion/react';
 
 export const FtOAuth = () => {
   const needFtOAuth = useAtomValue(needFtOAuthAtom);
@@ -18,29 +17,28 @@ export const FtOAuth = () => {
 
   return (
     <CheckLogin>
-      <FtOAuthBackground>
-        <FtOAuthContent />
-      </FtOAuthBackground>
+      <div css={ftOAuthContainerStyle}>
+        <div css={ftOAuthBackgroundStyle}>
+          <FtOAuthContent />
+        </div>
+      </div>
     </CheckLogin>
   );
 };
 
-const FtOAuthBackground = ({ children }: JSXChildren) => {
-  return (
-    <AbsCenter css={ftOAuthBackgroundStyle} className="LoginMenuBackground">
-      {children}
-    </AbsCenter>
-  );
-};
+const ftOAuthContainerStyle = css({
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+});
 
 const ftOAuthBackgroundStyle = mediaQuery({
-  boxSizing: 'border-box',
   width: ['100%', '450px', '280px'],
   maxWidth: ['100%', '450px', '280px'],
   overFlowX: 'hidden',
   height: ['100%', '600px'],
   minHeight: '600px',
-  borderRadius: '25px',
+  borderRadius: ['0px', '25px'],
   backgroundColor: StyleDefine.colors.surface,
   display: 'flex',
   flexDirection: 'column',

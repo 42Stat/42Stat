@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { RouteList } from '../App';
 import { LoadingSpinner } from '../LoadingSpinner';
-import { LoginMenuContainer } from './components/LoginMenuConatiner';
+import { LoginMenu } from './components/LoginMenu';
 import { useLoginQuery } from './hooks/useLoginQuery';
 
 export const Login = () => {
@@ -13,7 +13,7 @@ export const Login = () => {
       return <LoadingSpinner />;
     }
 
-    return <LoginMenuContainer />;
+    return <LoginMenu />;
   }
 
   if (loginQuery.isError) {

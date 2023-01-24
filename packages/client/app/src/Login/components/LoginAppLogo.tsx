@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import { StyleDefine } from '../../styles/StyleDefine';
-import { JSXChildren } from '../../types/JSXChildren';
 import { useAtomValue } from 'jotai';
 import { displayHelpAtom } from '../atoms/displayHelpAtom';
 import { AppLogoSvg } from '../../assets/AppLogoSvg';
 import { mediaQuery } from '../mediaQuery';
+import { ReactChildren } from '../../types/ReactChildren';
 
 export const LoginAppLogo = () => {
   return (
@@ -14,7 +14,7 @@ export const LoginAppLogo = () => {
   );
 };
 
-const AppLogoContainer = ({ children }: JSXChildren) => {
+const AppLogoContainer = ({ children }: ReactChildren) => {
   const displayHelp = useAtomValue(displayHelpAtom);
 
   const AppLogoContainerStyle = css({

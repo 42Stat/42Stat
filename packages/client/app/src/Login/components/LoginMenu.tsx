@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { StyleDefine } from '../../styles/StyleDefine';
-import { JSXChildren } from '../../types/JSXChildren';
-import { AbsCenter } from '../../styles/AbsCenter';
 import { LoginMenuContent } from './LoginMenuContent';
 import { mediaQuery } from '../mediaQuery';
 import { useSetAtom } from 'jotai';
 import { displayHelpAtom } from '../atoms/displayHelpAtom';
+import { css } from '@emotion/react';
 
-export const LoginMenuContainer = () => {
+export const LoginMenu = () => {
   const setDisplayHelp = useSetAtom(displayHelpAtom);
 
   React.useEffect(() => {
@@ -15,28 +14,27 @@ export const LoginMenuContainer = () => {
   }, [setDisplayHelp]);
 
   return (
-    <LoginMenuBackground>
-      <LoginMenuContent />
-    </LoginMenuBackground>
+    <div css={loginContainerStyle}>
+      <div css={loginBackgroundStyle}>
+        <LoginMenuContent />
+      </div>
+    </div>
   );
 };
 
-const LoginMenuBackground = ({ children }: JSXChildren) => {
-  return (
-    <AbsCenter css={loginBackgroundStyle} className="LoginMenuBackground">
-      {children}
-    </AbsCenter>
-  );
-};
+const loginContainerStyle = css({
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+});
 
 const loginBackgroundStyle = mediaQuery({
-  boxSizing: 'border-box',
   width: ['100%', '450px', '280px'],
   maxWidth: ['100%', '450px', '280px'],
   overFlowX: 'hidden',
   height: ['100%', '600px'],
   minHeight: '600px',
-  borderRadius: '25px',
+  borderRadius: ['0px', '25px'],
   backgroundColor: StyleDefine.colors.surface,
   display: 'flex',
   flexDirection: 'column',

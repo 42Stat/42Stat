@@ -3,8 +3,8 @@ import { useAtomValue } from 'jotai';
 import { AppLogoSvg } from '../../assets/AppLogoSvg';
 import { displayHelpAtom } from '../../Login/atoms/displayHelpAtom';
 import { StyleDefine } from '../../styles/StyleDefine';
-import { JSXChildren } from '../../types/JSXChildren';
 import { mediaQuery } from '../mediaQuery';
+import { ReactChildren } from '../../types/ReactChildren';
 
 export const FtOAuthAppLogo = () => {
   return (
@@ -14,7 +14,7 @@ export const FtOAuthAppLogo = () => {
   );
 };
 
-const AppLogoContainer = ({ children }: JSXChildren) => {
+const AppLogoContainer = ({ children }: ReactChildren) => {
   const displayHelp = useAtomValue(displayHelpAtom);
 
   const AppLogoContainerStyle = css({

@@ -3,10 +3,10 @@ import { useAtomValue } from 'jotai';
 import { Navigate } from 'react-router-dom';
 import { RouteList } from '../../App';
 import { needLoginAtom } from '../../Login/atoms/refreshTokenAtom';
-import { JSXChildren } from '../../types/JSXChildren';
 import { useSetOriginalPath } from '../hooks/useSetOriginalPath';
+import { ReactChildren } from '../../types/ReactChildren';
 
-export const CheckLogin = ({ children }: JSXChildren) => {
+export const CheckLogin = ({ children }: ReactChildren) => {
   const needLogin = useAtomValue(needLoginAtom);
   const setOriginalPath = useSetOriginalPath();
 
@@ -16,5 +16,5 @@ export const CheckLogin = ({ children }: JSXChildren) => {
     }
   }, [needLogin, setOriginalPath]);
 
-  return needLogin ? <Navigate to={RouteList.LOGIN} /> : children;
+  return needLogin ? <Navigate to={RouteList.LOGIN} /> : <>{children}</>;
 };

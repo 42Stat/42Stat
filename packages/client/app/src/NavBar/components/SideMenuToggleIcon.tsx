@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { css } from '@emotion/react';
 import { useSetAtom } from 'jotai';
 import { SideMenuIconSvg } from '../../assets/SideMenuIconSvg';
-import { StyleDefine } from '../../styles/StyleDefine';
 import { isSideMenuToggledAtom } from '../atoms/isSideMenuToggledAtom';
-import { SideMenuStyle } from '../styles/SideMenuStyle';
+import { NavIconStyle } from '../styles/NavIconStyle';
+import { css } from '@emotion/react';
 
-export const SideMenuToggler = () => {
+export const SideMenuToggleIcon = () => {
   const setIsSideMenuToggled = useSetAtom(isSideMenuToggledAtom);
 
-  const handleIconClick = (e: React.MouseEvent<HTMLOrSVGElement>) => {
+  const handleIconClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsSideMenuToggled(true);
   };
@@ -24,8 +23,10 @@ export const SideMenuToggler = () => {
   );
 };
 
-const sideMenuTogglerIconStyle = css({
-  width: SideMenuStyle.iconWidth,
-  height: SideMenuStyle.menuHeight,
-  fill: StyleDefine.colors.onSurface,
-});
+const sideMenuTogglerIconStyle = css(
+  {
+    width: '1.8rem',
+    height: '2rem',
+  },
+  NavIconStyle
+);

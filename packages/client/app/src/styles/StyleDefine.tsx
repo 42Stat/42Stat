@@ -15,7 +15,7 @@ export const StyleDefine = {
     onSecondary: '#000000',
     onError: '#000000',
     ftTheme: 'rgb(0, 186, 187)',
-    ftHemeDark: 'rgb(0, 166, 167)',
+    ftThemeDark: 'rgb(0, 166, 167)',
   },
 
   fontSize: {

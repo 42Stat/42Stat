@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '../axiosConfig';
 import { useLogout } from '../Logout/hooks/useLogout';
 import { Logout } from '../Logout/Logout';
+import { NavBar } from '../NavBar/NavBar';
 
 export const Profile = () => {
   const logout = useLogout();
@@ -22,6 +23,7 @@ export const Profile = () => {
 
   return (
     <>
+      <NavBar />
       <div
         css={css`
           color: white;

@@ -22,8 +22,8 @@ jobs:
         uses: leonsteinhaeuser/project-beta-automations@v2.0.1
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          # user: sample-user
-          organization: 42stat
+          user: Devdha
+          # organization: 42stat
           project_id: 1
           resource_node_id: ${{ github.event.issue.node_id }}
           status_value: ${{ env.in_progress }} # Target status
@@ -36,8 +36,8 @@ jobs:
         uses: leonsteinhaeuser/project-beta-automations@v2.0.1
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          # user: sample-user
-          organization: 42stat
+          user: Devdha
+          # organization: 42stat
           project_id: 1
           resource_node_id: ${{ github.event.issue.node_id }}
           status_value: ${{ env.done }} # Target status
@@ -50,8 +50,8 @@ jobs:
         uses: leonsteinhaeuser/project-beta-automations@v2.0.1
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          # user: sample-user
-          organization: 42stat
+          user: Devdha
+          # organization: 42stat
           project_id: 1
           resource_node_id: ${{ github.event.pull_request.node_id }}
           status_value: ${{ env.code_review }} # Target status
@@ -64,8 +64,8 @@ jobs:
         uses: leonsteinhaeuser/project-beta-automations@v2.0.1
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          # user: sample-user
-          organization: 42stat
+          user: Devdha
+          # organization: 42stat
           project_id: 1
           resource_node_id: ${{ github.event.pull_request.node_id }}
           status_value: ${{ env.done }} # Target status

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSetAtom } from 'jotai';
 import { SideMenuIconSvg } from '../../assets/SideMenuIconSvg';
-import { isSideMenuToggledAtom } from '../atoms/isSideMenuToggledAtom';
+import { isSideMenuToggledAtom } from '../../SideBar/atoms/isSideMenuToggledAtom';
 import { NavIconStyle } from '../styles/NavIconStyle';
 import { css } from '@emotion/react';
 

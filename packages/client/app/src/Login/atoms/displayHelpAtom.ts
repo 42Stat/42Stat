@@ -1,3 +1,3 @@
 import { atom } from 'jotai';
 
-export const displayHelpAtom = atom<boolean>(false);
+export const displayHelpAtom = atom(false);

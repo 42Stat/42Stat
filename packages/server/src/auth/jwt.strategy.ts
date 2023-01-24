@@ -5,7 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from './auth.service';
 
 type AccessTokenPayload = {
-  googleId: number;
+  googleId: string;
   intraId: number;
 };
 
@@ -27,9 +27,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
   // TODO: Passport에서 우선적으로 verify를 하는 지 확인 필요(실패시 401?)
   async validate(payload: AccessTokenPayload): Promise<AccessTokenPayload> {
-    // const user = this.authService.validateUser(payload.googleId);
+    const user = this.authService.validateUser(payload.googleId);
     // TODO: For test
-    this.authService.validateUserTest(payload.intraId);
+    // this.authService.validateUserTest(payload.intraId);
     return payload;
   }
 }

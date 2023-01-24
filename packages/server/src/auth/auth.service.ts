@@ -47,11 +47,11 @@ export class AuthService {
     if (!user) throw new ForbiddenException();
   }
 
-  async validateUserTest(intraId: number) {
-    const user = await this.usersService.getUserByIntraId(intraId);
-    // If user is not found, throw Forbidden(403)
-    if (!user) throw new ForbiddenException();
-  }
+  // async validateUserTest(intraId: number) {
+  //   const user = await this.usersService.getUserByIntraId(intraId);
+  //   // If user is not found, throw Forbidden(403)
+  //   if (!user) throw new ForbiddenException();
+  // }
 
   // ANCHOR: login
   async verifyGoogleCredential(loginDto: LoginRequestDto): Promise<string> {
@@ -66,7 +66,7 @@ export class AuthService {
   }
 
   isValidRefreshToken(payload: RefreshTokenPayload): boolean {
-    return payload && payload['expirationTime'] > Date.now();
+    return payload && payload.expirationTime > Number(Date.now());
   }
 
   async login(loginDto: LoginRequestDto): Promise<LoginResponse> {
@@ -78,7 +78,6 @@ export class AuthService {
       googleId = await this.verifyGoogleCredential(loginDto);
       user = await this.usersService.getUserByGoogleId(googleId);
     } catch (error) {
-      console.log(error);
       throw new UnauthorizedException();
     }
 
@@ -98,7 +97,6 @@ export class AuthService {
           );
         }
       } catch (error) {
-        console.log(error);
         throw new UnauthorizedException();
       }
     } else {
@@ -119,6 +117,8 @@ export class AuthService {
     );
 
     let refreshToken = '';
+    console.log('storedRefreshTokenPayload', storedRefreshTokenPayload);
+    console.log('user', user);
     // TODO: Refresh token 만료 시간이 지났을 때만 새로 발급(작동 확인 필요)
     if (this.isValidRefreshToken(storedRefreshTokenPayload)) {
       refreshToken = user.refreshToken;
@@ -142,6 +142,7 @@ export class AuthService {
     }
     // TODO: for test
     console.log(`Bearer ${accessToken}`);
+    console.log(refreshToken);
 
     return {
       accessToken: accessToken,
@@ -152,43 +153,42 @@ export class AuthService {
     };
   }
 
-  async loginTest(): Promise<any> {
-    try {
-      const user = await this.usersService.getUserByIntraId(99733);
-      const accessToken = this.jwtService.sign(
-        {
-          googleId: 1,
-          intraId: user.id,
-          needOfFtOAuth: false,
-        },
-        {
-          expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}s`,
-          secret: process.env.JWT_ACCESS_TOKEN_SECRET,
-        }
-      );
-      const refreshToken = this.jwtService.sign(
-        {
-          googleId: 1,
-          intraId: user.id,
-          needOfFtOAuth: false,
-        },
-        {
-          expiresIn: `${process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME}d`,
-          secret: process.env.JWT_REFRESH_TOKEN_SECRET,
-        }
-      );
+  // async loginTest(): Promise<any> {
+  //   try {
+  //     const user = await this.usersService.getUserByIntraId(99733);
+  //     const accessToken = this.jwtService.sign(
+  //       {
+  //         googleId: 1,
+  //         intraId: user.id,
+  //         needOfFtOAuth: false,
+  //       },
+  //       {
+  //         expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}s`,
+  //         secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+  //       }
+  //     );
+  //     const refreshToken = this.jwtService.sign(
+  //       {
+  //         googleId: 1,
+  //         intraId: user.id,
+  //         needOfFtOAuth: false,
+  //       },
+  //       {
+  //         expiresIn: `${process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME}d`,
+  //         secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+  //       }
+  //     );
 
-      console.log(`Bearer ${accessToken}`);
-      console.log(`${refreshToken}`);
-      return {
-        accessToken: accessToken,
-        body: { refreshToken: refreshToken, needFtOAuth: false },
-      };
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException();
-    }
-  }
+  //     console.log(`Bearer ${accessToken}`);
+  //     return {
+  //       accessToken: accessToken,
+  //       body: { refreshToken: refreshToken, needFtOAuth: false },
+  //     };
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new BadRequestException();
+  //   }
+  // }
 
   // ANCHOR: refresh token
   async tokenRefresh(payload: RefreshTokenPayload): Promise<string> {
@@ -228,8 +228,13 @@ export class AuthService {
 
       user.intra = intraUser;
       await this.usersService.saveUser(user);
+
+      accessTokenPayload.intraId = intraId;
+      accessToken = this.jwtService.sign(
+        accessTokenPayload,
+        accessTokenOptions
+      );
     } catch (error) {
-      console.log(error);
       return null;
     }
 

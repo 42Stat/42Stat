@@ -4,7 +4,7 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 
 // todo: delete here
-export const frontendURL = 'https://6824-121-135-181-41.jp.ngrok.io';
+export const frontendURL = process.env.FRONTEND_URL;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

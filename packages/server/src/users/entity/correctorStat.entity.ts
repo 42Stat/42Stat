@@ -8,11 +8,11 @@ export class CorrectorStat {
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
   @JoinColumn()
   intra: IntraUser;
-  @Column({ default: 0, type: 'float4' })
+  @Column({ default: 0, type: 'real' })
   averageMark: number;
   @Column({ default: 0 })
   evaluationCount: number;
-  @Column({ default: 0, type: 'float4' })
+  @Column({ default: 0, type: 'real' })
   averageEvaluationCount: number;
   @Column({ default: 0 })
   outstandingCount: number;
@@ -20,6 +20,6 @@ export class CorrectorStat {
   averageBeginTime: number;
   @Column({ default: 0 })
   averageDuration: number;
-  @Column({ default: 0, type: 'float4' })
-  averageCommentLength: number;
+  @Column({ default: 0, type: 'real' })
+  averageFeedbackLength: number;
 }

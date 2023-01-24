@@ -10,7 +10,6 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { CookieOptions, Request, Response } from 'express';
-import { frontendURL } from '../main';
 import { AuthService, RefreshTokenPayload } from './auth.service';
 import {
   LoginRequestDto,
@@ -19,6 +18,7 @@ import {
 } from './dto/login.dto';
 import { Payload } from './payload.decorator';
 
+const frontendURL = process.env.FRONTEND_URL;
 const accessTokenHeaderKey = 'Authorization';
 const cookieOptions: CookieOptions = {
   httpOnly: true,
@@ -44,13 +44,13 @@ export class AuthController {
     return body;
   }
 
-  @Post('login-test')
-  @ApiTags('account')
-  async loginTest(@Res({ passthrough: true }) res: Response): Promise<any> {
-    const { accessToken, body } = await this.authService.loginTest();
-    res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
-    return body;
-  }
+  // @Post('login-test')
+  // @ApiTags('account')
+  // async loginTest(@Res({ passthrough: true }) res: Response): Promise<any> {
+  //   const { accessToken, body } = await this.authService.loginTest();
+  //   res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
+  //   return body;
+  // }
 
   @Post('logout')
   @ApiTags('account')
@@ -84,9 +84,9 @@ export class AuthController {
   async ftOAuthRedirect(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response
-  ) {
+  ): Promise<string> {
     const { user } = req;
-    const accessToken: string | undefined = req.cookies[accessTokenHeaderKey];
+    const accessToken: string | undefined = req?.cookies[accessTokenHeaderKey];
     // TODO: check undefined here, redirect to frontend page manually
     const newAccessToken = await this.authService.ftOAuthRedirect(
       accessToken,
@@ -95,6 +95,6 @@ export class AuthController {
     const redirectURL = newAccessToken ? frontendURL : `${frontendURL}/logout`;
     res.cookie(accessTokenHeaderKey, newAccessToken, cookieOptions);
     res.redirect(redirectURL);
-    return;
+    return redirectURL;
   }
 }

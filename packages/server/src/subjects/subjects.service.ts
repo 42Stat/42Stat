@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { FindManyOptions, Repository } from 'typeorm';
 import { GetSubjectDto } from './dto/getSubject.dto';
 import { Subject } from './entity/subject.entity';
@@ -17,6 +17,9 @@ export class SubjectsService {
     sort = 'totalClearCount',
     page = 1
   ): Promise<GetSubjectDto[]> {
+    if (!Number.isInteger(page))
+      throw new BadRequestException('page는 정수여야 합니다.');
+    if (page < 1) throw new BadRequestException('page는 1 이상이어야 합니다.');
     const subjectFindOptions: FindManyOptions<Subject> = {
       where: {
         isCommonCourse: scope,
@@ -55,7 +58,6 @@ export class SubjectsService {
     const subjectDtos = subjects.map((subject) => {
       return new GetSubjectDto(subject, passedSubjectSet.has(subject.id));
     });
-    console.log(subjectDtos);
 
     return subjectDtos;
   }

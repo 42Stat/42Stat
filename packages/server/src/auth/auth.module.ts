@@ -9,8 +9,8 @@ import { FtOAuthStrategy } from './ftOAuth.strategy';
 
 @Module({
   imports: [UsersModule, JwtModule],
-  providers: [AuthService, JwtStrategy, JwtRefreshStrategy, FtOAuthStrategy],
   controllers: [AuthController],
+  providers: [AuthService, JwtStrategy, JwtRefreshStrategy, FtOAuthStrategy],
   exports: [JwtModule],
 })
 export class AuthModule {}

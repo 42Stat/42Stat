@@ -10,7 +10,7 @@ export class SubjectStat {
   @OneToOne(() => IntraUser, (intraUser) => intraUser.id)
   @JoinColumn()
   intra: IntraUser;
-  @Column({ default: 0, type: 'float4' })
+  @Column({ default: 0, type: 'real' })
   averageFinalMark: number;
   @Column({ default: 0 })
   averageClearTime: number;

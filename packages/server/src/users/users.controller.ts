@@ -54,7 +54,7 @@ export class UsersController {
     return await this.usersService.getUserSubjects(
       id,
       sort,
-      page ? parseInt(page) : 1
+      page ? Number(page) : 1
     );
   }
 
@@ -74,9 +74,9 @@ export class UsersController {
     return await this.usersService.getUserFeedbacks(
       id,
       type,
-      outstanding === 'true' ? true : false,
+      outstanding,
       subject,
-      page ? parseInt(page) : 1
+      page ? Number(page) : 1
     );
   }
 }

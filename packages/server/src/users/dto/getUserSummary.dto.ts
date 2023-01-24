@@ -40,16 +40,17 @@ export class GetCorrectionStatDto {
     this.averageMark = stat.averageMark;
     this.averageEvaluationCount = stat.averageEvaluationCount;
     this.totalEvaluationCount = stat.evaluationCount;
+
     const averageBeginTime = stat.averageBeginTime / 1000 / 60 / 60;
+
     if (averageBeginTime > 6 && averageBeginTime < 12)
       this.preferedTime = 'Morning';
     else if (averageBeginTime < 18) this.preferedTime = 'Afternoon';
     else if (averageBeginTime < 22) this.preferedTime = 'Evening';
     else this.preferedTime = 'Night';
+
     this.averageDuration = Math.floor(stat.averageDuration / 1000 / 60);
-    if (stat instanceof CorrectedStat)
-      this.averageFeedbackLength = stat.averageFeedbackLength;
-    else this.averageFeedbackLength = stat.averageCommentLength;
+    this.averageFeedbackLength = stat.averageFeedbackLength;
     this.totalOutstandingCount = stat.outstandingCount;
   }
   @ApiProperty()

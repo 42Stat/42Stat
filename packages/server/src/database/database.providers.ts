@@ -15,7 +15,7 @@ export const databaseProviders = [
         entities: [__dirname + '/../**/**/*.entity{.ts,.js}'],
         synchronize: true,
         namingStrategy: new SnakeNamingStrategy(),
-        logging: true,
+        logging: false,
       });
 
       return dataSource.initialize();

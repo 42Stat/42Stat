@@ -1,7 +1,9 @@
 import { StyleDefine } from '../styles/StyleDefine';
 import { CssPropsClassName } from '../types/CssPropsClassName';
 
-export const AppLogo = ({ className }: CssPropsClassName) => {
+interface Props extends CssPropsClassName {}
+
+export const AppLogoSvg = ({ className }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

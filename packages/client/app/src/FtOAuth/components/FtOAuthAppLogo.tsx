@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { useAtomValue } from 'jotai';
-import { AppLogo } from '../../assets/AppLogo';
+import { AppLogoSvg } from '../../assets/AppLogoSvg';
 import { displayHelpAtom } from '../../Login/atoms/displayHelpAtom';
 import { StyleDefine } from '../../styles/StyleDefine';
 import { JSXChildren } from '../../types/JSXChildren';
@@ -9,7 +9,7 @@ import { mediaQuery } from '../mediaQuery';
 export const FtOAuthAppLogo = () => {
   return (
     <AppLogoContainer>
-      <AppLogo css={appLogoStyle} className="FtOAuthAppLogo" />
+      <AppLogoSvg css={appLogoStyle} className="FtOAuthAppLogo" />
     </AppLogoContainer>
   );
 };

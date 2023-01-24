@@ -1,6 +1,8 @@
 import { CssPropsClassName } from '../types/CssPropsClassName';
 
-export const FtLogoSvg = ({ className }: CssPropsClassName) => {
+interface Props extends CssPropsClassName {}
+
+export const FtLogoSvg = ({ className }: Props) => {
   return (
     <svg
       className={className}

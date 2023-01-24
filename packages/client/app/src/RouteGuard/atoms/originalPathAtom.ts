@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { RouteList } from '../../AppRouter';
+import { RouteList } from '../../App';
 
 const localStorageKey = 'original-path';
 

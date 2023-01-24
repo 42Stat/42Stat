@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { Navigate, Outlet } from 'react-router-dom';
-import { RouteList } from '../../AppRouter';
+import { RouteList } from '../../App';
 import { needLoginAtom } from '../../Login/atoms/refreshTokenAtom';
 
 export const CheckNoLogin = () => {

@@ -6,8 +6,6 @@ import { needFtOAuthAtom } from '../Login/atoms/needFtOAuthAtom';
 import { FtOAuthContent } from './components/FtOAuthContent';
 import { mediaQuery } from './mediaQuery';
 import { StyleDefine } from '../styles/StyleDefine';
-import { NavBar } from '../NavBar/NavBar';
-import { ReactChildren } from '../types/ReactChildren';
 import { css } from '@emotion/react';
 
 export const FtOAuth = () => {

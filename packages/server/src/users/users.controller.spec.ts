@@ -18,7 +18,11 @@ import { CorrectorStat } from './entity/correctorStat.entity';
 import { TitleUser } from './entity/title.entity';
 import { CorrectedStat } from './entity/correctedStat.entity';
 import { User } from './entity/user.entity';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  NotFoundException,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import { Subject } from '../subjects/entity/subject.entity';
 import { GetUserSummaryDto } from './dto/getUserSummary.dto';
 import { GetUserSubjectDto } from '../subjects/dto/getSubject.dto';
@@ -32,6 +36,17 @@ const coalition1: Coalition = {
   subjectPassedCount: 2,
   evaluationCount: 2,
   blackholedUserCount: 2,
+};
+
+const user1: User = {
+  id: '1',
+  intra: null,
+  refreshToken: null,
+};
+const user2: User = {
+  id: '123',
+  intra: null,
+  refreshToken: null,
 };
 
 const intraUser1: IntraUser = {
@@ -280,6 +295,20 @@ describe('UsersController', () => {
     dataSource = moduleRef.get('DATA_SOURCE');
     usersService = moduleRef.get<UsersService>(UsersService);
     usersController = moduleRef.get<UsersController>(UsersController);
+  });
+
+  it('saveIntraUser Test', async () => {
+    const result = await usersService.saveIntraUser(user1, intraUser1);
+    console.log(result);
+    expect(result).toBeInstanceOf(Object);
+  });
+  it('saveIntraUser Test', async () => {
+    try {
+      const result = await usersService.saveIntraUser(user2, intraUser1);
+      console.log(result);
+    } catch (error) {
+      expect(error).toBeInstanceOf(ServiceUnavailableException);
+    }
   });
 
   // ANCHOR: getUserProfile

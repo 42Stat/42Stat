@@ -23,6 +23,7 @@ type AccessTokenPayload = {
   googleId: string;
   intraId: number;
 };
+
 export type RefreshTokenPayload = {
   googleId: string;
   expirationTime: number;
@@ -44,7 +45,7 @@ export class AuthService {
   async validateUser(googleId: string) {
     const user = await this.usersService.getUserByGoogleId(googleId);
     // If user is not found, throw Forbidden(403)
-    if (!user) throw new ForbiddenException();
+    if (user === null || user.intra == null) throw new ForbiddenException();
   }
 
   // async validateUserTest(intraId: number) {

@@ -49,6 +49,21 @@ const user2: User = {
   refreshToken: null,
 };
 
+type AccessTokenPayload = {
+  intraId: number;
+  googleId: string;
+};
+
+const accessTokenPayload1: AccessTokenPayload = {
+  intraId: 99947,
+  googleId: '123',
+};
+
+const accessTokenPayload2: AccessTokenPayload = {
+  intraId: null,
+  googleId: '123',
+};
+
 const intraUser1: IntraUser = {
   id: 99947,
   email: 'jaham@student.42seoul.kr',
@@ -309,6 +324,97 @@ describe('UsersController', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(ServiceUnavailableException);
     }
+  });
+
+  // ANCHOR: getMyProfile
+  describe('getMyProfile', () => {
+    // 정상 동작
+    it('정상 동작', async () => {
+      expect(
+        await usersController.getMyProfile(accessTokenPayload1)
+      ).toBeInstanceOf(GetUserProfileDto);
+    });
+    // intraId가 null인 경우
+    it('intraId가 null인 경우', async () => {
+      try {
+        await usersController.getMyProfile(accessTokenPayload2);
+      } catch (error) {
+        console.log(error);
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+  // ANCHOR: getMySummary
+  describe('getMySummary', () => {
+    // 정상 동작
+    it('정상 동작', async () => {
+      expect(
+        await usersController.getMySummary(accessTokenPayload1)
+      ).toBeInstanceOf(GetUserSummaryDto);
+    });
+    // intraId가 null인 경우
+    it('intraId가 null인 경우', async () => {
+      try {
+        await usersController.getMySummary(accessTokenPayload2);
+      } catch (error) {
+        console.log(error);
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+  // ANCHOR: getMySubjects
+  describe('getMySubjects', () => {
+    it('정상 동작', async () => {
+      expect(
+        await usersController.getMySubjects(
+          accessTokenPayload1,
+          undefined,
+          undefined
+        )
+      ).toBeInstanceOf(Array);
+    });
+    // intraId가 null인 경우
+    it('intraId가 null인 경우', async () => {
+      try {
+        await usersController.getMySubjects(
+          accessTokenPayload2,
+          undefined,
+          undefined
+        );
+      } catch (error) {
+        console.log(error);
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+  // ANCHOR: getMyFeedbacks
+  describe('getMyFeedbacks', () => {
+    it('정상 동작', async () => {
+      expect(
+        await usersController.getMyFeedbacks(
+          accessTokenPayload1,
+          'as-corrector',
+          undefined,
+          undefined,
+          undefined
+        )
+      ).toBeInstanceOf(Array);
+    });
+    // intraId가 null인 경우
+    it('intraId가 null인 경우', async () => {
+      try {
+        await usersController.getMyFeedbacks(
+          accessTokenPayload2,
+          'as-corrected',
+          undefined,
+          undefined,
+          undefined
+        );
+      } catch (error) {
+        console.log(error);
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
   });
 
   // ANCHOR: getUserProfile

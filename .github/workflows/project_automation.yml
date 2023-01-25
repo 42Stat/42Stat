@@ -1,10 +1,7 @@
 name: Project automation
 on:
   issues:
-    types: [unassigned, assigned, closed]
-
   pull_request:
-    types: [opened, reopened, review_requested, closed]
 
 env:
   backlog: 🗃 Backlog
@@ -13,10 +10,16 @@ env:
   done: ✅ Done
 
 jobs:
+  # print_event:
+  #   name: print_event
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Print event
+  #       run: echo "${{ github.event_name }} ${{ github.event.action }}"
   issue_opened_or_reopened:
     name: issue_opened_or_reopened
     runs-on: ubuntu-latest
-    if: github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'reopened')
+    if: github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'assigned')
     steps:
       - name: Move issue to ${{ env.in_progress }}
         uses: leonsteinhaeuser/project-beta-automations@v2.0.1

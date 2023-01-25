@@ -213,31 +213,33 @@ export class AuthService {
     const jwtVerifyOptions: JwtVerifyOptions = {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
     };
-    let accessTokenPayload: AccessTokenPayload;
     try {
-      accessTokenPayload = this.jwtService.verify(
+      const accessTokenPayload = this.jwtService.verify<AccessTokenPayload>(
         accessToken,
         jwtVerifyOptions
       );
 
-      const googleId: string = accessTokenPayload.googleId;
+      const googleId = accessTokenPayload.googleId;
       const user = await this.usersService.getUserByGoogleId(googleId);
       const intraUser = await this.usersService.getUserByIntraId(intraId);
       if (user === null || intraUser === null)
         throw new Error('User not found');
 
-      user.intra = intraUser;
-      await this.usersService.saveUser(user);
+      await this.usersService.saveIntraUser(user, intraUser);
 
-      accessTokenPayload.intraId = intraId;
-      accessToken = this.jwtService.sign(
-        accessTokenPayload,
+      const newAccessTokenPayload = {
+        googleId,
+        intraId,
+      };
+
+      const newAccessToken = this.jwtService.sign(
+        newAccessTokenPayload,
         accessTokenOptions
       );
-    } catch (error) {
-      return null;
-    }
 
-    return accessToken;
+      return newAccessToken;
+    } catch (error) {
+      throw error;
+    }
   }
 }

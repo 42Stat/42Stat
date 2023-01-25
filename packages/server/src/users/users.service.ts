@@ -93,7 +93,34 @@ export class UsersService {
     }
     if (newUser === null) throw new ServiceUnavailableException();
 
-    // 503
+    return newUser;
+  }
+
+  async saveIntraUser(user: User, intraUser: IntraUser): Promise<User> {
+    const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
+
+    let newUser = user;
+    newUser.intra = intraUser;
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const isExistUser = await queryRunner.manager.exists(User, {
+        where: { id: user.id },
+      });
+      if (isExistUser === false)
+        throw new BadRequestException('User not exist');
+
+      await queryRunner.manager.save(User, newUser);
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      newUser = null;
+    } finally {
+      await queryRunner.release();
+    }
+    if (newUser === null) throw new ServiceUnavailableException();
+
     return newUser;
   }
 

@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import { StyleDefine } from '../../styles/StyleDefine';
-import { ReactChildren } from '../../types/ReactChildren';
 import { mediaQuery } from '../mediaQuery';
 import { FtOAuthCancel } from './FtOAuthCancel';
 import { FtOAuthNotification } from './FtOAuthNotification';

@@ -314,13 +314,11 @@ describe('UsersController', () => {
 
   it('saveIntraUser Test', async () => {
     const result = await usersService.saveIntraUser(user1, intraUser1);
-    console.log(result);
     expect(result).toBeInstanceOf(Object);
   });
   it('saveIntraUser Test', async () => {
     try {
       const result = await usersService.saveIntraUser(user2, intraUser1);
-      console.log(result);
     } catch (error) {
       expect(error).toBeInstanceOf(ServiceUnavailableException);
     }
@@ -758,6 +756,51 @@ describe('UsersController', () => {
           undefined,
           undefined
         );
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
+  });
+
+  // ANCHOR: searchUser
+  describe('searchUser', () => {
+    // 정상 동작
+    it('정상 동작', async () => {
+      jest.spyOn(userRepository, 'find').mockResolvedValueOnce([user1]);
+      expect(await usersController.searchUser('j', undefined)).toBeInstanceOf(
+        Array
+      );
+    });
+    // 빈 검색어
+    it('빈 검색어', async () => {
+      // jest.spyOn(userRepository, 'find').mockResolvedValueOnce([]);
+      expect(await usersController.searchUser('', undefined)).toHaveLength(0);
+    });
+    // 공백
+    it('공백', async () => {
+      jest.spyOn(userRepository, 'find').mockResolvedValueOnce([]);
+      expect(await usersController.searchUser(' ', undefined)).toHaveLength(0);
+    });
+    // 페이지 에러(0)
+    it('페이지 에러(0)', async () => {
+      try {
+        await usersController.searchUser('j', '0');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
+    // 페이지 에러(-1)
+    it('페이지 에러(-1)', async () => {
+      try {
+        await usersController.searchUser('j', '-1');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
+    // 페이지 에러(1.5)
+    it('페이지 에러(1.5)', async () => {
+      try {
+        await usersController.searchUser('j', '1.5');
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }

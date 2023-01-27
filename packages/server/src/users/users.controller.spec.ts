@@ -373,6 +373,11 @@ describe('UsersController', () => {
         )
       ).toBeInstanceOf(Array);
     });
+    it('정상 동작(page)', async () => {
+      expect(
+        await usersController.getMySubjects(accessTokenPayload1, undefined, '2')
+      ).toBeInstanceOf(Array);
+    });
     // intraId가 null인 경우
     it('intraId가 null인 경우', async () => {
       try {
@@ -397,6 +402,17 @@ describe('UsersController', () => {
           undefined,
           undefined,
           undefined
+        )
+      ).toBeInstanceOf(Array);
+    });
+    it('정상 동작(page)', async () => {
+      expect(
+        await usersController.getMyFeedbacks(
+          accessTokenPayload1,
+          'as-corrector',
+          undefined,
+          undefined,
+          '2'
         )
       ).toBeInstanceOf(Array);
     });

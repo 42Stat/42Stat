@@ -38,7 +38,7 @@ export class UsersController {
   async getMyProfile(
     @Payload() payload: AccessTokenPayload
   ): Promise<GetUserProfileDto> {
-    return await this.usersService.getUserProfile(payload?.intraId);
+    return await this.usersService.getUserProfile(payload.intraId);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -47,7 +47,7 @@ export class UsersController {
   async getMySummary(
     @Payload() payload: AccessTokenPayload
   ): Promise<GetUserSummaryDto> {
-    return await this.usersService.getUserSummary(payload?.intraId);
+    return await this.usersService.getUserSummary(payload.intraId);
   }
 
   @Get('me/subjects')
@@ -65,7 +65,7 @@ export class UsersController {
     @Query('page') page: string
   ): Promise<GetSubjectDto[]> {
     return await this.usersService.getUserSubjects(
-      payload?.intraId,
+      payload.intraId,
       sort,
       page ? Number(page) : 1
     );
@@ -85,7 +85,7 @@ export class UsersController {
     @Query('page') page: string
   ): Promise<GetUserFeedbackDto[]> {
     return await this.usersService.getUserFeedbacks(
-      payload?.intraId,
+      payload.intraId,
       type,
       outstanding,
       subject,

@@ -254,6 +254,7 @@ describe('AuthController', () => {
       jest
         .spyOn(service, 'verifyGoogleCredential')
         .mockImplementation(async (loginDto: LoginRequestDto) => {
+          loginDto;
           throw new UnauthorizedException();
         });
       try {
@@ -271,17 +272,14 @@ describe('AuthController', () => {
   });
 
   describe('ft-oauth-callback', () => {
-    const frontendURL = 'http://localhost:11900';
     // 정상 동작
     it('정상 동작', async () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
         .mockImplementation(async (req: Request, res: Response) => {
-          const newAccessToken = await service.ftOAuthRedirect('abc', null);
-
-          const redirectURL = newAccessToken
-            ? frontendURL
-            : `${frontendURL}/logout`;
+          req;
+          res;
+          await service.ftOAuthRedirect('abc', null);
         });
       jest.spyOn(jwtService, 'verify').mockReturnValueOnce({
         googleId: '1',
@@ -302,6 +300,8 @@ describe('AuthController', () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
         .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
           try {
             await service.ftOAuthRedirect('abc', null);
           } catch (error) {
@@ -319,6 +319,8 @@ describe('AuthController', () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
         .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
           try {
             await service.ftOAuthRedirect('abc', null);
           } catch (error) {
@@ -338,6 +340,8 @@ describe('AuthController', () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
         .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
           try {
             await service.ftOAuthRedirect('abc', null);
           } catch (error) {
@@ -360,6 +364,8 @@ describe('AuthController', () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
         .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
           try {
             await service.ftOAuthRedirect('abc', null);
           } catch (error) {
@@ -409,7 +415,9 @@ describe('AuthController', () => {
             body: TokenRefreshDto,
             res: Response
           ) => {
-            const accessToken = await service.tokenRefresh(payload);
+            body;
+            res;
+            await service.tokenRefresh(payload);
             return;
           }
         );

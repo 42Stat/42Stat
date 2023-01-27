@@ -147,7 +147,7 @@ const intraUser4: IntraUser = {
 
 describe('LeaderboardController', () => {
   let controller: LeaderboardController;
-  let service: LeaderboardService;
+  // let service: LeaderboardService;
   let intraUserRepository: Repository<IntraUser>;
 
   beforeEach(async () => {
@@ -158,7 +158,7 @@ describe('LeaderboardController', () => {
     }).compile();
 
     controller = module.get<LeaderboardController>(LeaderboardController);
-    service = module.get<LeaderboardService>(LeaderboardService);
+    // service = module.get<LeaderboardService>(LeaderboardService);
     intraUserRepository = module.get('INTRA_USER_REPOSITORY');
   });
 
@@ -328,12 +328,7 @@ describe('LeaderboardController', () => {
           intraUser4,
         ]);
       try {
-        const result = await controller.getLeaderboard(
-          'qwe',
-          undefined,
-          undefined,
-          undefined
-        );
+        await controller.getLeaderboard('qwe', undefined, undefined, undefined);
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }
@@ -362,12 +357,7 @@ describe('LeaderboardController', () => {
           intraUser4,
         ]);
       try {
-        const result = await controller.getLeaderboard(
-          undefined,
-          '0',
-          undefined,
-          undefined
-        );
+        await controller.getLeaderboard(undefined, '0', undefined, undefined);
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }
@@ -383,12 +373,7 @@ describe('LeaderboardController', () => {
           intraUser4,
         ]);
       try {
-        const result = await controller.getLeaderboard(
-          undefined,
-          '-1',
-          undefined,
-          undefined
-        );
+        await controller.getLeaderboard(undefined, '-1', undefined, undefined);
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }
@@ -404,12 +389,7 @@ describe('LeaderboardController', () => {
           intraUser4,
         ]);
       try {
-        const result = await controller.getLeaderboard(
-          undefined,
-          '1.5',
-          undefined,
-          undefined
-        );
+        await controller.getLeaderboard(undefined, '1.5', undefined, undefined);
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }
@@ -425,12 +405,7 @@ describe('LeaderboardController', () => {
           intraUser4,
         ]);
       try {
-        const result = await controller.getLeaderboard(
-          undefined,
-          undefined,
-          undefined,
-          '0'
-        );
+        await controller.getLeaderboard(undefined, undefined, undefined, '0');
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }
@@ -446,12 +421,7 @@ describe('LeaderboardController', () => {
           intraUser4,
         ]);
       try {
-        const result = await controller.getLeaderboard(
-          undefined,
-          undefined,
-          undefined,
-          '-1'
-        );
+        await controller.getLeaderboard(undefined, undefined, undefined, '-1');
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }
@@ -467,12 +437,7 @@ describe('LeaderboardController', () => {
           intraUser4,
         ]);
       try {
-        const result = await controller.getLeaderboard(
-          undefined,
-          undefined,
-          undefined,
-          '1.5'
-        );
+        await controller.getLeaderboard(undefined, undefined, undefined, '1.5');
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }

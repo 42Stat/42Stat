@@ -28,7 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   // TODO: Passport에서 우선적으로 verify를 하는 지 확인 필요(실패시 401?)
   // TODO: 42인증 전과 후로 전략을 나누어야 할 지 확인 필요(이렇게 하면, 인증 안해도 다 볼 수 있지 않나...?)
   async validate(payload: AccessTokenPayload): Promise<AccessTokenPayload> {
-    const user = this.authService.validateUser(payload.googleId);
+    this.authService.validateUser(payload.googleId);
     // TODO: For test
     // this.authService.validateUserTest(payload.intraId);
     return payload;

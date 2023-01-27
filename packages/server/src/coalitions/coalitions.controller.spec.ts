@@ -6,7 +6,6 @@ import { coalitionsProviders } from './coalitions.providers';
 import { CoalitionsService } from './coalitions.service';
 import { GetCoalitionsDto } from './dto/getCoalition.dto';
 import { Coalition } from './entity/coalition.entity';
-import { CoalitionScore } from './entity/coalitionScore.entity';
 
 const coalition1: Coalition = {
   id: 85,
@@ -32,9 +31,9 @@ const coalition2: Coalition = {
 
 describe('CoalitionsController', () => {
   let controller: CoalitionsController;
-  let service: CoalitionsService;
+  // let service: CoalitionsService;
   let repository: Repository<Coalition>;
-  let scoreRepository: Repository<CoalitionScore>;
+  // let scoreRepository: Repository<CoalitionScore>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -59,13 +58,16 @@ describe('CoalitionsController', () => {
       .compile();
 
     controller = module.get<CoalitionsController>(CoalitionsController);
-    service = module.get<CoalitionsService>(CoalitionsService);
+    // service = module.get<CoalitionsService>(CoalitionsService);
     repository = module.get('COALITION_REPOSITORY');
-    scoreRepository = module.get('COALITION_SCORE_REPOSITORY');
+    // scoreRepository = module.get('COALITION_SCORE_REPOSITORY');
   });
 
   describe('getCoalitions', () => {
     it('정상 작동', async () => {
+      jest
+        .spyOn(repository, 'find')
+        .mockResolvedValue([coalition1, coalition2]);
       const result = await controller.getCoalitions();
       expect(result).toBeInstanceOf(GetCoalitionsDto);
     });

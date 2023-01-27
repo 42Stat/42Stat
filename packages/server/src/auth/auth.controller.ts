@@ -5,7 +5,6 @@ import {
   Post,
   Req,
   Res,
-  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -90,21 +89,16 @@ export class AuthController {
     const accessToken: string | undefined = req?.cookies[accessTokenHeaderKey];
     // TODO: check undefined here, redirect to frontend page manually
 
-    let newAccessToken: string;
-
     try {
-      newAccessToken = await this.authService.ftOAuthRedirect(
+      const newAccessToken = await this.authService.ftOAuthRedirect(
         accessToken,
         user['id']
       );
-    } catch {
-      // TODO: 에러 로깅
-    } finally {
-      const redirectURL = newAccessToken
-        ? frontendURL
-        : `${frontendURL}/logout`;
       res.cookie(accessTokenHeaderKey, newAccessToken, cookieOptions);
-      res.redirect(redirectURL);
+      res.redirect(frontendURL);
+    } catch (error) {
+      res.clearCookie(accessTokenHeaderKey, cookieOptions);
+      res.redirect(`${frontendURL}/logout`);
     }
   }
 }

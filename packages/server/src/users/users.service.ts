@@ -9,6 +9,7 @@ import {
   DataSource,
   FindManyOptions,
   In,
+  Like,
   QueryRunner,
   Repository,
 } from 'typeorm';
@@ -31,6 +32,7 @@ import { GetUserFeedbackDto } from './dto/getUserFeedbacks.dto';
 import { TeamUser } from '../subjects/entity/teamUser.entity';
 import { Team } from '../subjects/entity/team.entity';
 import { User } from './entity/user.entity';
+import { GetUserSearchDto } from './dto/getUserSearch.dto';
 
 const pageSize = 10;
 @Injectable()
@@ -179,21 +181,21 @@ export class UsersService {
     );
   }
 
-  async getCorrectorStat(
+  private async getCorrectorStat(
     user: IntraUser,
     stat: CorrectorStat
   ): Promise<GetCorrectionStatDto> {
     return new GetCorrectionStatDto(stat);
   }
 
-  async getCorrectedStat(
+  private async getCorrectedStat(
     user: IntraUser,
     stat: CorrectedStat
   ): Promise<GetCorrectionStatDto> {
     return new GetCorrectionStatDto(stat);
   }
 
-  async getSubjectStat(user: IntraUser): Promise<GetSubjectStatDto> {
+  private async getSubjectStat(user: IntraUser): Promise<GetSubjectStatDto> {
     const stat: SubjectStat = await this.subjectStatRepository.findOne({
       where: { intra: user },
       relations: ['lastProject', 'lastProject.subject'],
@@ -347,45 +349,22 @@ export class UsersService {
 
     return feedbacks;
   }
+
+  async searchUser(login: string, page = '1'): Promise<GetUserSearchDto[]> {
+    const pageNumber = Number(page);
+    if (!Number.isInteger(pageNumber) || pageNumber < 1)
+      throw new BadRequestException('page는 1 이상의 정수여야 합니다.');
+    if (login === '') return [];
+
+    const users = await this.intraUserRepository.find({
+      where: { login: Like(`%${login}%`) },
+      skip: (pageNumber - 1) * pageSize,
+      take: pageSize,
+    });
+
+    const result: GetUserSearchDto[] = [];
+    for (const user of users) result.push(new GetUserSearchDto(user));
+
+    return result;
+  }
 }
-
-// const query = `SELECT JSON_BUILD_OBJECT('evaluation', e) AS evaluation,
-//   JSON_BUILD_OBJECT('subject', s) AS subject, iu.login AS corrector, (
-//   SELECT JSON_BUILD_OBJECT('id', intra_user.id, 'login', login)
-//   FROM intra_user
-//   WHERE id = tu.intra_id
-//   ) AS corrected
-//   FROM evaluation e
-//   LEFT JOIN team_user tu ON
-//     (SELECT tu.team_id FROM intra_user iu LEFT JOIN team_user tu on iu.id = tu.intra_id WHERE tu.intra_id = ${id}) = tu.team_id
-//   LEFT JOIN intra_user iu ON iu.id = e.corrector_id
-//   INNER JOIN project p ON p.id = e.team_id
-//   INNER JOIN subject s ON p.subject_id = s.id
-//   WHERE tu.team_id = e.team_id;`;
-
-// const results = await this.evaluationRepository.query(query);
-// const teams = await this.teamUserRepository.find({
-// const feedbacks: Map<number, GetUserFeedbackDto> = new Map();
-// if (results !== null && results.length !== 0) {
-//   for (const result of results) {
-//     const evaluation = result.evaluation.evaluation;
-//     const subject = result.subject.subject;
-//     const corrector: string = result.corrector;
-//     const corrected: string = result.corrected.login;
-//     try {
-//       if (feedbacks.get(evaluation.id))
-//         feedbacks.get(evaluation.id).corrected.push(corrected);
-//       else
-//         feedbacks.set(
-//           evaluation.id,
-//           new GetUserFeedbackDto(evaluation, subject, corrector, corrected)
-//         );
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   }
-// }
-// const userFeedbacks: GetUserFeedbackDto[] = [];
-// for (const [, value] of feedbacks) userFeedbacks.push(value);
-
-// return userFeedbacks;

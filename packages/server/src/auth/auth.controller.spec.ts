@@ -254,6 +254,7 @@ describe('AuthController', () => {
       jest
         .spyOn(service, 'verifyGoogleCredential')
         .mockImplementation(async (loginDto: LoginRequestDto) => {
+          loginDto;
           throw new UnauthorizedException();
         });
       try {
@@ -271,21 +272,15 @@ describe('AuthController', () => {
   });
 
   describe('ft-oauth-callback', () => {
-    const frontendURL = 'http://localhost:11900';
     // 정상 동작
     it('정상 동작', async () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
-        .mockImplementation(
-          async (req: Request, res: Response): Promise<string> => {
-            const newAccessToken = await service.ftOAuthRedirect('abc', null);
-
-            const redirectURL = newAccessToken
-              ? frontendURL
-              : `${frontendURL}/logout`;
-            return redirectURL;
-          }
-        );
+        .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
+          await service.ftOAuthRedirect('abc', null);
+        });
       jest.spyOn(jwtService, 'verify').mockReturnValueOnce({
         googleId: '1',
         intraId: 99947,
@@ -297,69 +292,62 @@ describe('AuthController', () => {
         .spyOn(usersService, 'getUserByIntraId')
         .mockResolvedValueOnce(intraUser1);
       jest.spyOn(usersService, 'saveUser').mockResolvedValue(null);
-      expect(await controller.ftOAuthRedirect(null, null)).toMatch(frontendURL);
+      expect(await controller.ftOAuthRedirect(null, null)).toBeUndefined();
     });
 
     // 유효하지 않은 토큰 에러
     it('유효하지 않은 토큰 에러', async () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
-        .mockImplementation(
-          async (req: Request, res: Response): Promise<string> => {
-            const newAccessToken = await service.ftOAuthRedirect('abc', null);
-
-            const redirectURL = newAccessToken
-              ? frontendURL
-              : `${frontendURL}/logout`;
-            return redirectURL;
+        .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
+          try {
+            await service.ftOAuthRedirect('abc', null);
+          } catch (error) {
+            console.log(error);
           }
-        );
+        });
       jest.spyOn(jwtService, 'verify').mockImplementation(() => {
         throw new UnauthorizedException();
       });
-      expect(await controller.ftOAuthRedirect(null, null)).toMatch(
-        `${frontendURL}/logout`
-      );
+      expect(await controller.ftOAuthRedirect(null, null)).toBeUndefined();
     });
 
     // 구글 유저 없음 에러
     it('구글 유저 없음 에러', async () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
-        .mockImplementation(
-          async (req: Request, res: Response): Promise<string> => {
-            const newAccessToken = await service.ftOAuthRedirect('abc', null);
-
-            const redirectURL = newAccessToken
-              ? frontendURL
-              : `${frontendURL}/logout`;
-            return redirectURL;
+        .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
+          try {
+            await service.ftOAuthRedirect('abc', null);
+          } catch (error) {
+            console.log(error);
           }
-        );
+        });
       jest.spyOn(jwtService, 'verify').mockReturnValueOnce({
         googleId: '1',
         intraId: 99947,
       });
       jest.spyOn(usersService, 'getUserByGoogleId').mockResolvedValueOnce(null);
-      expect(await controller.ftOAuthRedirect(null, null)).toMatch(
-        `${frontendURL}/logout`
-      );
+      expect(await controller.ftOAuthRedirect(null, null)).toBeUndefined();
     });
 
     // 인트라 유저 없음 에러
     it('인트라 유저 없음 에러', async () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
-        .mockImplementation(
-          async (req: Request, res: Response): Promise<string> => {
-            const newAccessToken = await service.ftOAuthRedirect('abc', null);
-
-            const redirectURL = newAccessToken
-              ? frontendURL
-              : `${frontendURL}/logout`;
-            return redirectURL;
+        .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
+          try {
+            await service.ftOAuthRedirect('abc', null);
+          } catch (error) {
+            console.log(error);
           }
-        );
+        });
       jest.spyOn(jwtService, 'verify').mockReturnValueOnce({
         googleId: '1',
         intraId: 99947,
@@ -368,25 +356,22 @@ describe('AuthController', () => {
         .spyOn(usersService, 'getUserByGoogleId')
         .mockResolvedValueOnce(user1);
       jest.spyOn(usersService, 'getUserByIntraId').mockResolvedValueOnce(null);
-      expect(await controller.ftOAuthRedirect(null, null)).toMatch(
-        `${frontendURL}/logout`
-      );
+      expect(await controller.ftOAuthRedirect(null, null)).toBeUndefined();
     });
 
     // 유저 저장 실패 에러
     it('유저 저장 실패 에러', async () => {
       jest
         .spyOn(controller, 'ftOAuthRedirect')
-        .mockImplementation(
-          async (req: Request, res: Response): Promise<string> => {
-            const newAccessToken = await service.ftOAuthRedirect('abc', null);
-
-            const redirectURL = newAccessToken
-              ? frontendURL
-              : `${frontendURL}/logout`;
-            return redirectURL;
+        .mockImplementation(async (req: Request, res: Response) => {
+          req;
+          res;
+          try {
+            await service.ftOAuthRedirect('abc', null);
+          } catch (error) {
+            console.log(error);
           }
-        );
+        });
       jest.spyOn(jwtService, 'verify').mockReturnValueOnce({
         googleId: '1',
         intraId: 99947,
@@ -400,10 +385,11 @@ describe('AuthController', () => {
       jest.spyOn(usersService, 'saveUser').mockImplementation(() => {
         throw new ServiceUnavailableException();
       });
-
-      expect(await controller.ftOAuthRedirect(null, null)).toMatch(
-        `${frontendURL}/logout`
-      );
+      try {
+        await service.ftOAuthRedirect(null, null);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ServiceUnavailableException);
+      }
     });
   });
 
@@ -429,7 +415,9 @@ describe('AuthController', () => {
             body: TokenRefreshDto,
             res: Response
           ) => {
-            const accessToken = await service.tokenRefresh(payload);
+            body;
+            res;
+            await service.tokenRefresh(payload);
             return;
           }
         );

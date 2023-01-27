@@ -34,7 +34,7 @@ const subject2: Subject = {
 
 describe('SubjectsController', () => {
   let controller: SubjectsController;
-  let service: SubjectsService;
+  // let service: SubjectsService;
   let subjectRepository: Repository<Subject>;
 
   beforeEach(async () => {
@@ -45,7 +45,7 @@ describe('SubjectsController', () => {
     }).compile();
 
     controller = module.get<SubjectsController>(SubjectsController);
-    service = module.get<SubjectsService>(SubjectsService);
+    // service = module.get<SubjectsService>(SubjectsService);
     subjectRepository = module.get('SUBJECT_REPOSITORY');
   });
 

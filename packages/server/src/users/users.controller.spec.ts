@@ -5,8 +5,7 @@ import { UsersController } from './users.controller';
 import { usersProviders } from './users.providers';
 import { UsersService } from './users.service';
 import { SubjectsModule } from '../subjects/subjects.module';
-import { ConfigModule } from '@nestjs/config';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { IntraUser } from './entity/intraUser.entity';
 import { Coalition } from '../coalitions/entity/coalition.entity';
 import { Team } from '../subjects/entity/team.entity';
@@ -15,7 +14,6 @@ import { TeamUser } from '../subjects/entity/teamUser.entity';
 import { Evaluation } from '../subjects/entity/evaluation.entity';
 import { SubjectStat } from './entity/subjectStat.entity';
 import { CorrectorStat } from './entity/correctorStat.entity';
-import { TitleUser } from './entity/title.entity';
 import { CorrectedStat } from './entity/correctedStat.entity';
 import { User } from './entity/user.entity';
 import {
@@ -92,25 +90,25 @@ const intraUser1: IntraUser = {
   projects: [],
 };
 
-const getUserProfileDto: GetUserProfileDto = {
-  id: intraUser1.id,
-  imageUrl: intraUser1.imageUrl,
-  name: intraUser1.displayName,
-  login: intraUser1.login,
-  rank: 1,
-  level: intraUser1.level,
-  grade: intraUser1.grade,
-  coalition: {
-    id: intraUser1.coalition.id,
-    name: intraUser1.coalition.name,
-    imageUrl: intraUser1.coalition.imageUrl,
-    color: intraUser1.coalition.color,
-  },
-  startedAt: new Date(),
-  daysSinceStarted: 1,
-  blackholedAt: null,
-  daysUntilBlackholed: null,
-};
+// const getUserProfileDto: GetUserProfileDto = {
+//   id: intraUser1.id,
+//   imageUrl: intraUser1.imageUrl,
+//   name: intraUser1.displayName,
+//   login: intraUser1.login,
+//   rank: 1,
+//   level: intraUser1.level,
+//   grade: intraUser1.grade,
+//   coalition: {
+//     id: intraUser1.coalition.id,
+//     name: intraUser1.coalition.name,
+//     imageUrl: intraUser1.coalition.imageUrl,
+//     color: intraUser1.coalition.color,
+//   },
+//   startedAt: new Date(),
+//   daysSinceStarted: 1,
+//   blackholedAt: null,
+//   daysUntilBlackholed: null,
+// };
 
 const correctorStat1: CorrectorStat = {
   id: 1,
@@ -276,14 +274,13 @@ describe('UsersController', () => {
   let intraUserRepository: Repository<IntraUser>;
   let userRepository: Repository<User>;
   let correctedStatRepository: Repository<CorrectedStat>;
-  let titleUserRepository: Repository<TitleUser>;
   let correctorStatRepository: Repository<CorrectorStat>;
   let subjectStatRepository: Repository<SubjectStat>;
   let evaluationRepository: Repository<Evaluation>;
   let teamUserRepository: Repository<TeamUser>;
   let projectRepository: Repository<Project>;
-  let teamRepository: Repository<Team>;
-  let dataSource: DataSource;
+  // let teamRepository: Repository<Team>;
+  // let dataSource: DataSource;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
@@ -299,28 +296,25 @@ describe('UsersController', () => {
     intraUserRepository = moduleRef.get('INTRA_USER_REPOSITORY');
     userRepository = moduleRef.get('USER_REPOSITORY');
     correctedStatRepository = moduleRef.get('CORRECTED_STAT_REPOSITORY');
-    titleUserRepository = moduleRef.get('TITLE_USER_REPOSITORY');
     correctorStatRepository = moduleRef.get('CORRECTOR_STAT_REPOSITORY');
     subjectStatRepository = moduleRef.get('SUBJECT_STAT_REPOSITORY');
     evaluationRepository = moduleRef.get('EVALUATION_REPOSITORY');
     teamUserRepository = moduleRef.get('TEAM_USER_REPOSITORY');
     projectRepository = moduleRef.get('PROJECT_REPOSITORY');
-    teamRepository = moduleRef.get('TEAM_REPOSITORY');
+    // teamRepository = moduleRef.get('TEAM_REPOSITORY');
 
-    dataSource = moduleRef.get('DATA_SOURCE');
+    // dataSource = moduleRef.get('DATA_SOURCE');
     usersService = moduleRef.get<UsersService>(UsersService);
     usersController = moduleRef.get<UsersController>(UsersController);
   });
 
   it('saveIntraUser Test', async () => {
     const result = await usersService.saveIntraUser(user1, intraUser1);
-    console.log(result);
     expect(result).toBeInstanceOf(Object);
   });
   it('saveIntraUser Test', async () => {
     try {
-      const result = await usersService.saveIntraUser(user2, intraUser1);
-      console.log(result);
+      await usersService.saveIntraUser(user2, intraUser1);
     } catch (error) {
       expect(error).toBeInstanceOf(ServiceUnavailableException);
     }
@@ -758,6 +752,51 @@ describe('UsersController', () => {
           undefined,
           undefined
         );
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
+  });
+
+  // ANCHOR: searchUser
+  describe('searchUser', () => {
+    // 정상 동작
+    it('정상 동작', async () => {
+      jest.spyOn(userRepository, 'find').mockResolvedValueOnce([user1]);
+      expect(await usersController.searchUser('j', undefined)).toBeInstanceOf(
+        Array
+      );
+    });
+    // 빈 검색어
+    it('빈 검색어', async () => {
+      // jest.spyOn(userRepository, 'find').mockResolvedValueOnce([]);
+      expect(await usersController.searchUser('', undefined)).toHaveLength(0);
+    });
+    // 공백
+    it('공백', async () => {
+      jest.spyOn(userRepository, 'find').mockResolvedValueOnce([]);
+      expect(await usersController.searchUser(' ', undefined)).toHaveLength(0);
+    });
+    // 페이지 에러(0)
+    it('페이지 에러(0)', async () => {
+      try {
+        await usersController.searchUser('j', '0');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
+    // 페이지 에러(-1)
+    it('페이지 에러(-1)', async () => {
+      try {
+        await usersController.searchUser('j', '-1');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+      }
+    });
+    // 페이지 에러(1.5)
+    it('페이지 에러(1.5)', async () => {
+      try {
+        await usersController.searchUser('j', '1.5');
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
       }

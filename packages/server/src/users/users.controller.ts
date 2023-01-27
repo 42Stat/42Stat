@@ -6,6 +6,7 @@ import { Payload } from '../auth/payload.decorator';
 import { GetSubjectDto } from '../subjects/dto/getSubject.dto';
 import { GetUserFeedbackDto } from './dto/getUserFeedbacks.dto';
 import { GetUserProfileDto } from './dto/getUserProfile.dto';
+import { GetUserSearchDto } from './dto/getUserSearch.dto';
 import { GetUserSummaryDto } from './dto/getUserSummary.dto';
 import { UsersService } from './users.service';
 
@@ -149,5 +150,17 @@ export class UsersController {
       subject,
       page ? Number(page) : 1
     );
+  }
+
+  // ANCHOR: search
+  @Get('search')
+  @ApiOkResponse({ type: [GetUserSearchDto] })
+  @ApiQuery({ name: 'login', required: true })
+  @ApiQuery({ name: 'page', required: false })
+  async searchUser(
+    @Query('login') login: string,
+    @Query('page') page: string
+  ): Promise<GetUserSearchDto[]> {
+    return await this.usersService.searchUser(login, page);
   }
 }

@@ -33,6 +33,7 @@ export const RouteList = {
 } as const;
 
 // if use react-router-dom's loader, QueryClient is needed here.
+// https://tkdodo.eu/blog/react-query-meets-react-router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path={RouteList.ROOT} errorElement={<ErrorPage />}>
@@ -44,7 +45,13 @@ const router = createBrowserRouter(
       </Route>
       <Route element={RouteGuard.NeedAuth}>
         <Route index element={<Navigate to={RouteList.PROFILE} />} />
-        <Route path={RouteList.PROFILE} element={<Profile />} />
+        <Route path={RouteList.PROFILE}>
+          <Route
+            index
+            element={<Navigate to={`${RouteList.PROFILE}/me`} replace={true} />}
+          />
+          <Route path=":id" element={<Profile />} />
+        </Route>
       </Route>
       <Route path={RouteList.LOGOUT} element={<Logout />} />
     </Route>

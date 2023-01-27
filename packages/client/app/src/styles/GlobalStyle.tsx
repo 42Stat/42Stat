@@ -134,21 +134,21 @@ const globalStyle = css`
     font-family: 'NunitoSansLight';
     font-weight: 300;
     font-display: swap;
-    src: url('./fonts/Nunito_Sans/NunitoSans-Light.ttf') format('truetype');
+    src: url('/fonts/Nunito_Sans/NunitoSans-Light.ttf') format('truetype');
   }
 
   @font-face {
     font-family: 'NunitoSansBold';
     font-weight: 700;
     font-display: swap;
-    src: url('./fonts/Nunito_Sans/NunitoSans-Bold.ttf') format('truetype');
+    src: url('/fonts/Nunito_Sans/NunitoSans-Bold.ttf') format('truetype');
   }
 
   @font-face {
     font-family: 'NunitoSansBlack';
     font-weight: 900;
     font-display: block;
-    src: url('./fonts/Nunito_Sans/NunitoSans-Black.ttf') format('truetype');
+    src: url('/fonts/Nunito_Sans/NunitoSans-Black.ttf') format('truetype');
   }
 
   * {

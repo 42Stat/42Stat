@@ -1,12 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { googleCredentialAtom } from '../atoms/googleCredentialAtom';
-import { AxiosError } from 'axios';
-import {
-  requestLogin,
-  RequestLoginQueryKey,
-  RequestLoginResponse,
-} from '../api/requestLogin';
+import { requestLogin } from '../api/requestLogin';
 import { refreshTokenAtom } from '../atoms/refreshTokenAtom';
 import { needFtOAuthAtom } from '../atoms/needFtOAuthAtom';
 
@@ -14,12 +9,7 @@ export const useLoginQuery = () => {
   const googleCredential = useAtomValue(googleCredentialAtom);
   const setRefreshToken = useSetAtom(refreshTokenAtom);
   const setNeedFtOAuth = useSetAtom(needFtOAuthAtom);
-  const loginQuery = useQuery<
-    RequestLoginResponse,
-    AxiosError,
-    RequestLoginResponse,
-    RequestLoginQueryKey['queryKey']
-  >({
+  const loginQuery = useQuery({
     queryKey: ['login', { googleCredential }],
     queryFn: requestLogin,
     // todo: check here

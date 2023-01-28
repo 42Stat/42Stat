@@ -1,20 +1,22 @@
 import { axiosInstance } from '../../axiosConfig';
 
-export interface RequestLoginQueryKey {
-  queryKey: [string, { googleCredential: CredentialResponse | null }];
-}
+type RequestLoginQueryKey = {
+  queryKey: ['login', { googleCredential: CredentialResponse | null }];
+};
 
-export interface RequestLoginResponse {
+type RequestLoginResponse = {
   refreshToken: string;
   needFtOAuth: boolean;
-}
+};
+
+const LOGIN_EP = 'auth/login';
 
 export const requestLogin = async ({ queryKey }: RequestLoginQueryKey) => {
   // eslint-disable-next-line
   const [_key, { googleCredential }] = queryKey;
 
   const response = await axiosInstance.post<RequestLoginResponse>(
-    'auth/login',
+    LOGIN_EP,
     googleCredential
   );
 

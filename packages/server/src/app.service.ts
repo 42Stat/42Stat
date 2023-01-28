@@ -1,10 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-
 import { Subject } from './subjects/entity/subject.entity';
 import { DataSource } from 'typeorm';
 import { Coalition } from './coalitions/entity/coalition.entity';
 import { CoalitionScore } from './coalitions/entity/coalitionScore.entity';
-
 import {
   Achievement,
   AchievementUser,
@@ -166,7 +164,7 @@ export class AppService {
 
     const user1: User = {
       id: '1',
-      intra: intraUser1,
+      intra: intraUser2,
       refreshToken: null,
     };
 

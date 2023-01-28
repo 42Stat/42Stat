@@ -1,7 +1,12 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Payload } from '../auth/payload.decorator';
 import { GetSubjectDto } from '../subjects/dto/getSubject.dto';
 import { GetUserFeedbackDto } from './dto/getUserFeedbacks.dto';
@@ -28,13 +33,13 @@ type AccessTokenPayload = {
 
 @Controller('users')
 @ApiTags('users')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   // ANCHOR: me
-  @UseGuards(AuthGuard('jwt'))
   @Get('me/profile')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: GetUserProfileDto })
   async getMyProfile(
     @Payload() payload: AccessTokenPayload
@@ -42,8 +47,8 @@ export class UsersController {
     return await this.usersService.getUserProfile(payload.intraId);
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get('me/summary')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: GetUserSummaryDto })
   async getMySummary(
     @Payload() payload: AccessTokenPayload
@@ -52,6 +57,7 @@ export class UsersController {
   }
 
   @Get('me/subjects')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: [GetSubjectDto] })
   @ApiQuery({
     name: 'sort',
@@ -73,6 +79,7 @@ export class UsersController {
   }
 
   @Get('me/feedbacks')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: [GetUserFeedbackDto] })
   @ApiQuery({ name: 'type', enum: ['as-corrector', 'as-corrected'] })
   @ApiQuery({ name: 'outstanding', required: false, enum: ['true', 'false'] })
@@ -95,21 +102,22 @@ export class UsersController {
   }
 
   // ANCHOR: id
-  // @UseGuards(AuthGuard('jwt'))
   @Get(':id/profile')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: GetUserProfileDto })
   async getUserProfile(@Param('id') id: number): Promise<GetUserProfileDto> {
     return await this.usersService.getUserProfile(id);
   }
 
-  // @UseGuards(AuthGuard('jwt'))
   @Get(':id/summary')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: GetUserSummaryDto })
   async getUserSummary(@Param('id') id: number): Promise<GetUserSummaryDto> {
     return await this.usersService.getUserSummary(id);
   }
 
   @Get(':id/subjects')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: [GetSubjectDto] })
   @ApiQuery({
     name: 'sort',
@@ -131,6 +139,7 @@ export class UsersController {
   }
 
   @Get(':id/feedbacks')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: [GetUserFeedbackDto] })
   @ApiQuery({ name: 'type', enum: ['as-corrector', 'as-corrected'] })
   @ApiQuery({ name: 'outstanding', required: false, enum: ['true', 'false'] })
@@ -154,6 +163,7 @@ export class UsersController {
 
   // ANCHOR: search
   @Get('search')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOkResponse({ type: [GetUserSearchDto] })
   @ApiQuery({ name: 'login', required: true })
   @ApiQuery({ name: 'page', required: false })

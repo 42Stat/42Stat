@@ -11,13 +11,24 @@ type AccessTokenPayload = {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  static readonly cookieExtractor = (req: any) => {
+    let token = null;
+    if (req && req.cookies) {
+      token = req.cookies['Authorization'];
+    }
+    return token;
+  };
+
   constructor(
     private readonly jwtService: JwtService,
     private authService: AuthService
   ) {
     super({
       // jwtFromRequest: cookieExtractor,
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        JwtStrategy.cookieExtractor,
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ]),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_ACCESS_TOKEN_SECRET,
       // TODO: Check after set up the audience

@@ -166,7 +166,7 @@ export class AppService {
 
     const user1: User = {
       id: '1',
-      intra: null,
+      intra: intraUser1,
       refreshToken: null,
     };
 

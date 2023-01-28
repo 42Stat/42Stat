@@ -44,13 +44,13 @@ export class AuthController {
     return body;
   }
 
-  // @Post('login-test')
-  // @ApiTags('account')
-  // async loginTest(@Res({ passthrough: true }) res: Response): Promise<any> {
-  //   const { accessToken, body } = await this.authService.loginTest();
-  //   res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
-  //   return body;
-  // }
+  @Post('login-test')
+  @ApiTags('account')
+  async loginTest(@Res({ passthrough: true }) res: Response): Promise<any> {
+    const { accessToken, body } = await this.authService.loginTest();
+    res.cookie(accessTokenHeaderKey, accessToken, cookieOptions);
+    return body;
+  }
 
   @Post('logout')
   @ApiTags('account')

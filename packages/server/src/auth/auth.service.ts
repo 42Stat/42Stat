@@ -155,42 +155,42 @@ export class AuthService {
     };
   }
 
-  // async loginTest(): Promise<any> {
-  //   try {
-  //     const user = await this.usersService.getUserByIntraId(99733);
-  //     const accessToken = this.jwtService.sign(
-  //       {
-  //         googleId: 1,
-  //         intraId: user.id,
-  //         needOfFtOAuth: false,
-  //       },
-  //       {
-  //         expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}s`,
-  //         secret: process.env.JWT_ACCESS_TOKEN_SECRET,
-  //       }
-  //     );
-  //     const refreshToken = this.jwtService.sign(
-  //       {
-  //         googleId: 1,
-  //         intraId: user.id,
-  //         needOfFtOAuth: false,
-  //       },
-  //       {
-  //         expiresIn: `${process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME}d`,
-  //         secret: process.env.JWT_REFRESH_TOKEN_SECRET,
-  //       }
-  //     );
+  async loginTest(): Promise<any> {
+    try {
+      const user = await this.usersService.getUserByIntraId(99733);
+      const accessToken = this.jwtService.sign(
+        {
+          googleId: 1,
+          intraId: user.id,
+          needOfFtOAuth: false,
+        },
+        {
+          expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}s`,
+          secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+        }
+      );
+      const refreshToken = this.jwtService.sign(
+        {
+          googleId: 1,
+          intraId: user.id,
+          needOfFtOAuth: false,
+        },
+        {
+          expiresIn: `${process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME}d`,
+          secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+        }
+      );
 
-  //     console.log(`Bearer ${accessToken}`);
-  //     return {
-  //       accessToken: accessToken,
-  //       body: { refreshToken: refreshToken, needFtOAuth: false },
-  //     };
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw new BadRequestException();
-  //   }
-  // }
+      console.log(`Bearer ${accessToken}`);
+      return {
+        accessToken: accessToken,
+        body: { refreshToken: refreshToken, needFtOAuth: false },
+      };
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException();
+    }
+  }
 
   // ANCHOR: refresh token
   async tokenRefresh(payload: RefreshTokenPayload): Promise<string> {

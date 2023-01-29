@@ -24,6 +24,11 @@ import { User } from './users/entity/user.entity';
 export class AppService {
   constructor(@Inject('DATA_SOURCE') private dataSource: DataSource) {}
 
+  async reset() {
+    await this.dataSource.synchronize(true);
+    console.log('Reset database done');
+  }
+
   public async seed() {
     const coalition1: Coalition = {
       id: 85,
@@ -635,6 +640,6 @@ export class AppService {
     await queryRunner.manager.save(Evaluation, evaluation4);
     await queryRunner.manager.save(SubjectStat, subjectStat1);
 
-    console.log('seeded');
+    console.log('Seeding database done');
   }
 }

@@ -1,6 +1,6 @@
 <div align=center>
 
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=215&section=header&text=42Stat&fontSize=90&animation=fadeIn&fontAlignY=38&descAlignY=51&descAlign=62)
+![header](https://capsule-render.vercel.app/api?type=waving&color=0:ab6463,100:60669b&height=215&section=header&text=42Stat&fontSize=90&fontColor=f7f5f5&animation=fadeIn&fontAlignY=38&descAlignY=51&descAlign=62)
 
 [![GitHub Stars](https://img.shields.io/github/stars/42stat/42stat?style=for-the-badge)](https://github.com/innovationacademy-kr/42cabi/stargazers) [![GitHub Stars](https://img.shields.io/github/issues/42stat/42stat?style=for-the-badge)](https://github.com/innovationacademy-kr/42cabi/issues)
 

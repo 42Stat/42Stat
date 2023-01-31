@@ -44,7 +44,7 @@
   </tr>
   <tr>
     <td><img src="https://techstack-generator.vercel.app/eslint-icon.svg" width="15px" alt="_icon" /> ESLint</td>
-    <td>코드 컨벤션 및 구조 정형화로 코드 가독성 상승</td>
+    <td>실수 또는 문법, 기준에 위배되는 코드를 사전에 검출하여 에러 최소화</td>
   </tr>
   <tr>
     <td><img src="https://techstack-generator.vercel.app/prettier-icon.svg" width="15px" alt="_icon" /> Prettier</td>
@@ -137,6 +137,13 @@
     <td><img src="https://avatars.githubusercontent.com/u/44036562?s=280&v=4" width="15px" alt="_icon" /> Github Actions</td>
     <td>CI를 통한 테스트 자동화 및 이슈 관리 자동화로 효율적인 프로젝트 관리</td>
   </tr>
+</table> </br>
+
+## 🤖 멤버
+<table align="center">
+<tr>
+<td><a href="https://github.com/Devdha">🐯 dha</a></td>
+<td><a href="https://github.com/jpham005"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968381.png" width="15px" alt="typescript_icon" /> jaham</a></td>
+</tr>
 </table>
 
-| [🐯 dha](https://github.com/Devdha) | [ jaham](https://github.com/jpham005) | ----------------------------------------- | ---------------------------------------- | ------------------------------------------ | --------------------------------------- | ------------------------------------------ |

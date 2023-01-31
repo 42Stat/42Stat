@@ -53,43 +53,43 @@
   <tr>
     <td rowspan="10" align="center">Front-End</td>
     <td><img src="https://techstack-generator.vercel.app/react-icon.svg" width="15px" alt="_icon" /> React</td>
-    <td></td>
+    <td>타입스크립트 지원, 컴포넌트 기반 관리와 jsx 문법을 통해 코드 가독성 향상과 유지보수성 보장</td>
   </tr>
   <tr>
     <td><img src="https://vitejs.dev/logo-with-shadow.png" width="15px" alt="_icon" /> Vite</td>
-    <td></td>
+    <td>기존 번들링 방식보다 빠른 서버 구동을 통해 생산성 향상</td>
   </tr>
   <tr>
     <td><img src="https://velog.velcdn.com/images/jun_n3/post/9a22f586-a592-486d-85e1-55347c55ad81/image.svg" width="15px" alt="_icon" /> React Query</td>
-    <td></td>
+    <td>client-side 상태와 server-side 상태를 분리해서 관리하고, 서비스 특성 상 캐시 전략의 필요성 증가에 따라 채택</td>
   </tr>
   <tr>
     <td><img src="https://storage.googleapis.com/candycode/jotai/jotai-mascot.png" width="15px" alt="_icon" /> Jotai</td>
-    <td></td>
+    <td>client-side 상태를 최대한 간편하게 관리</td>
   </tr>
   <tr>
     <td><img src="https://res.cloudinary.com/practicaldev/image/fetch/s---xCsVK0j--/c_imagga_scale,f_auto,fl_progressive,h_1080,q_auto,w_1080/https://reacttraining.com/images/blog/reach-react-router-future.png" width="15px" alt="_icon" /> React Router Dom</td>
-    <td></td>
+    <td>SPA에서 url path 관리</td>
   </tr>
   <tr>
     <td><img src="https://raw.githubusercontent.com/emotion-js/emotion/main/emotion.png" width="15px" alt="_icon" /> emotion</td>
-    <td></td>
+    <td>CSS-in-JS 방식으로 component와 관계된 스타일을 같은 파일에서 관리하면서, css Props를 통해 component에 종속적이지 않도록 스타일 작성</td>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/46529663/215253304-b062a5a1-6d5b-478e-8672-d3c512a2ed65.png" width="15px" alt="_icon" /> Axios</td>
-    <td></td>
+    <td>react-query에서 fetch API보다 사용하기 최적화된 라이브러리, custom instance와 Interceptor를 통해 네트워크 요청 로직을 효율적으로 관리</td>
   </tr>
   <tr>
     <td><img src="https://seeklogo.com/images/M/msw-mock-service-worker-logo-88A2A26653-seeklogo.com.png" width="15px" alt="_icon" /> MSW</td>
-    <td></td>
+    <td>자체적인 mocking을 통해 개발 환경과 테스트 환경 구성</td>
   </tr>
   <tr>
     <td><img src="https://techstack-generator.vercel.app/testinglibrary-icon.svg" width="15px" alt="_icon" /> Testing Library</td>
-    <td></td>
+    <td>실제 render 되는 방식을 테스트하여, 테스트 범위 확장</td>
   </tr>
   <tr>
     <td><img src="https://vitest.dev/logo-shadow.svg" width="15px" alt="_icon" /> Vitest</td>
-    <td></td>
+    <td>vite에 최적화된 라이브러리 사용으로 테스트 용이성 보장</td>
   </tr>
   <tr>
     <td rowspan="8" align="center">Back-End</td>

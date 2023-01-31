@@ -42,7 +42,7 @@ const ftOAuthButtonStyle = mediaQuery({
 
 const ftOAuthTextStyle = css({
   fontSize: StyleDefine.fontSize.fs14,
-  fontFamily: StyleDefine.fontFamily.bold,
+  fontWeight: StyleDefine.fontWeight.bold,
   color: StyleDefine.colors.textHighEmphasis,
   margin: 'auto',
 });

@@ -131,29 +131,15 @@ const globalStyle = css`
   }
 
   @font-face {
-    font-family: 'NunitoSansLight';
-    font-weight: 300;
-    font-display: swap;
-    src: url('/fonts/Nunito_Sans/NunitoSans-Light.ttf') format('truetype');
-  }
-
-  @font-face {
-    font-family: 'NunitoSansBold';
-    font-weight: 700;
-    font-display: swap;
-    src: url('/fonts/Nunito_Sans/NunitoSans-Bold.ttf') format('truetype');
-  }
-
-  @font-face {
-    font-family: 'NunitoSansBlack';
-    font-weight: 900;
-    font-display: block;
-    src: url('/fonts/Nunito_Sans/NunitoSans-Black.ttf') format('truetype');
+    font-family: 'inconsolata';
+    font-weight: 200 900;
+    src: url('/fonts/Inconsolata/Inconsolata-VariableFont_wdth\,wght.ttf');
   }
 
   * {
     font-size: ${StyleDefine.fontSize.fs10};
-    font-family: ${StyleDefine.fontFamily.light};
+    font-family: ${StyleDefine.fontFamily};
+    font-weight: ${StyleDefine.fontWeight.light};
   }
 
   html,

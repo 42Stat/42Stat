@@ -6,6 +6,7 @@ import { useSetAtom } from 'jotai';
 import { displayHelpAtom } from '../atoms/displayHelpAtom';
 import { css } from '@emotion/react';
 
+// todo: rename to Menu?
 export const LoginMenu = () => {
   const setDisplayHelp = useSetAtom(displayHelpAtom);
 

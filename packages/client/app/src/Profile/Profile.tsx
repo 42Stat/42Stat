@@ -2,48 +2,30 @@ import * as React from 'react';
 import { css } from '@emotion/react';
 import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '../axiosConfig';
-import { useLogout } from '../Logout/hooks/useLogout';
-import { Logout } from '../Logout/Logout';
 import { NavBar } from '../NavBar/NavBar';
+import { Summary } from './Summary/Summary';
 
 export const Profile = () => {
-  const logout = useLogout();
-
   // const query = useQuery({ queryKey: ['profile'], queryFn: requestProfile });
 
   // if (query.isError) {
   //   throw query.error;
   // }
 
-  const handleLogoutButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    logout();
-  };
-
   return (
     <>
       <NavBar />
-      <div
-        css={css`
-          color: white;
-        `}
-      >
-        profile
+      <div css={profileContainerStyle}>
+        <Summary />
       </div>
-      <button css={logoutButtonStyle} onClick={handleLogoutButtonClick}>
-        logout
-      </button>
     </>
   );
 };
 
-const requestProfile = async () => {
-  await axiosInstance.get('/profile');
-};
-
-const logoutButtonStyle = css({
-  width: '100px',
-  height: '100px',
-  backgroundColor: 'gray',
+const profileContainerStyle = css({
+  // todo: 1520?
+  maxWidth: '1200px',
+  margin: 'auto',
+  padding: '0 2rem 0 2rem',
+  minHeight: 'calc(100% - 4rem)',
 });

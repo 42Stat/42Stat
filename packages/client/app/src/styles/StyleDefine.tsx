@@ -36,6 +36,7 @@ export const StyleDefine = {
     fs16: '1.6rem',
     fs14: '1.4rem',
     fs12: '1.2rem',
+    fs11: '1.1rem',
     fs10: '1rem',
   } as const,
 

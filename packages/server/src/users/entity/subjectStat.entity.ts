@@ -18,6 +18,6 @@ export class SubjectStat {
   passedCount: number;
   @Column({ default: 0 })
   totalRetryCount: number;
-  @ManyToOne(() => Project, (project) => project.id)
+  @ManyToOne(() => Project, (project) => project.id, { nullable: true })
   lastProject: Project;
 }

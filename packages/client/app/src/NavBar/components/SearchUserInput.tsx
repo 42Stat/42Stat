@@ -5,6 +5,7 @@ export const SearchUserInput = () => {
   return <input css={searchUserInputStyle} placeholder="search..." />;
 };
 
+// todo: add hover effect
 const searchUserInputStyle = mediaQuery({
   width: '100%',
   height: '2rem',

@@ -9,25 +9,25 @@ export const useGoogleButtonWidth = (): googleButtonWidthType => {
   );
 
   React.useEffect(() => {
-    const windowEventHandler = async () => {
-      window.removeEventListener('resize', windowEventHandler);
+    const windowResizeHandler = async () => {
+      window.removeEventListener('resize', windowResizeHandler);
 
       await new Promise((resolve) =>
         setTimeout(() => {
-          addEventListener('resize', windowEventHandler);
+          window.addEventListener('resize', windowResizeHandler);
 
           setWindowWidth(selectGoogleButtonWidth(window.innerWidth));
 
           resolve(true);
-        }, 1000)
+        }, 500)
       );
     };
 
-    // todo: need event listener for chorm dev tools and resizable display
-    window.addEventListener('resize', windowEventHandler);
+    // todo: resize event doesn't handle properly for chrome dev tools.
+    window.addEventListener('resize', windowResizeHandler);
 
-    return () => window.removeEventListener('resize', windowEventHandler);
-  }, []);
+    return () => window.removeEventListener('resize', windowResizeHandler);
+  }, [setWindowWidth]);
 
   return windowWidth;
 };

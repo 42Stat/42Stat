@@ -26,7 +26,7 @@ export const StyleDefine = {
     dp12: 'rgb(255, 255, 255, 0.14)',
     dp16: 'rgb(255, 255, 255, 0.15)',
     dp24: 'rgb(255, 255, 255, 0.16)',
-  },
+  } as const,
 
   fontSize: {
     fs30: '3rem',
@@ -36,12 +36,20 @@ export const StyleDefine = {
     fs16: '1.6rem',
     fs14: '1.4rem',
     fs12: '1.2rem',
+    fs11: '1.1rem',
     fs10: '1rem',
-  },
+  } as const,
 
-  fontFamily: {
-    light: 'NunitoSansLight',
-    bold: 'NunitoSansBold',
-    black: 'NunitoSansBlack',
-  },
-};
+  fontWeight: {
+    extraLight: 200,
+    light: 300,
+    regular: 400,
+    medium: 500,
+    semiBold: 600,
+    bold: 700,
+    extraBold: 800,
+    black: 900,
+  } as const,
+
+  fontFamily: 'Inconsolata',
+} as const;

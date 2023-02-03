@@ -20,5 +20,5 @@ const navBarBackgroundStyle = mediaQuery({
   display: 'flex',
   padding: ['1rem', '1rem 0.7rem 1rem 0.7rem'],
   height: '2rem',
-  backgroundColor: StyleDefine.colors.surface,
+  backgroundColor: StyleDefine.colors.dp03,
 });

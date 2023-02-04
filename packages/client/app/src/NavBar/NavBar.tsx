@@ -1,7 +1,7 @@
 import { StyleDefine } from '../styles/StyleDefine';
 import { LogoutIcon } from './components/LogoutIcon';
 import { NavHomeIcon } from './components/NavHomeIcon';
-import { SearchUserInput } from './components/SearchUserInput';
+import { SearchUser } from './components/SearchUser';
 import { SideMenuToggleIcon } from './components/SideMenuToggleIcon';
 import { mediaQuery } from './styles/mediaQuery';
 
@@ -10,7 +10,7 @@ export const NavBar = () => {
     <nav css={navBarBackgroundStyle}>
       <SideMenuToggleIcon />
       <NavHomeIcon />
-      <SearchUserInput />
+      <SearchUser />
       <LogoutIcon />
     </nav>
   );

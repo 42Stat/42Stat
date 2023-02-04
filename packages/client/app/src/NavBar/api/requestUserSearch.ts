@@ -19,7 +19,7 @@ export type UserSearchResult = {
 export type ResponseUserSearch = UserSearchResult[];
 
 const USER_SEARCH_EP = (login: string, page?: number) =>
-  `/users/search&login=${login}${page ? 'page=' + page.toString() : ''}`;
+  `/users/search?login=${login}${page ? '&page=' + page.toString() : ''}`;
 
 export const requestUserSearch = async ({ queryKey }: RequestUserSearchKey) => {
   // eslint-disable-next-line

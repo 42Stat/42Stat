@@ -47,9 +47,7 @@ volumes:
     name: client_volume
     driver: local
     driver_opts:
-      # todo: docker compose doesn't support relative path in device, need to wait next release
-      # not working in windows powershell
-      device: ${PWD}/packages/client/app
+      device: ../packages/client/app
       type: none
       o: bind
 
@@ -58,5 +56,5 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ${PWD}/packages/server
+      device: ../packages/server
       o: bind

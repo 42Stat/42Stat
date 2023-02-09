@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import * as React from 'react';
 import { StyleDefine } from '../../styles/StyleDefine';
 import { useDebounceUserSearch } from '../hooks/useDebounceUserSearch';
@@ -23,7 +24,7 @@ export const UserSearch = () => {
   };
 
   return (
-    <>
+    <div css={userSearchContainerStyle}>
       <input
         css={userSearchInputStyle}
         placeholder="search..."
@@ -34,7 +35,7 @@ export const UserSearch = () => {
         onKeyUp={handleKeyUp}
       />
       <SearchPreview userSearchQuery={userSearchQuery} />
-    </>
+    </div>
   );
 };
 
@@ -42,12 +43,16 @@ const isEnterKeyReleased = (e: React.KeyboardEvent<HTMLInputElement>) => {
   return e.key === 'Enter';
 };
 
+const userSearchContainerStyle = css({
+  width: '100%',
+});
+
 const userSearchInputStyle = mediaQuery({
+  margin: ['0 0 0 1rem', '0 0 0 0.5rem'],
   width: '100%',
   height: '2rem',
   border: 'unset',
   padding: 'unset',
-  margin: ['0 0 0 1rem', '0 0 0 0.5rem'],
   backgroundColor: StyleDefine.colors.dp00,
   outline: 'none',
   color: StyleDefine.colors.textHighEmphasis,

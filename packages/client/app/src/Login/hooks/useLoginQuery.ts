@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { googleCredentialAtom } from '../atoms/googleCredentialAtom';
 import { requestLogin } from '../api/requestLogin';
-import { refreshTokenAtom } from '../atoms/refreshTokenAtom';
+import { googleCredentialAtom } from '../atoms/googleCredentialAtom';
 import { needFtOAuthAtom } from '../atoms/needFtOAuthAtom';
+import { refreshTokenAtom } from '../atoms/refreshTokenAtom';
 
 export const useLoginQuery = () => {
   const googleCredential = useAtomValue(googleCredentialAtom);

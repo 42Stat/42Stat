@@ -1,12 +1,12 @@
+import { css } from '@emotion/react';
 import { useAtomValue } from 'jotai';
 import { Navigate } from 'react-router-dom';
 import { RouteList } from '../App';
-import { CheckLogin } from '../RouteGuard/components/CheckLogin';
 import { needFtOAuthAtom } from '../Login/atoms/needFtOAuthAtom';
+import { CheckLogin } from '../RouteGuard/components/CheckLogin';
+import { StyleDefine } from '../styles/StyleDefine';
 import { FtOAuthContent } from './components/FtOAuthContent';
 import { mediaQuery } from './mediaQuery';
-import { StyleDefine } from '../styles/StyleDefine';
-import { css } from '@emotion/react';
 
 export const FtOAuth = () => {
   const needFtOAuth = useAtomValue(needFtOAuthAtom);

@@ -1,9 +1,9 @@
-import * as React from 'react';
 import { useAtomValue } from 'jotai';
+import * as React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { originalPathAtom } from '../atoms/originalPathAtom';
-import { CheckLogin } from './CheckLogin';
 import { CheckFtOAuth } from './CheckFtOAuth';
+import { CheckLogin } from './CheckLogin';
 
 export const CheckAuth = () => {
   const originalPath = useAtomValue(originalPathAtom);

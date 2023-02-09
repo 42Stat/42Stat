@@ -1,24 +1,26 @@
 import { StyleDefine } from '../styles/StyleDefine';
 import { LogoutIcon } from './components/LogoutIcon';
 import { NavHomeIcon } from './components/NavHomeIcon';
-import { SearchUserInput } from './components/SearchUserInput';
 import { SideMenuToggleIcon } from './components/SideMenuToggleIcon';
+import { UserSearch } from './components/UserSearch';
 import { mediaQuery } from './styles/mediaQuery';
 
 export const NavBar = () => {
   return (
-    <nav css={navBarBackgroundStyle}>
+    <nav css={navBarContainerStyle}>
       <SideMenuToggleIcon />
       <NavHomeIcon />
-      <SearchUserInput />
+      <UserSearch />
       <LogoutIcon />
     </nav>
   );
 };
 
-const navBarBackgroundStyle = mediaQuery({
+const navBarContainerStyle = mediaQuery({
   display: 'flex',
+  boxSizing: 'border-box',
   padding: ['1rem', '1rem 0.7rem 1rem 0.7rem'],
-  height: '2rem',
+  width: '100%',
+  height: '4rem',
   backgroundColor: StyleDefine.colors.dp03,
 });

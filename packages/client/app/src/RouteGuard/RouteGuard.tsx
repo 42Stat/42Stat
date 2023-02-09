@@ -1,6 +1,6 @@
-import { CheckNoLogin } from './components/CheckNoLogin';
-import { CheckNoFtOAuth } from './components/CheckNoFtOAuth';
 import { CheckAuth } from './components/CheckAuth';
+import { CheckNoFtOAuth } from './components/CheckNoFtOAuth';
+import { CheckNoLogin } from './components/CheckNoLogin';
 
 export const RouteGuard = {
   NeedAuth: <CheckAuth />,

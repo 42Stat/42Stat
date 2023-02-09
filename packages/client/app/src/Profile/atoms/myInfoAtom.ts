@@ -1,4 +1,4 @@
 import { atom } from 'jotai';
-import { RequestUserSummaryResponse } from '../api/requestUserSummary';
+import { ResponseUserSummary } from '../api/requestUserSummary';
 
-export const myInfoAtom = atom<RequestUserSummaryResponse | null>(null);
+export const myInfoAtom = atom<ResponseUserSummary | null>(null);

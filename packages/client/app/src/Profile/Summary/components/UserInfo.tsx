@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
 import { StyleDefine } from '../../../styles/StyleDefine';
-import { RequestUserSummaryResponse } from '../../api/requestUserSummary';
+import { ResponseUserSummary } from '../../api/requestUserSummary';
 import { UserCursusInfo } from './UserCursusInfo';
 import { UserLogin } from './UserLogin';
 
 type Props = {
-  user: RequestUserSummaryResponse;
+  user: ResponseUserSummary;
 };
 
 export const UserInfo = ({ user }: Props) => {

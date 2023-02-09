@@ -11,10 +11,11 @@ export type CoalitionType = {
   color: string;
 };
 
+// todo: fix to ResponseUserSummary
 /**
  * startedAt, blackholedAt: DateTime (2023-01-27T13:43:07.167Z)
  */
-export type RequestUserSummaryResponse = {
+export type ResponseUserSummary = {
   id: number;
   imageUrl: string;
   login: string;
@@ -38,7 +39,7 @@ export const requestUserSummary = async ({
   // eslint-disable-next-line
   const [_user, _summary, id] = queryKey;
 
-  const response = await axiosInstance.get<RequestUserSummaryResponse>(
+  const response = await axiosInstance.get<ResponseUserSummary>(
     USER_SUMMARY_EP(id)
   );
 

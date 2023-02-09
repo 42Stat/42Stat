@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai';
-import { needFtOAuthAtom } from '../../Login/atoms/needFtOAuthAtom';
 import { Navigate, Outlet } from 'react-router-dom';
 import { RouteList } from '../../App';
+import { needFtOAuthAtom } from '../../Login/atoms/needFtOAuthAtom';
 
 export const CheckNoFtOAuth = () => {
   const needFtOAuth = useAtomValue(needFtOAuthAtom);

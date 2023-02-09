@@ -1,7 +1,4 @@
-import * as React from 'react';
 import { css } from '@emotion/react';
-import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from '../axiosConfig';
 import { NavBar } from '../NavBar/NavBar';
 import { Summary } from './Summary/Summary';
 

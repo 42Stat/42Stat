@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { StyleDefine } from '../../styles/StyleDefine';
-import { mediaQuery } from '../styles/mediaQuery';
 import { useDebounceUserSearch } from '../hooks/useDebounceUserSearch';
+import { mediaQuery } from '../styles/mediaQuery';
 import { SearchPreview } from './SearchPreview';
 
-export const SearchUser = () => {
+export const UserSearch = () => {
   const [input, setInput] = React.useState('');
   const { userSearchQuery, debounceSearch } = useDebounceUserSearch(input);
 
@@ -24,9 +24,8 @@ export const SearchUser = () => {
 
   return (
     <>
-      <SearchPreview userSearchQuery={userSearchQuery} />
       <input
-        css={searchUserInputStyle}
+        css={userSearchInputStyle}
         placeholder="search..."
         value={input}
         spellCheck={false}
@@ -34,6 +33,7 @@ export const SearchUser = () => {
         onChange={handleChange}
         onKeyUp={handleKeyUp}
       />
+      <SearchPreview userSearchQuery={userSearchQuery} />
     </>
   );
 };
@@ -42,7 +42,7 @@ const isEnterKeyReleased = (e: React.KeyboardEvent<HTMLInputElement>) => {
   return e.key === 'Enter';
 };
 
-const searchUserInputStyle = mediaQuery({
+const userSearchInputStyle = mediaQuery({
   width: '100%',
   height: '2rem',
   border: 'unset',

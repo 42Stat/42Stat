@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GlobalStyle } from './styles/GlobalStyle';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -7,12 +6,13 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
-import { Login } from './Login/Login';
 import { ErrorPage } from './ErrorPage/ErrorPage';
-import { Profile } from './Profile/Profile';
 import { FtOAuth } from './FtOAuth/FtOAuth';
-import { RouteGuard } from './RouteGuard/RouteGuard';
+import { Login } from './Login/Login';
 import { Logout } from './Logout/Logout';
+import { Profile } from './Profile/Profile';
+import { RouteGuard } from './RouteGuard/RouteGuard';
+import { GlobalStyle } from './styles/GlobalStyle';
 
 const queryClient = new QueryClient({
   defaultOptions: {

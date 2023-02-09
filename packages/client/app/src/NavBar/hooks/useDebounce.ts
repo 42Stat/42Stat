@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export const useDebounce = (callback: () => void, interval: number = 1000) => {
-  const timer = React.useRef<NodeJS.Timer | null>(null);
+  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   return React.useCallback(() => {
     if (timer.current) {

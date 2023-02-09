@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { css } from '@emotion/react';
+import * as React from 'react';
 import { CoalitionBanner } from '../../../assets/CoalitionBanner';
 import { StyleDefine } from '../../../styles/StyleDefine';
 import { CoalitionType } from '../../api/requestUserSummary';

@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import * as React from 'react';
 import { requestUserSearch } from '../api/requestUserSearch';
 import { useDebounce } from './useDebounce';
 

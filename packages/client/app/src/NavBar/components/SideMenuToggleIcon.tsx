@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { css } from '@emotion/react';
 import { useSetAtom } from 'jotai';
+import * as React from 'react';
 import { SideMenuIconSvg } from '../../assets/SideMenuIconSvg';
 import { isSideMenuToggledAtom } from '../../SideBar/atoms/isSideMenuToggledAtom';
 import { NavIconStyle } from '../styles/NavIconStyle';
-import { css } from '@emotion/react';
 
 export const SideMenuToggleIcon = () => {
   const setIsSideMenuToggled = useSetAtom(isSideMenuToggledAtom);

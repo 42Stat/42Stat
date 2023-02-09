@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { css } from '@emotion/react';
-import { StyleDefine } from '../../styles/StyleDefine';
+import * as React from 'react';
 import { useLogout } from '../../Logout/hooks/useLogout';
+import { StyleDefine } from '../../styles/StyleDefine';
 
 export const FtOAuthCancel = () => {
   const logout = useLogout();
